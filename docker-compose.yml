@@ -1,0 +1,14 @@
+version: '3.5'
+
+services:
+  tesla_trip:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tesla_trip
+    image: tesla-trip
+    volumes:
+      - .:/app:rw
+    tty: true
+    ports: 
+      - "8080:8080"
