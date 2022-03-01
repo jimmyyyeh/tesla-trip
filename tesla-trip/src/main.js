@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import {
-  Button, Cell, DatetimePicker, Field, Form, Picker, Popup, Tab, Tabs,
+  Button, Cell, CellGroup, DatetimePicker, Field, Form, Picker, Popup, Radio, RadioGroup, Tab, Tabs,
 } from 'vant';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -14,11 +14,14 @@ app.use(VueAxios, axios);
 app.use(router);
 app.use(Button);
 app.use(Cell);
+app.use(CellGroup);
 app.use(DatetimePicker);
 app.use(Field);
 app.use(Form);
 app.use(Picker);
 app.use(Popup);
+app.use(Radio);
+app.use(RadioGroup);
 app.use(Tab);
 app.use(Tabs);
 app.component('NavTab', NavTab);
