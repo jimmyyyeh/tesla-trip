@@ -1,4 +1,4 @@
 <template>
   <NavTab></NavTab>
-  <div>Home</div>
+  <div>Attraction</div>
 </template>
