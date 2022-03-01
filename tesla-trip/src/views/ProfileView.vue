@@ -110,7 +110,7 @@ export default {
     return {
       name: '',
       models: ['ModelS', 'Model3', 'ModelX', 'ModelY'],
-      model: 'Model3',
+      model: '',
       showModelPicker: false,
       specs: {
         ModelS: ['Model S', 'Model S Plaid'],
@@ -118,7 +118,7 @@ export default {
         ModelX: ['Model X', 'Model X Plaid'],
         ModelY: ['Lone Range AWD', 'Performance'],
       },
-      spec: 'SR+',
+      spec: '',
       showSpecPicker: false,
       manufactureDate: new Date(),
       showDatePicker: false,
@@ -141,6 +141,7 @@ export default {
     },
   },
   mounted() {
+    this.model = this.models[0];
     this.spec = this.specs[this.model][0];
   },
 };
