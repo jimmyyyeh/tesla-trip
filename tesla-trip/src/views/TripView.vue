@@ -51,7 +51,7 @@
         <van-popup class="picker" :show="isStartPickerShow">
           <van-picker
             title="起點"
-            :columns="regions"
+            :columns="areas"
             confirm-button-text="確認"
             cancel-button-text="關閉"
             @change="updateStart"
@@ -80,7 +80,7 @@
         <van-popup class="picker" :show="isEndPickerShow">
           <van-picker
             title="終點"
-            :columns="regions"
+            :columns="areas"
             confirm-button-text="確認"
             cancel-button-text="關閉"
             @change="updateEnd"
@@ -115,7 +115,7 @@
             placeholder="充電站"
             @click="isChargerPickerShow=!isChargerPickerShow"
           />
-          <van-popup class="picker" :show="isChargerPickerShow">
+          <van-popup class="picker" :show="isChargerPickerShow" :lock-scroll="false">
             <van-picker
               title="充電站"
               :columns="chargers"
@@ -184,7 +184,7 @@
       </table>
       <van-field class="submit" readonly>
         <template #button>
-          <van-button class="submit-button" @click="createTrip">送出</van-button>
+          <van-button class="submit-button" @click="createTrip" v-show="trips.length > 0">送出</van-button>
         </template>
       </van-field>
     </div>
@@ -192,6 +192,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -200,7 +201,7 @@ export default {
       total: '',
       isTripGroupShow: false,
       charger: '',
-      chargers: ['台北圓山', '台北內湖'], // TODO API
+      chargers: [],
       isChargerPickerShow: false,
       start: '請選擇',
       startBatteryLevel: 0,
@@ -211,22 +212,13 @@ export default {
       fee: 0,
       isStartPickerShow: false,
       isEndPickerShow: false,
-      regions: [
+      areas: [
         {
           text: '請選擇',
           children: [{ text: '請選擇' }],
         },
-        {
-          text: '台北市',
-          children: [{ text: '大安區' }, { text: '信義區' }],
-        },
-        {
-          text: '新北市',
-          children: [{ text: '林口區' }, { text: '新莊區' }],
-        },
-      ], // TODO API
-      trips: [
       ],
+      trips: [],
     };
   },
   computed: {
@@ -255,6 +247,56 @@ export default {
     },
     updateEnd(end) {
       this.end = `${end[0].text}, ${end[1].text}`;
+    },
+    getChargers() {
+      const url = `${process.env.VUE_APP_API}/super-charger`;
+      this.$http.get(url)
+        .then((res) => {
+          if (res.status === 200) {
+            const dataList = res.data.data;
+            dataList.forEach((data) => {
+              this.chargers.push(`${data.city}-${data.name}`);
+            });
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
+    },
+    formatArea(areas) {
+      const temp = [];
+      areas.forEach((area) => {
+        temp.push({
+          text: area.area,
+        });
+      });
+      return temp;
+    },
+    getAreas() {
+      const url = `${process.env.VUE_APP_API}/administrative-district`;
+      this.$http.get(url)
+        .then((res) => {
+          if (res.status === 200) {
+            const dataObject = res.data.data;
+            Object.keys(dataObject).forEach((city) => {
+              const children = {
+                text: city,
+                children: this.formatArea(dataObject[city]),
+              };
+              this.areas.push(children);
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
     },
     insertTrip() {
       if (this.trips.length >= 10) {
@@ -293,5 +335,10 @@ export default {
   mounted() {
     this.charger = this.chargers[0];
   },
+  created() {
+    this.getChargers();
+    this.getAreas();
+  },
 };
 </script>
+<!--TODO 驗證表單內容-->
