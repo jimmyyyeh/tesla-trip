@@ -1,0 +1,9 @@
+@import "./src/assets/css/basic/basic";
+
+.profile-form {
+  width: 60%;
+  height: 70vh;
+  border: $main-color 1px solid;
+  margin: 10px;
+  position: relative;
+}

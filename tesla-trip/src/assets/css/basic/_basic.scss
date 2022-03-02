@@ -1,0 +1,24 @@
+$main-color: #646566;
+$white-color: #FFFFFF;
+
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picker {
+  width: 50vw;
+}
+
+.submit {
+  position: absolute !important;
+  bottom: 0;
+  right: 0;
+}
+
+.submit-button {
+  background-color: $main-color !important;
+  color: $white-color !important;
+  border-radius: 5px !important;
+}

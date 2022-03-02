@@ -1,36 +1,3 @@
-<style>
-.wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-form {
-  width: 60%;
-  height: 70vh;
-  border: #646566 1px solid;
-  margin: 10px;
-  position: relative;
-}
-
-.picker {
-  width: 50vw;
-}
-
-.submit {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
-.submit-button {
-  background-color: #646566;
-  color: #FFFFFF;
-  border-radius: 5px;
-}
-
-</style>
-
 <template>
   <NavTab></NavTab>
   <div class="wrap">

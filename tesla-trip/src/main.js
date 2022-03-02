@@ -7,6 +7,7 @@ import VueAxios from 'vue-axios';
 import router from './router';
 import App from './App.vue';
 import NavTab from './components/NavTab.vue';
+import '@/assets/css/app.scss';
 import 'vant/lib/index.css';
 
 const app = createApp(App);
