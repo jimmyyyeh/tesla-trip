@@ -46,17 +46,17 @@
         readonly
         label="型號"
         placeholder="型號"
-        @click="showModelPicker=!showModelPicker"
+        @click="isModelPickerShow=!isModelPickerShow"
       />
-      <van-popup class="picker" :show="showModelPicker">
+      <van-popup class="picker" :show="isModelPickerShow">
         <van-picker
           title="型號"
           :columns="models"
           confirm-button-text="確認"
           cancel-button-text="關閉"
           @change="updateModel"
-          @confirm="showModelPicker=false"
-          @cancel="showModelPicker=false"
+          @confirm="isModelPickerShow=false"
+          @cancel="isModelPickerShow=false"
         />
       </van-popup>
       <van-field
@@ -64,17 +64,17 @@
         readonly
         label="規格"
         placeholder="規格"
-        @click="showSpecPicker=!showSpecPicker"
+        @click="isSpecPickerShow=!isSpecPickerShow"
       />
-      <van-popup class="picker" :show="showSpecPicker">
+      <van-popup class="picker" :show="isSpecPickerShow">
         <van-picker
           title="規格"
           :columns="specs[model]"
           confirm-button-text="確認"
           cancel-button-text="關閉"
           @change="updateSpec"
-          @confirm="showSpecPicker=false"
-          @cancel="showSpecPicker=false"
+          @confirm="isSpecPickerShow=false"
+          @cancel="isSpecPickerShow=false"
         />
       </van-popup>
       <van-field
@@ -82,17 +82,17 @@
         readonly
         label="出廠日期"
         placeholder="出廠日期"
-        @click="showDatePicker=!showDatePicker"
+        @click="isDatePickerShow=!isDatePickerShow"
       />
-      <van-popup class="picker" :show="showDatePicker">
+      <van-popup class="picker" :show="isDatePickerShow">
         <van-datetime-picker
           v-model="manufactureDate"
           type="date"
           title="請選擇出廠日期"
           confirm-button-text="確認"
           cancel-button-text="關閉"
-          @confirm="showDatePicker=false"
-          @cancel="showDatePicker=false"
+          @confirm="isDatePickerShow=false"
+          @cancel="isDatePickerShow=false"
         />
       </van-popup>
       <van-field class="submit" readonly>
@@ -111,7 +111,7 @@ export default {
       name: '',
       models: ['ModelS', 'Model3', 'ModelX', 'ModelY'],
       model: '',
-      showModelPicker: false,
+      isModelPickerShow: false,
       specs: {
         ModelS: ['Model S', 'Model S Plaid'],
         Model3: ['Real-Wheel Drive', 'Lone Range AWD', 'Performance'],
@@ -119,9 +119,9 @@ export default {
         ModelY: ['Lone Range AWD', 'Performance'],
       },
       spec: '',
-      showSpecPicker: false,
+      isSpecPickerShow: false,
       manufactureDate: new Date(),
-      showDatePicker: false,
+      isDatePickerShow: false,
     };
   },
   computed: {
