@@ -1,0 +1,63 @@
+<template>
+  <div class="modal fade" id="sign-in-modal" ref="modal" data-bs-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>登入</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form class="sign-form">
+            <div class="sign-in">
+              <div class="username">
+                <label for="username">使用者名稱:</label>
+                <input type="text" id="username" name="username" placeholder="請輸入使用者名稱"
+                       v-model="user.username">
+              </div>
+              <br><br>
+              <div class="password">
+                <label for="password">使用者密碼: </label>
+                <input type="password" id="password" name="password" placeholder="請輸入使用者密碼"
+                       v-model="user.password">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button v-if="isFormValidate" type="button" class="modal-button" @click="signIn()">確認</button>
+          <button v-else type="button" class="modal-button" disabled>確認</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import modalMixins from '@/mixins/modalMixins';
+
+export default {
+  mixins: [modalMixins],
+  data() {
+    return {
+      user: {
+        username: '',
+        password: '',
+      },
+      isFormValidate: false,
+    };
+  },
+  watch: {
+    user: {
+      handler() {
+        this.isFormValidate = this.user.username !== '' && this.user.password !== '';
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    signIn() {
+      console.log(this.user);
+    },
+  },
+};
+</script>

@@ -17,5 +17,7 @@ module.exports = {
     'object-curly-newline': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-alert': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'prefer-destructuring': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'vuejs-accessibility/label-has-for': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'vuejs-accessibility/form-control-has-label': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 };
