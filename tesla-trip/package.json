@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.26.0",
     "core-js": "^3.8.3",
+    "js-cookie": "^3.0.1",
     "node-sass": "^7.0.1",
     "sass-loader": "^12.6.0",
     "vant": "^3.4.5",
