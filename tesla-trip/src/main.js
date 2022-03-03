@@ -1,6 +1,18 @@
 import { createApp } from 'vue';
 import {
-  Button, Cell, CellGroup, DatetimePicker, Field, Form, Picker, Popup, Radio, RadioGroup, Tab, Tabs,
+  Button,
+  Cell,
+  CellGroup,
+  DatetimePicker,
+  Dialog,
+  Field,
+  Form,
+  Picker,
+  Popup,
+  Radio,
+  RadioGroup,
+  Tab,
+  Tabs,
 } from 'vant';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -17,6 +29,7 @@ app.use(Button);
 app.use(Cell);
 app.use(CellGroup);
 app.use(DatetimePicker);
+app.use(Dialog);
 app.use(Field);
 app.use(Form);
 app.use(Picker);

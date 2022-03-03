@@ -1,7 +1,7 @@
 <template>
   <NavTab></NavTab>
   <div class="wrap">
-    <van-form class="trip-form">
+    <van-form class="trip-form" validate-trigger="onChange" @change="validateForm">
       <van-field
         v-model="mileage"
         type="number"
@@ -46,6 +46,7 @@
           label="起點"
           placeholder="起點"
           readonly
+          :rules="[{ validator: districtValidator, message:'請選擇區域'}]"
           @click="isStartPickerShow=!isStartPickerShow"
         />
         <van-popup class="picker" :show="isStartPickerShow">
@@ -64,7 +65,7 @@
           type="number"
           label="起點電量"
           placeholder="起點電量"
-          :rules="[{ validator: chargeValidator, message:'請輸入0-100的數字'}]"
+          :rules="[{ validator: chargeValidator, message: startChargeMsg}]"
         >
           <template #extra>
             %
@@ -75,6 +76,7 @@
           label="終點"
           placeholder="終點"
           readonly
+          :rules="[{ validator: districtValidator, message:'請選擇區域'}]"
           @click="isEndPickerShow=!isEndPickerShow"
         />
         <van-popup class="picker" :show="isEndPickerShow">
@@ -93,7 +95,7 @@
           type="number"
           label="終點電量"
           placeholder="終點電量"
-          :rules="[{ validator: chargeValidator, message:'請輸入0-100'}]"
+          :rules="[{ validator: chargeValidator, message: endChargeMsg}]"
         >
           <template #extra>
             %
@@ -113,6 +115,7 @@
             readonly
             label="充電站"
             placeholder="充電站"
+            :rules="[{ validator: chargerValidator, message:'請選擇充電站'}]"
             @click="isChargerPickerShow=!isChargerPickerShow"
           />
           <van-popup class="picker" :show="isChargerPickerShow" :lock-scroll="false">
@@ -149,12 +152,13 @@
             </template>
           </van-field>
         </van-cell-group>
-        <van-field class="submit" readonly>
-          <template #button>
-            <van-button class="submit-button" @click="insertTrip">確認</van-button>
-          </template>
-        </van-field>
       </van-cell-group>
+      <van-field class="submit" readonly>
+        <template #button>
+          <van-button v-if="!isFormValidate" class="submit-button" :class="'van-button--disabled'" disabled @click="insertTrip">確認</van-button>
+          <van-button v-else class="submit-button" @click="insertTrip">確認</van-button>
+        </template>
+      </van-field>
     </van-form>
     <div class="trip-list">
       <table class="trip-table">
@@ -171,10 +175,10 @@
         <tbody>
         <tr v-for="(trip, index) in trips" :key=index>
           <td>{{ trip.start }}</td>
-          <td>{{ trip.startBatteryLevel }}%</td>
+          <td>{{ trip.start_battery_level }}%</td>
           <td>{{ trip.end }}</td>
-          <td>{{ trip.endBatteryLevel }}%</td>
-          <td v-if="trip.isCharge"> {{ trip.finalBatteryLevel }}%</td>
+          <td>{{ trip.end_battery_level }}%</td>
+          <td v-if="trip.isCharge"> {{ trip.final_battery_level }}%</td>
           <td v-else> -</td>
           <td>
             <van-button size="small" icon="minus" @click="removeTrip(index)"/>
@@ -184,7 +188,8 @@
       </table>
       <van-field class="submit" readonly>
         <template #button>
-          <van-button class="submit-button" @click="createTrip" v-show="trips.length > 0">送出</van-button>
+          <van-button class="submit-button" @click="confirmCreateTrip" v-show="trips.length > 0">送出
+          </van-button>
         </template>
       </van-field>
     </div>
@@ -196,16 +201,16 @@
 export default {
   data() {
     return {
-      mileage: '',
-      consumption: '',
-      total: '',
+      mileage: 0,
+      consumption: 0,
+      total: 0,
       isTripGroupShow: false,
-      charger: '',
-      chargers: [],
+      charger: '請選擇',
+      chargers: ['請選擇'],
       isChargerPickerShow: false,
-      start: '請選擇',
+      start: '請選擇, 請選擇',
       startBatteryLevel: 0,
-      end: '請選擇',
+      end: '請選擇, 請選擇',
       endBatteryLevel: 0,
       isCharge: '0',
       charge: 0,
@@ -219,6 +224,7 @@ export default {
         },
       ],
       trips: [],
+      isFormValidate: false,
     };
   },
   computed: {
@@ -228,16 +234,34 @@ export default {
     finalBatteryLevel() {
       return parseInt(this.endBatteryLevel, 10) + parseInt(this.charge, 10);
     },
+    startChargeMsg() {
+      return parseInt(this.startBatteryLevel, 10) > parseInt(this.endBatteryLevel, 10) ? '請輸入0-100的數字' : '起點電量必須大於終點電量';
+    },
+    endChargeMsg() {
+      return parseInt(this.startBatteryLevel, 10) > parseInt(this.endBatteryLevel, 10) ? '請輸入0-100的數字' : '終點電量必須小於起點電量';
+    },
   },
   methods: {
     chargeValidator(value) {
-      return value >= 0 && value <= 100;
+      const intValue = parseInt(value, 10);
+      return intValue >= 0 && intValue <= 100 && parseInt(this.startBatteryLevel, 10) > parseInt(this.endBatteryLevel, 10);
     },
     numValidator(value) {
-      return value >= 0 && value <= 9999999;
+      const intValue = parseInt(value, 10);
+      return intValue >= 0 && intValue <= 9999999;
     },
     finalValidator(value) {
-      return value >= 0 && value <= 100 - this.endBatteryLevel;
+      const intValue = parseInt(value, 10);
+      return intValue >= 0 && intValue <= 100 - parseInt(this.endBatteryLevel, 10);
+    },
+    districtValidator(value) {
+      return !value.includes('請選擇');
+    },
+    chargerValidator(value) {
+      if (this.isCharge !== '0') {
+        return !value.includes('請選擇');
+      }
+      return true;
     },
     updateCharger(charger) {
       this.charger = charger;
@@ -300,26 +324,32 @@ export default {
     },
     insertTrip() {
       if (this.trips.length >= 10) {
-        // TODO 跳彈窗警告
-        console.log('123');
+        this.$dialog.alert({
+          message: '每趟里程不得超過10筆紀錄',
+          confirmButtonText: '確認',
+          confirmButtonColor: '#646566',
+        }).then(() => 0);
       }
       const trip = {
+        mileage: parseInt(this.mileage, 10),
+        consumption: parseFloat(this.consumption).toFixed(2),
+        total: parseFloat(this.total).toFixed(2),
         start: this.start,
         end: this.end,
-        startBatteryLevel: this.startBatteryLevel,
-        endBatteryLevel: this.endBatteryLevel,
-        isCharge: this.isCharge === '1',
-        charge: this.charge,
-        fee: this.fee,
-        finalBatteryLevel: this.finalBatteryLevel,
+        start_battery_level: parseInt(this.startBatteryLevel, 10),
+        end_battery_level: parseInt(this.endBatteryLevel, 10),
+        is_charge: this.isCharge === '1',
+        charge: parseInt(this.charge, 10) || null,
+        fee: parseInt(this.fee, 10) || null,
+        final_battery_level: this.finalBatteryLevel,
       };
-      this.start = '';
-      this.end = '';
+      this.start = '請選擇, 請選擇';
+      this.end = '請選擇, 請選擇';
       this.startBatteryLevel = 0;
       this.endBatteryLevel = 0;
       this.isTripGroupShow = false;
       this.isCharge = '0';
-      this.charger = '';
+      this.charger = '請選擇';
       this.charge = 0;
       this.fee = 0;
       this.trips.push(trip);
@@ -328,12 +358,42 @@ export default {
       this.trips = this.trips.filter((trip, tripIndex) => tripIndex !== index);
     },
     createTrip() {
-      // TODO 送出
-      console.log('create');
+      const url = `${process.env.VUE_APP_API}/trip`;
+      this.$http.post(url, this.trips)
+        .then((res) => {
+          if (res.status === 200) {
+            this.$dialog.alert({
+              message: '儲存旅程成功',
+              confirmButtonText: '確認',
+              confirmButtonColor: '#646566',
+            }).then(() => {
+              this.trips = [];
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
     },
-  },
-  mounted() {
-    this.charger = this.chargers[0];
+    confirmCreateTrip() {
+      this.$dialog.confirm({
+        message: '確定要儲存里程嗎?',
+        confirmButtonText: '確認',
+        cancelButtonText: '取消',
+        showCancelButton: true,
+        confirmButtonColor: '#646566',
+        cancelButtonColor: '#646566',
+      }).then(() => {
+        this.createTrip();
+      }).catch(() => 0);
+    },
+    validateForm() {
+      this.isFormValidate = document.getElementsByClassName('van-field__error-message').length === 0;
+    },
   },
   created() {
     this.getChargers();
@@ -341,4 +401,3 @@ export default {
   },
 };
 </script>
-<!--TODO 驗證表單內容-->

@@ -2,7 +2,8 @@
 
 .trip-form {
   width: 25%;
-  height: 70vh;
+  height: 80vh;
+  overflow: auto;
   border: $main-color 1px solid;
   margin: 10px;
   position: relative;
@@ -10,7 +11,7 @@
 
 .trip-list {
   width: 40%;
-  height: 70vh;
+  height: 80vh;
   position: relative;
 
   .trip-table {
@@ -20,4 +21,5 @@
     text-align: center;
   }
 }
+
 
