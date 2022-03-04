@@ -1,4 +1,4 @@
 <template>
   <NavTab></NavTab>
-  <div>Home</div>
+  <img class="under-construction" src="https://i.imgur.com/mS71Dki.png" alt="Under construction">
 </template>
