@@ -8,6 +8,43 @@
         <div class="modal-body">
             <van-form class="trip-form" validate-trigger="onChange" @change="validateForm">
               <van-field
+                v-model="car"
+                readonly
+                rows="1"
+                label="車輛"
+                placeholder="車輛"
+                @click="isCarPickerShow=!isCarPickerShow"
+              />
+              <van-popup class="picker" :show="isCarPickerShow">
+                <van-picker
+                  title="車輛"
+                  :columns="cars"
+                  confirm-button-text="確認"
+                  cancel-button-text="關閉"
+                  @change="updateCar"
+                  @confirm="isCarPickerShow=false"
+                  @cancel="isCarPickerShow=false"
+                />
+              </van-popup>
+              <van-field
+                v-model="displayDate"
+                readonly
+                label="日期"
+                placeholder="日期"
+                @click="isDatePickerShow=!isDatePickerShow"
+              />
+              <van-popup class="picker" :show="isDatePickerShow">
+                <van-datetime-picker
+                  v-model="date"
+                  type="date"
+                  title="請選擇日期"
+                  confirm-button-text="確認"
+                  cancel-button-text="關閉"
+                  @confirm="isDatePickerShow=false"
+                  @cancel="isDatePickerShow=false"
+                />
+              </van-popup>
+              <van-field
                 v-model="mileage"
                 type="number"
                 label="滿電里程"
@@ -176,9 +213,11 @@ import modalMixins from '@/mixins/modalMixins';
 
 export default {
   mixins: [modalMixins],
-  props: ['chargers', 'areas', 'config'],
+  props: ['cars', 'carMap', 'chargers', 'areas', 'config'],
   data() {
     return {
+      car: '',
+      carID: null,
       mileage: 0,
       consumption: 0,
       total: 0,
@@ -192,13 +231,22 @@ export default {
       isCharge: '0',
       charge: 0,
       fee: 0,
+      date: new Date(),
+      isCarPickerShow: false,
       isStartPickerShow: false,
       isEndPickerShow: false,
+      isDatePickerShow: false,
       trips: [],
       isFormValidate: false,
     };
   },
   computed: {
+    displayDate() {
+      if (typeof this.date === 'string') {
+        return this.date;
+      }
+      return `${this.date.getFullYear()}-${this.date.getMonth() + 1}-${this.date.getDate()}`;
+    },
     leftBatteryLevel() {
       return 100 - parseInt(this.endBatteryLevel, 10);
     },
@@ -234,6 +282,10 @@ export default {
       }
       return true;
     },
+    updateCar(car, index) {
+      this.car = car;
+      this.carID = this.carMap[index - 1];
+    },
     updateCharger(charger) {
       this.charger = charger;
     },
@@ -245,6 +297,7 @@ export default {
     },
     insertTrip() {
       const trip = {
+        car_id: this.carID,
         mileage: parseInt(this.mileage, 10),
         consumption: parseFloat(this.consumption),
         total: parseFloat(this.total),
@@ -256,6 +309,7 @@ export default {
         charge: parseInt(this.charge, 10) || null,
         fee: parseInt(this.fee, 10) || null,
         final_battery_level: this.finalBatteryLevel,
+        trip_date: this.displayDate,
       };
       this.start = '請選擇, 請選擇';
       this.end = '請選擇, 請選擇';
@@ -266,6 +320,7 @@ export default {
       this.charger = '請選擇';
       this.charge = 0;
       this.fee = 0;
+      this.date = new Date();
       this.trips.push(trip);
       this.createTrip();
     },

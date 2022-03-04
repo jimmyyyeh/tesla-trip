@@ -1,16 +1,13 @@
 @import "./src/assets/css/basic/basic";
-
-.trip-list {
-  width: 40%;
-  height: 80vh;
-  position: relative;
-
+.wrap {
+  flex-direction: column;
+  .search-bar{
+    width: 80vw;
+  }
   .trip-table {
-    table-layout: auto;
-    width: 100%;
-    margin: 0 0 0 10px;
+    width: 80vw;
     text-align: center;
+    color: $main-color;
   }
 }
-
 

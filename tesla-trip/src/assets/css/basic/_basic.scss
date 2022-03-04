@@ -3,10 +3,14 @@ $white-color: #FFFFFF;
 $not-validated-color: #FF0000;
 $disabled-color: #E0E0E0;
 
-.wrap {
+@mixin centralize {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+}
+
+.wrap {
+  @include centralize;
 }
 
 .picker {
@@ -36,4 +40,47 @@ $disabled-color: #E0E0E0;
 
 .modal-button:disabled {
   background-color: $disabled-color;
+}
+
+//pagination
+.nav-pagination {
+  @include centralize;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  right: 50%;
+
+  .previous-pages {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .next-pages {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .page-item {
+    &.active {
+      .page-link {
+        background-color: $main-color !important;
+        border-color: $main-color !important;
+        color: $white-color !important;
+      }
+    }
+
+    .page-link {
+      color: $main-color !important;
+    }
+  }
+
+  .pagination {
+    a {
+      &:hover {
+        background-color: $main-color !important;
+        border-color: $main-color !important;
+        color: white !important;
+      }
+    }
+  }
 }
