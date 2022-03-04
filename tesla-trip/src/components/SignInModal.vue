@@ -72,7 +72,9 @@ export default {
             }).then(() => {
               this.setCookie(res.data.data);
               this.$parent.initAuth();
-              this.initMethod();
+              if (this.initMethod) {
+                this.initMethod();
+              }
             });
           }
         })
