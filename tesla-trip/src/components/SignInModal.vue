@@ -11,14 +11,12 @@
             <div class="sign-in">
               <div class="username">
                 <label for="username">使用者名稱:</label>
-                <input type="text" id="username" name="username" placeholder="請輸入使用者名稱"
-                       v-model="user.username">
+                <input type="text" id="username" name="username" v-model="user.username">
               </div>
               <br><br>
               <div class="password">
                 <label for="password">使用者密碼: </label>
-                <input type="password" id="password" name="password" autocomplete="on" placeholder="請輸入使用者密碼"
-                       v-model="user.password">
+                <input type="password" id="password" name="password" autocomplete="on" v-model="user.password">
               </div>
             </div>
           </form>
