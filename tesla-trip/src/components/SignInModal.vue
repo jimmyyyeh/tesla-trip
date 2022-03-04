@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
+
 import modalMixins from '@/mixins/modalMixins';
 
 export default {
@@ -55,10 +55,6 @@ export default {
     },
   },
   methods: {
-    setCookie(user) {
-      const expireTime = (1 / 24 / 60) * 30;
-      Cookies.set('tesla-trip-sign-in', JSON.stringify(user), { expires: expireTime });
-    },
     signIn() {
       const url = `${process.env.VUE_APP_API}/sign-in`;
       this.$http.post(url, this.user)
@@ -70,11 +66,7 @@ export default {
               confirmButtonText: '確認',
               confirmButtonColor: '#646566',
             }).then(() => {
-              this.setCookie(res.data.data);
-              this.$parent.initAuth();
-              if (this.initMethod) {
-                this.initMethod();
-              }
+              this.$parent.setUpAuth();
             });
           }
         })

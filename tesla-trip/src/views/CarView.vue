@@ -189,6 +189,7 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
+            this.refreshToken(response.data, response.data.error_code);
           }
         });
     },

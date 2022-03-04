@@ -30,6 +30,38 @@ export default {
         this.initAuth();
       }
     },
+    setCookie() {
+      const expireTime = (1 / 24 / 60) * 30;
+      Cookies.set('tesla-trip-sign-in', JSON.stringify(this.user), { expires: expireTime });
+    },
+    setUpAuth() {
+      this.setCookie();
+      this.initAuth();
+      this.initData();
+    },
+    refreshToken(data, errorCode) {
+      if (errorCode !== 1004) {
+        console.log(data);
+      } else {
+        const url = `${process.env.VUE_APP_API}/refresh-token`;
+        const payload = {
+          refresh_token: this.user.refresh_token,
+        };
+        this.$http.post(url, payload)
+          .then((res) => {
+            if (res.status === 200) {
+              this.user = res.data.data;
+              this.setUpAuth();
+            }
+          })
+          .catch((error) => {
+            const response = error.response;
+            if (response) {
+              console.log(response.data);
+            }
+          });
+      }
+    },
   },
   mounted() {
     this.getAuth();
