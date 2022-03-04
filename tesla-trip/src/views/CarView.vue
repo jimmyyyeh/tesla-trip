@@ -1,7 +1,7 @@
 <template>
   <NavTab></NavTab>
-  <div class="wrap">
-    <van-form class="car-form" v-show="isSignIn">
+  <div class="wrap" v-show="isSignIn">
+    <van-form class="car-form">
       <div class="car-selector">
         <van-field
           v-model="car"
@@ -82,25 +82,31 @@
         </van-popup>
         <van-field class="submit" readonly>
           <template #button>
-            <van-button v-if="isValidate" class="submit-button" @click="upsertCar">{{ carInfo.id ? '更新' : '確認'}}</van-button>
-            <van-button v-else class="submit-button" disabled @click="upsertCar">{{ carInfo.id ? '更新' : '確認'}}</van-button>
+            <van-button v-if="isValidate" class="submit-button" @click="upsertCar">
+              {{ carInfo.id ? '更新' : '確認' }}
+            </van-button>
+            <van-button v-else class="submit-button" disabled @click="upsertCar">
+              {{ carInfo.id ? '更新' : '確認' }}
+            </van-button>
           </template>
         </van-field>
       </van-cell-group>
     </van-form>
   </div>
-  <SignInModal ref="signInModal"></SignInModal>
+  <SignInModal ref="signInModal" :initMethod="initData"></SignInModal>
 </template>
 
 <script>
-import Cookies from 'js-cookie';
+import authMixins from '@/mixins/authMixins';
 import SignInModal from '@/components/SignInModal.vue';
 
 export default {
+  mixins: [authMixins],
+  components: {
+    SignInModal,
+  },
   data() {
     return {
-      user: null,
-      isSignIn: false,
       isCarInfoShow: false,
       isValidate: false,
       nickname: '',
@@ -134,9 +140,6 @@ export default {
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     },
   },
-  components: {
-    SignInModal,
-  },
   watch: {
     carInfo: {
       handler() {
@@ -163,13 +166,8 @@ export default {
       if (carID) {
         url = `${url}/${carID}`;
       }
-      const token = this.user ? this.user.token : '';
-      const config = {
-        headers: {
-          Authorization: token,
-        },
-      };
-      this.$http.get(url, config)
+
+      this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {
             const dataList = res.data.data;
@@ -203,18 +201,13 @@ export default {
         method = 'put';
         alertMsg = '更新成功';
       }
-      const token = this.user ? this.user.token : '';
-      const config = {
-        headers: {
-          Authorization: token,
-        },
-      };
+
       const payload = {
         spec: this.carInfo.spec,
         model: this.carInfo.model,
         manufacture_date: this.displayDate,
       };
-      this.$http[method](url, payload, config)
+      this.$http[method](url, payload, this.config)
         .then((res) => {
           if (res.status === 200) {
             this.$dialog.alert({
@@ -238,13 +231,7 @@ export default {
     },
     removeCar() {
       const url = `${process.env.VUE_APP_API}/car/${this.carInfo.id}`;
-      const token = this.user ? this.user.token : '';
-      const config = {
-        headers: {
-          Authorization: token,
-        },
-      };
-      this.$http.delete(url, config)
+      this.$http.delete(url, this.config)
         .then((res) => {
           if (res.status === 200) {
             this.$dialog.alert({
@@ -263,24 +250,15 @@ export default {
           }
         });
     },
-    initAuth() {
-      const signInCookie = Cookies.get('tesla-trip-sign-in');
-      this.isSignIn = true;
-      this.user = JSON.parse(signInCookie);
-    },
-    getAuth() {
-      const signInCookie = Cookies.get('tesla-trip-sign-in');
-      if (!signInCookie) {
-        const refs = this.$refs;
-        refs.signInModal.showModal();
-      } else {
-        this.initAuth();
-        this.getCars();
-      }
+    initData() {
+      this.getCars();
     },
   },
   mounted() {
-    this.getAuth();
+    if (!this.isSignIn) {
+      return;
+    }
+    this.initData();
   },
 };
 </script>

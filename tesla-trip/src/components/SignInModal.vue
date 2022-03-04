@@ -36,6 +36,7 @@ import modalMixins from '@/mixins/modalMixins';
 
 export default {
   mixins: [modalMixins],
+  props: ['initMethod'],
   data() {
     return {
       user: {
@@ -71,7 +72,7 @@ export default {
             }).then(() => {
               this.setCookie(res.data.data);
               this.$parent.initAuth();
-              this.$parent.getCars();
+              this.initMethod();
             });
           }
         })

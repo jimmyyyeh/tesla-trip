@@ -1,6 +1,6 @@
 <template>
   <NavTab></NavTab>
-  <div class="wrap">
+  <div class="wrap" v-show="isSignIn">
     <van-form class="trip-form" validate-trigger="onChange" @change="validateForm">
       <van-field
         v-model="mileage"
@@ -194,11 +194,18 @@
       </van-field>
     </div>
   </div>
+  <SignInModal ref="signInModal" :initMethod="initData"></SignInModal>
 </template>
 
 <script>
+import authMixins from '@/mixins/authMixins';
+import SignInModal from '@/components/SignInModal.vue';
 
 export default {
+  mixins: [authMixins],
+  components: {
+    SignInModal,
+  },
   data() {
     return {
       mileage: 0,
@@ -274,7 +281,7 @@ export default {
     },
     getChargers() {
       const url = `${process.env.VUE_APP_API}/super-charger`;
-      this.$http.get(url)
+      this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {
             const dataList = res.data.data;
@@ -301,7 +308,7 @@ export default {
     },
     getAreas() {
       const url = `${process.env.VUE_APP_API}/administrative-district`;
-      this.$http.get(url)
+      this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {
             const dataObject = res.data.data;
@@ -332,8 +339,8 @@ export default {
       }
       const trip = {
         mileage: parseInt(this.mileage, 10),
-        consumption: parseFloat(this.consumption).toFixed(2),
-        total: parseFloat(this.total).toFixed(2),
+        consumption: parseFloat(this.consumption),
+        total: parseFloat(this.total),
         start: this.start,
         end: this.end,
         start_battery_level: parseInt(this.startBatteryLevel, 10),
@@ -352,6 +359,7 @@ export default {
       this.charger = '請選擇';
       this.charge = 0;
       this.fee = 0;
+      console.log(trip);
       this.trips.push(trip);
     },
     removeTrip(index) {
@@ -359,7 +367,7 @@ export default {
     },
     createTrip() {
       const url = `${process.env.VUE_APP_API}/trip`;
-      this.$http.post(url, this.trips)
+      this.$http.post(url, this.trips, this.config)
         .then((res) => {
           if (res.status === 200) {
             this.$dialog.alert({
@@ -393,10 +401,16 @@ export default {
     validateForm() {
       this.isFormValidate = document.getElementsByClassName('van-field__error-message').length === 0;
     },
+    initData() {
+      this.getChargers();
+      this.getAreas();
+    },
   },
-  created() {
-    this.getChargers();
-    this.getAreas();
+  mounted() {
+    if (!this.isSignIn) {
+      return;
+    }
+    this.initData();
   },
 };
 </script>
