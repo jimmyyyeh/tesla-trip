@@ -372,7 +372,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
           const response = error.response;
           if (response) {
             console.log(response.data);

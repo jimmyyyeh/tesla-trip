@@ -3,7 +3,7 @@
     <van-tab title="首頁" name="home"></van-tab>
     <van-tab title="旅途里程" name="trip"></van-tab>
     <van-tab title="充電站景點" name="attraction"></van-tab>
-    <van-tab title="個人檔案" name="profile"></van-tab>
+    <van-tab title="愛車資料" name="car"></van-tab>
   </van-tabs>
 </template>
 
@@ -16,7 +16,7 @@ export default {
         home: '/',
         trip: '/trip',
         attraction: '/attraction',
-        profile: '/profile',
+        car: '/car',
       },
     };
   },

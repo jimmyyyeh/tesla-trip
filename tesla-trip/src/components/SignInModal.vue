@@ -17,7 +17,7 @@
               <br><br>
               <div class="password">
                 <label for="password">使用者密碼: </label>
-                <input type="password" id="password" name="password" placeholder="請輸入使用者密碼"
+                <input type="password" id="password" name="password" autocomplete="on" placeholder="請輸入使用者密碼"
                        v-model="user.password">
               </div>
             </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 import modalMixins from '@/mixins/modalMixins';
 
 export default {
@@ -55,8 +56,33 @@ export default {
     },
   },
   methods: {
+    setCookie(user) {
+      const expireTime = (1 / 24 / 60) * 30;
+      Cookies.set('tesla-trip-sign-in', JSON.stringify(user), { expires: expireTime });
+    },
     signIn() {
-      console.log(this.user);
+      const url = `${process.env.VUE_APP_API}/sign-in`;
+      this.$http.post(url, this.user)
+        .then((res) => {
+          if (res.status === 200) {
+            this.hideModal();
+            this.$dialog.alert({
+              message: '登入成功',
+              confirmButtonText: '確認',
+              confirmButtonColor: '#646566',
+            }).then(() => {
+              this.setCookie(res.data.data);
+              this.$parent.initAuth();
+              this.$parent.getCars();
+            });
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
     },
   },
 };

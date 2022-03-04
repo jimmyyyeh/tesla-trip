@@ -1,9 +1,18 @@
 @import "./src/assets/css/basic/basic";
 
-.profile-form {
+.car-form {
   width: 60%;
   height: 80vh;
   border: $main-color 1px solid;
   margin: 10px;
   position: relative;
+
+  .car-selector {
+    display: flex;
+    align-items: center;
+
+    .create-button {
+      margin: 3px;
+    }
+  }
 }

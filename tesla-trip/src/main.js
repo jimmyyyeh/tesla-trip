@@ -5,6 +5,8 @@ import {
   CellGroup,
   DatetimePicker,
   Dialog,
+  DropdownMenu,
+  DropdownItem,
   Field,
   Form,
   Picker,
@@ -30,6 +32,8 @@ app.use(Cell);
 app.use(CellGroup);
 app.use(DatetimePicker);
 app.use(Dialog);
+app.use(DropdownMenu);
+app.use(DropdownItem);
 app.use(Field);
 app.use(Form);
 app.use(Picker);
