@@ -10,10 +10,16 @@
           </select>
         </div>
         <div class="button-group">
-          <button class="default-button" v-show="!isCarInfoShow" @click="isCarInfoShow=!isCarInfoShow">+</button>
-          <button class="default-button" v-show="isCarInfoShow" @click="removeCar"> 刪除 </button>
-          <button v-if="isValidate" class="default-button" v-show="isCarInfoShow" @click="upsertCar">{{ carIndex ==='請選擇' ? '新增' : '更新' }}</button>
-          <button v-else class="default-button" disabled v-show="isCarInfoShow" @click="upsertCar">{{ carIndex ==='請選擇' ? '新增' : '更新' }}</button>
+          <button class="default-button" v-show="!isCarInfoShow"
+                  @click="isCarInfoShow=!isCarInfoShow">+
+          </button>
+          <button class="default-button" v-show="isCarInfoShow" @click="removeCar"> 刪除</button>
+          <button v-if="isValidate" class="default-button" v-show="isCarInfoShow"
+                  @click="upsertCar">{{ carID ? '更新' : '新增' }}
+          </button>
+          <button v-else class="default-button" disabled v-show="isCarInfoShow" @click="upsertCar">
+            {{ carID ? '更新' : '新增' }}
+          </button>
         </div>
       </div>
       <div class="car-info" v-show="isCarInfoShow">
@@ -24,13 +30,19 @@
         <div class="model-selector selector">
           <label class="selector-label" for="models">* 型號:</label>
           <select name="models" id="models" v-model="carInfo.model">
-            <option v-for="(model, index) in models" :key="index" :value="model">{{ model }}</option>
+            <option v-for="(model, index) in models" :key="index" :value="model">{{
+                model
+              }}
+            </option>
           </select>
         </div>
         <div class="spec-selector selector" v-show="carInfo.model !== '請選擇'">
           <label class="selector-label" for="specs">* 規格:</label>
           <select name="specs" id="specs" v-model="carInfo.spec">
-            <option v-for="(spec, index) in specs[carInfo.model]" :key="index" :value="spec">{{ spec }}</option>
+            <option v-for="(spec, index) in specs[carInfo.model]" :key="index" :value="spec">{{
+                spec
+              }}
+            </option>
           </select>
         </div>
       </div>
