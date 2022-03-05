@@ -1,6 +1,6 @@
 <template>
   <NavTab></NavTab>
-  <div class="wrap">
+  <div class="wrap" v-show="isSignIn">
     <div class="search-bar">
       <van-button class="create-button" size="small" icon="plus" @click="showTripModal"/>
     </div>
@@ -40,7 +40,7 @@
   <SignInModal ref="signInModal" :initMethod="initData"></SignInModal>
   <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers" :areas="areas"
              :config="config"></TripModal>
-  <PaginateComponent :refresh-method="getTrips" :pager="pager"></PaginateComponent>
+  <PaginateComponent :refresh-method="getTrips" :pager="pager" v-show="isSignIn"></PaginateComponent>
 </template>
 
 <script>

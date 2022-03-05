@@ -66,6 +66,7 @@ export default {
               confirmButtonText: '確認',
               confirmButtonColor: '#646566',
             }).then(() => {
+              this.$parent.user = res.data.data;
               this.$parent.setUpAuth();
             });
           }
