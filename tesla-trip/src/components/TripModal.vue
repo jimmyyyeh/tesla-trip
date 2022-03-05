@@ -213,7 +213,7 @@ import modalMixins from '@/mixins/modalMixins';
 
 export default {
   mixins: [modalMixins],
-  props: ['cars', 'carMap', 'chargers', 'areas', 'config'],
+  props: ['cars', 'carMap', 'chargers', 'chargerMap', 'areas', 'config'],
   data() {
     return {
       car: '',
@@ -223,6 +223,7 @@ export default {
       total: 0,
       isTripGroupShow: false,
       charger: '請選擇',
+      chargeID: null,
       isChargerPickerShow: false,
       start: '請選擇, 請選擇',
       startBatteryLevel: 0,
@@ -286,8 +287,9 @@ export default {
       this.car = car;
       this.carID = this.carMap[index - 1];
     },
-    updateCharger(charger) {
+    updateCharger(charger, index) {
       this.charger = charger;
+      this.chargeID = this.chargerMap[index - 1];
     },
     updateStart(start) {
       this.start = `${start[0].text}, ${start[1].text}`;
@@ -306,6 +308,7 @@ export default {
         start_battery_level: parseInt(this.startBatteryLevel, 10),
         end_battery_level: parseInt(this.endBatteryLevel, 10),
         is_charge: this.isCharge === '1',
+        charger_id: this.chargeID,
         charge: parseInt(this.charge, 10) || null,
         fee: parseInt(this.fee, 10) || null,
         final_battery_level: this.finalBatteryLevel,

@@ -1,13 +1,39 @@
 @import "./src/assets/css/basic/basic";
+
 .wrap {
+  position: relative;
+  display: flex;
   flex-direction: column;
-  .search-bar{
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+
+  .search-bar {
     width: 80vw;
+    margin: 10px 0 10px 0;
+    display: flex;
+    .selector {
+      margin: 0 10px 0 0;
+      label {
+        color: $main-color;
+        font-weight: bold;
+      }
+      select {
+        background-color: $white-color;
+        color: $main-color;
+        border-radius: 5px;
+      }
+    }
   }
-  .trip-table {
+
+  .trip {
+    margin: 0 0 10px 0;
     width: 80vw;
-    text-align: center;
-    color: $main-color;
+    height: 100%;
+    .table {
+      text-align: center;
+      color: $main-color;
+    }
   }
 }
 

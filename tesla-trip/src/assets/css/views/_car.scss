@@ -1,18 +1,23 @@
 @import "./src/assets/css/basic/basic";
 
-.car-form {
-  width: 60%;
-  height: 80vh;
-  border: $main-color 1px solid;
-  margin: 10px;
-  position: relative;
+.wrap {
+  @include centralize;
 
-  .car-selector {
-    display: flex;
-    align-items: center;
+  .car-form {
+    width: 60%;
+    height: 80vh;
+    border: $main-color 1px solid;
+    margin: 10px;
+    position: relative;
 
-    .create-button {
-      margin: 3px;
+    .car-selector {
+      display: flex;
+      align-items: center;
+
+      .create-button {
+        margin: 3px;
+      }
     }
   }
 }
+

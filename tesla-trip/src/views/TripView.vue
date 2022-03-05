@@ -2,45 +2,76 @@
   <NavTab></NavTab>
   <div class="wrap" v-show="isSignIn">
     <div class="search-bar">
-      <van-button class="create-button" size="small" icon="plus" @click="showTripModal"/>
+      <div class="chargerSelector selector">
+        <label for="chargers">超充站:</label>
+        <select name="chargers" id="chargers" v-model="filter.charger">
+          <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{ charger }}</option>
+        </select>
+      </div>
+      <div class="startSelector selector">
+        <label for="starts">起點:</label>
+        <select name="starts" id="starts" v-model="filter.start">
+          <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
+        </select>
+      </div>
+      <div class="endSelector selector">
+        <label for="ends">終點:</label>
+        <select name="ends" id="ends" v-model="filter.end">
+          <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
+        </select>
+      </div>
+      <div class="modelSelector selector">
+        <label for="models">車款:</label>
+        <select name="models" id="models" v-model="filter.model">
+          <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{ model }}</option>
+        </select>
+      </div>
+      <div class="specSelector selector" v-show="specOptions[filter.model]">
+        <label for="specs">型號:</label>
+        <select name="specs" id="specs" v-model="filter.spec">
+          <option v-for="(spec, index) in specOptions[filter.model]" :key="index" :value="spec">{{ spec }}</option>
+        </select>
+      </div>
     </div>
-    <table class="table trip-table">
-      <thead>
-      <tr>
-        <th scope="col">日期</th>
-        <th scope="col">車型</th>
-        <th scope="col">滿電里程(KM)</th>
-        <th scope="col">平均電力(Wh/km)</th>
-        <th scope="col">電量總計(kWh)</th>
-        <th scope="col">起點</th>
-        <th scope="col">終點</th>
-        <th scope="col">是否充電</th>
-        <th scope="col">充電%數</th>
-        <th scope="col">充電費用</th>
-        <th scope="col">最終電量</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(trip, index) in trips" :key="index">
-        <td> {{ trip.trip_date }}</td>
-        <td> {{ trip.car }}</td>
-        <td> {{ trip.mileage }}</td>
-        <td> {{ trip.consumption }}</td>
-        <td> {{ trip.total }}</td>
-        <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
-        <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
-        <td> {{ trip.is_charge ? '是' : '否' }}</td>
-        <td> {{ trip.charge || '-' }}</td>
-        <td> {{ trip.fee || '-' }}</td>
-        <td> {{ trip.final_battery_level }}%</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="trip">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">日期</th>
+          <th scope="col">車型</th>
+          <th scope="col">滿電里程(KM)</th>
+          <th scope="col">平均電力(Wh/km)</th>
+          <th scope="col">電量總計(kWh)</th>
+          <th scope="col">起點</th>
+          <th scope="col">終點</th>
+          <th scope="col">是否充電</th>
+          <th scope="col">充電%數</th>
+          <th scope="col">充電費用</th>
+          <th scope="col">最終電量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(trip, index) in trips" :key="index">
+          <td> {{ trip.trip_date }}</td>
+          <td> {{ trip.car }}</td>
+          <td> {{ trip.mileage }}</td>
+          <td> {{ trip.consumption }}</td>
+          <td> {{ trip.total }}</td>
+          <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
+          <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
+          <td> {{ trip.is_charge ? '是' : '否' }}</td>
+          <td> {{ trip.charge || '-' }}</td>
+          <td> {{ trip.fee || '-' }}</td>
+          <td> {{ trip.final_battery_level }}%</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <PaginateComponent :refresh-method="getTrips" :pager="pager" v-show="isSignIn"></PaginateComponent>
   </div>
   <SignInModal ref="signInModal" :initMethod="initData"></SignInModal>
-  <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers" :areas="areas"
+  <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers" :chargerMap="chargerMap" :areas="areas"
              :config="config"></TripModal>
-  <PaginateComponent :refresh-method="getTrips" :pager="pager" v-show="isSignIn"></PaginateComponent>
 </template>
 
 <script>
@@ -68,15 +99,49 @@ export default {
       carMap: {},
       trips: [],
       chargers: ['請選擇'],
+      chargerMap: {},
       areas: [
         {
           text: '請選擇',
           children: [{ text: '請選擇' }],
         },
       ],
+      areaOptions: ['請選擇'],
+      modelOptions: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
+      specOptions: {
+        ModelS: ['請選擇', 'Model S', 'Model S Plaid'],
+        Model3: ['請選擇', 'Real-Wheel Drive', 'Lone Range AWD', 'Performance'],
+        ModelX: ['請選擇', 'Model X', 'Model X Plaid'],
+        ModelY: ['請選擇', 'Lone Range AWD', 'Performance'],
+      },
+      filter: {
+        charger: '請選擇',
+        start: '請選擇',
+        end: '請選擇',
+        model: '請選擇',
+        spec: '請選擇',
+      },
     };
   },
+  watch: {
+    filter: {
+      handler() {
+        this.getTrips();
+      },
+      deep: true,
+    },
+  },
   methods: {
+    formatUrl(originUrl, filter) {
+      // TODO 共用
+      let url = originUrl;
+      Object.keys(filter).forEach((key) => {
+        if (filter[key]) {
+          url = `${url}?${key}=${filter[key]}`;
+        }
+      });
+      return url;
+    },
     getCars() {
       const url = `${process.env.VUE_APP_API}/car`;
       this.$http.get(url, this.config)
@@ -97,11 +162,24 @@ export default {
           }
         });
     },
+    getTripsFilter() {
+      const queryFilter = { ...this.filter };
+      Object.keys(queryFilter).forEach((key) => {
+        if (queryFilter[key].includes('請選擇')) {
+          queryFilter[key] = null;
+        }
+      });
+      queryFilter.start = queryFilter.start ? queryFilter.start.split(',')[1].trim() : null;
+      queryFilter.end = queryFilter.end ? queryFilter.end.split(',')[1].trim() : null;
+      const chargerIndex = Object.values(this.chargers).indexOf(queryFilter.charger);
+      queryFilter.charger = this.chargerMap[chargerIndex] - 1;
+      return queryFilter;
+    },
     getTrips(page) {
       let url = `${process.env.VUE_APP_API}/trip`;
-      if (page) {
-        url = `${url}?page=${page}`;
-      }
+      const queryFilter = this.getTripsFilter();
+      queryFilter.page = page;
+      url = this.formatUrl(url, queryFilter);
       this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {
@@ -123,8 +201,9 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             const dataList = res.data.data;
-            dataList.forEach((data) => {
+            dataList.forEach((data, index) => {
               this.chargers.push(`${data.city}-${data.name}`);
+              this.chargerMap[index] = data.id;
             });
           }
         })
@@ -136,12 +215,13 @@ export default {
           }
         });
     },
-    formatArea(areas) {
+    formatArea(city, areas) {
       const temp = [];
       areas.forEach((area) => {
         temp.push({
           text: area.area,
         });
+        this.areaOptions.push(`${city}, ${area.area}`);
       });
       return temp;
     },
@@ -154,7 +234,7 @@ export default {
             Object.keys(dataObject).forEach((city) => {
               const children = {
                 text: city,
-                children: this.formatArea(dataObject[city]),
+                children: this.formatArea(city, dataObject[city]),
               };
               this.areas.push(children);
             });

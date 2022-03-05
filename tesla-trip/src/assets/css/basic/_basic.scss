@@ -14,10 +14,6 @@ $disabled-color: #E0E0E0;
   height: 100vh;
 }
 
-.wrap {
-  @include centralize;
-}
-
 .picker {
   width: 50vw;
 }
@@ -50,10 +46,6 @@ $disabled-color: #E0E0E0;
 //pagination
 .nav-pagination {
   @include centralize;
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  right: 50%;
 
   .previous-pages {
     display: flex;
