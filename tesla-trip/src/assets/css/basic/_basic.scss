@@ -38,12 +38,13 @@ $disabled-color: #E0E0E0;
   border: none;
   border-radius: 5px;
   font-size: small;
+  font-weight: bold;
   padding: 10px 15px 10px 15px;
 }
 
 .default-button:disabled {
   background-color: $disabled-color;
-  color: $black-color;
+  color: $main-color;
   border: $main-color 1px solid;
 }
 

@@ -4,9 +4,8 @@
     <div class="car-form">
       <div class="car-selector selector">
         <div class="car-group">
-          <label for="cars">車輛:</label>
+          <label class="selector-label" for="cars">車輛:</label>
           <select name="cars" id="cars" v-model="carIndex">
-            <option>請選擇</option>
             <option v-for="(car, index) in cars" :key="index" :value="index">{{ car }}</option>
           </select>
         </div>
@@ -19,17 +18,17 @@
       </div>
       <div class="car-info" v-show="isCarInfoShow">
         <div class="manufacture-date-selector selector">
-          <label for="manufacture-date">* 出廠日期:</label>
+          <label class="selector-label" for="manufacture-date">* 出廠日期:</label>
           <input type="date" id="manufacture-date" v-model="carInfo.manufactureDate">
         </div>
         <div class="model-selector selector">
-          <label for="models">* 型號:</label>
+          <label class="selector-label" for="models">* 型號:</label>
           <select name="models" id="models" v-model="carInfo.model">
             <option v-for="(model, index) in models" :key="index" :value="model">{{ model }}</option>
           </select>
         </div>
         <div class="spec-selector selector" v-show="carInfo.model !== '請選擇'">
-          <label for="specs">* 規格:</label>
+          <label class="selector-label" for="specs">* 規格:</label>
           <select name="specs" id="specs" v-model="carInfo.spec">
             <option v-for="(spec, index) in specs[carInfo.model]" :key="index" :value="spec">{{ spec }}</option>
           </select>
@@ -54,9 +53,9 @@ export default {
       isValidate: false,
       isCarInfoShow: false,
       nickname: '',
-      carIndex: '請選擇',
+      carIndex: 0,
       carID: null,
-      cars: [],
+      cars: ['請選擇'],
       carMap: {},
       carInfo: {
         model: '請選擇',
@@ -82,10 +81,11 @@ export default {
           manufactureDate: this.formatDate(new Date()),
         };
       } else {
-        this.carID = this.carMap[value];
+        this.carID = this.carMap[value - 1];
         this.getCars(this.carID);
         this.isCarInfoShow = true;
       }
+      console.log(this.carID);
     },
     carInfo: {
       handler() {
@@ -123,7 +123,7 @@ export default {
               this.carInfo.spec = selectedCar.spec;
               this.carInfo.manufactureDate = selectedCar.manufacture_date;
             } else {
-              this.cars = [];
+              this.cars = ['請選擇'];
               this.carMap = {};
               dataList.forEach((data, index) => {
                 this.cars.push(`${data.model}/${data.spec}/${data.manufacture_date}`);

@@ -4,31 +4,31 @@
     <div class="toolbar">
       <div class="selector-group">
         <div class="charger-selector selector">
-          <label for="chargers">超充站:</label>
+          <label class="selector-label" for="chargers">超充站:</label>
           <select name="chargers" id="chargers" v-model="filter.charger">
             <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{ charger }}</option>
           </select>
         </div>
         <div class="start-selector selector">
-          <label for="starts">起點:</label>
+          <label class="selector-label" for="starts">起點:</label>
           <select name="starts" id="starts" v-model="filter.start">
-            <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
+            <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
           </select>
         </div>
         <div class="end-selector selector">
-          <label for="ends">終點:</label>
+          <label class="selector-label" for="ends">終點:</label>
           <select name="ends" id="ends" v-model="filter.end">
-            <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
+            <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
           </select>
         </div>
         <div class="model-selector selector">
-          <label for="models">車款:</label>
+          <label class="selector-label" for="models">車款:</label>
           <select name="models" id="models" v-model="filter.model">
             <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{ model }}</option>
           </select>
         </div>
         <div class="spec-selector selector" v-show="specOptions[filter.model]">
-          <label for="specs">型號:</label>
+          <label class="selector-label" for="specs">型號:</label>
           <select name="specs" id="specs" v-model="filter.spec">
             <option v-for="(spec, index) in specOptions[filter.model]" :key="index" :value="spec">{{ spec }}</option>
           </select>
@@ -101,18 +101,12 @@ export default {
         pages: 1,
         total: 1,
       },
-      cars: [],
+      cars: ['請選擇'],
       carMap: {},
       trips: [],
       chargers: ['請選擇'],
       chargerMap: {},
-      areas: [
-        {
-          text: '請選擇',
-          children: [{ text: '請選擇' }],
-        },
-      ],
-      areaOptions: ['請選擇'],
+      areas: ['請選擇'],
       modelOptions: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
       specOptions: {
         ModelS: ['請選擇', 'Model S', 'Model S Plaid'],
@@ -154,6 +148,8 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             const dataList = res.data.data;
+            this.cars = ['請選擇'];
+            this.carMap = {};
             dataList.forEach((data, index) => {
               this.cars.push(`${data.model}/${data.spec}/${data.manufacture_date}`);
               this.carMap[index] = data.id;
@@ -222,14 +218,9 @@ export default {
         });
     },
     formatArea(city, areas) {
-      const temp = [];
       areas.forEach((area) => {
-        temp.push({
-          text: area.area,
-        });
-        this.areaOptions.push(`${city}, ${area.area}`);
+        this.areas.push(`${city}, ${area.area}`);
       });
-      return temp;
     },
     getAreas() {
       const url = `${process.env.VUE_APP_API}/administrative-district`;
@@ -238,11 +229,7 @@ export default {
           if (res.status === 200) {
             const dataObject = res.data.data;
             Object.keys(dataObject).forEach((city) => {
-              const children = {
-                text: city,
-                children: this.formatArea(city, dataObject[city]),
-              };
-              this.areas.push(children);
+              this.formatArea(city, dataObject[city]);
             });
           }
         })

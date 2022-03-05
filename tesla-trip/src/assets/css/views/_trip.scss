@@ -20,8 +20,10 @@
 
       .selector {
         margin: 0 10px 0 0;
-        label {
+        .selector-label {
           color: $main-color;
+          margin: 0 5px 0 0;
+          width: 5em;
           font-weight: bold;
         }
         select {

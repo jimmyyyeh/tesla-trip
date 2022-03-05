@@ -1,207 +1,91 @@
 <template>
   <div class="modal fade" id="trip-modal" ref="modal" data-bs-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-            <van-form class="trip-form" validate-trigger="onChange" @change="validateForm">
-              <van-field
-                v-model="car"
-                readonly
-                rows="1"
-                label="車輛"
-                placeholder="車輛"
-                @click="isCarPickerShow=!isCarPickerShow"
-              />
-              <van-popup class="picker" :show="isCarPickerShow">
-                <van-picker
-                  title="車輛"
-                  :columns="cars"
-                  confirm-button-text="確認"
-                  cancel-button-text="關閉"
-                  @change="updateCar"
-                  @confirm="isCarPickerShow=false"
-                  @cancel="isCarPickerShow=false"
-                />
-              </van-popup>
-              <van-field
-                v-model="displayDate"
-                readonly
-                label="日期"
-                placeholder="日期"
-                @click="isDatePickerShow=!isDatePickerShow"
-              />
-              <van-popup class="picker" :show="isDatePickerShow">
-                <van-datetime-picker
-                  v-model="date"
-                  type="date"
-                  title="請選擇日期"
-                  confirm-button-text="確認"
-                  cancel-button-text="關閉"
-                  @confirm="isDatePickerShow=false"
-                  @cancel="isDatePickerShow=false"
-                />
-              </van-popup>
-              <van-field
-                v-model="mileage"
-                type="number"
-                label="滿電里程"
-                placeholder="滿電里程"
-                :rules="[{ required: true, message: '請輸入滿電里程' }]"
-              >
-                <template #extra>
-                  KM
-                </template>
-              </van-field>
-              <van-field
-                v-model="consumption"
-                type="number"
-                label="平均電力"
-                placeholder="平均電力"
-                :rules="[{ validator: numValidator, message:'請輸入0-9999999的數字'}]"
-              >
-                <template #extra>
-                  Wh/km
-                </template>
-              </van-field>
-              <van-field
-                v-model="total"
-                type="number"
-                label="電量總計"
-                placeholder="電量總計"
-                :rules="[{ validator: numValidator, message:'請輸入0-9999999的數字'}]"
-              >
-                <template #extra>
-                  kWh
-                </template>
-              </van-field>
-              <van-field :border="false" readonly>
-                <template #button>
-                  <van-button size="small" icon="plus" @click="isTripGroupShow=true"/>
-                </template>
-              </van-field>
-              <van-cell-group v-show="isTripGroupShow" inset>
-                <van-field
-                  v-model="start"
-                  label="起點"
-                  placeholder="起點"
-                  readonly
-                  :rules="[{ validator: districtValidator, message:'請選擇區域'}]"
-                  @click="isStartPickerShow=!isStartPickerShow"
-                />
-                <van-popup class="picker" :show="isStartPickerShow">
-                  <van-picker
-                    title="起點"
-                    :columns="areas"
-                    confirm-button-text="確認"
-                    cancel-button-text="關閉"
-                    @change="updateStart"
-                    @confirm="isStartPickerShow=false"
-                    @cancel="isStartPickerShow=false"
-                  />
-                </van-popup>
-                <van-field
-                  v-model="startBatteryLevel"
-                  type="number"
-                  label="起點電量"
-                  placeholder="起點電量"
-                  :rules="[{ validator: chargeValidator, message: startChargeMsg}]"
-                >
-                  <template #extra>
-                    %
-                  </template>
-                </van-field>
-                <van-field
-                  v-model="end"
-                  label="終點"
-                  placeholder="終點"
-                  readonly
-                  :rules="[{ validator: districtValidator, message:'請選擇區域'}]"
-                  @click="isEndPickerShow=!isEndPickerShow"
-                />
-                <van-popup class="picker" :show="isEndPickerShow">
-                  <van-picker
-                    title="終點"
-                    :columns="areas"
-                    confirm-button-text="確認"
-                    cancel-button-text="關閉"
-                    @change="updateEnd"
-                    @confirm="isEndPickerShow=false"
-                    @cancel="isEndPickerShow=false"
-                  />
-                </van-popup>
-                <van-field
-                  v-model="endBatteryLevel"
-                  type="number"
-                  label="終點電量"
-                  placeholder="終點電量"
-                  :rules="[{ validator: chargeValidator, message: endChargeMsg}]"
-                >
-                  <template #extra>
-                    %
-                  </template>
-                </van-field>
-                <van-field name="radio" label="是否進行充電">
-                  <template #input>
-                    <van-radio-group v-model="isCharge" direction="horizontal">
-                      <van-radio checked-color="#646566" name="1">是</van-radio>
-                      <van-radio checked-color="#646566" name="0">否</van-radio>
-                    </van-radio-group>
-                  </template>
-                </van-field>
-                <van-cell-group v-show="isCharge === '1'" inset>
-                  <van-field
-                    v-model="charger"
-                    readonly
-                    label="充電站"
-                    placeholder="充電站"
-                    :rules="[{ validator: chargerValidator, message:'請選擇充電站'}]"
-                    @click="isChargerPickerShow=!isChargerPickerShow"
-                  />
-                  <van-popup class="picker" :show="isChargerPickerShow" :lock-scroll="false">
-                    <van-picker
-                      title="充電站"
-                      :columns="chargers"
-                      confirm-button-text="確認"
-                      cancel-button-text="關閉"
-                      @change="updateCharger"
-                      @confirm="isChargerPickerShow=false"
-                      @cancel="isChargerPickerShow=false"
-                    />
-                  </van-popup>
-                  <van-field
-                    v-model="charge"
-                    type="number"
-                    label="充電%數"
-                    placeholder="充電%數"
-                    :rules="[{ validator: finalValidator, message:`請輸入0-${leftBatteryLevel}的數字`}]"
-                  >
-                    <template #extra>
-                      %
-                    </template>
-                  </van-field>
-                  <van-field
-                    v-model="fee"
-                    type="number"
-                    label="充電費用"
-                    placeholder="充電費用"
-                    :rules="[{ validator: numValidator, message:'請輸入0-9999999的數字'}]"
-                  >
-                    <template #extra>
-                      TWD
-                    </template>
-                  </van-field>
-                </van-cell-group>
-              </van-cell-group>
-              <van-field class="submit" readonly>
-                <template #button>
-                  <van-button v-if="!isFormValidate" class="submit-button" :class="'van-button--disabled'" disabled @click="confirmCreateTrip">確認</van-button>
-                  <van-button v-else class="submit-button" @click="confirmCreateTrip">確認</van-button>
-                </template>
-              </van-field>
-            </van-form>
+          <div class="trip-form">
+            <div class="car-selector selector column">
+              <label class="selector-label" for="cars">車輛:</label>
+              <select name="cars" id="cars" v-model="carIndex">
+                <option v-for="(car, index) in cars" :key="index" :value="index">{{ car }}</option>
+              </select>
+            </div>
+            <div class="date-selector column">
+              <label class="selector-label" for="date">日期:</label>
+              <input type="date" id="date" v-model="trip.tripDate">
+            </div>
+            <div class="mileage column">
+              <label class="selector-label" for="mileage">滿電里程:</label>
+              <input type="number" id="mileage" v-model="trip.mileage">
+            </div>
+            <div class="consumption column">
+              <label class="selector-label" for="consumption">平均電力:</label>
+              <input type="number" id="consumption" v-model="trip.consumption">
+            </div>
+            <div class="total column">
+              <label class="selector-label" for="total">電量總計:</label>
+              <input type="number" id="total" v-model="trip.total">
+            </div>
+            <div class="start-selector selector column">
+              <label class="selector-label" for="starts">起點:</label>
+              <select name="starts" id="starts" v-model="trip.start">
+                <option v-for="(area, index) in areas" :key="index" :value="area">{{
+                    area
+                  }}
+                </option>
+              </select>
+              <label class="selector-label" for="start-battery-level">電量:</label>
+              <input type="number" id="start-battery-level" v-model="trip.startBatteryLevel">
+              <label class="validate-label" v-show="!validateMap.startBatteryLevel">請輸入0-100間的數字</label>
+            </div>
+            <div class="end-selector selector column">
+              <label class="selector-label" for="ends">終點:</label>
+              <select name="ends" id="ends" v-model="trip.end">
+                <option v-for="(area, index) in areas" :key="index" :value="area">{{
+                    area
+                  }}
+                </option>
+              </select>
+              <label class="selector-label" for="end-battery-level">電量:</label>
+              <input type="number" id="end-battery-level" v-model="trip.endBatteryLevel">
+              <label class="validate-label" v-show="!validateMap.endBatteryLevel">請輸入0-100間的數字</label>
+            </div>
+            <div class="charge-selector column">
+              <label class="selector-label">是否充電:</label>
+              <div class="charge-group">
+                <input type="radio" name="is-charge" value="1" v-model="trip.isCharge"/>
+                <label class="selector-label">是</label>
+                <input type="radio" name="is-charge" value="0" v-model="trip.isCharge"/>
+                <label class="selector-label">否</label>
+              </div>
+            </div>
+            <div class="charge-group" v-show="trip.isCharge === '1'">
+              <div class="charger-selector column">
+                <label class="selector-label" for="chargers">超充站:</label>
+                <select name="chargers" id="chargers" v-model="chargerIndex">
+                  <option v-for="(charger, index) in chargers" :key="index" :value="index">
+                    {{ charger }}
+                  </option>
+                </select>
+              </div>
+              <div class="charge column">
+                <label class="selector-label" for="charge">充電%數:</label>
+                <input type="number" id="charge" v-model="trip.charge">
+                <label class="validate-label" v-show="!validateMap.charge">請輸入0-{{leftBatteryLevel}}間的數字</label>
+              </div>
+              <div class="fee column">
+                <label class="selector-label" for="fee">充電費用:</label>
+                <input type="number" id="fee" v-model="trip.fee">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button v-if="isValidate" class="default-button" @click="insertTrip">送出</button>
+          <button v-else class="default-button" disabled>送出</button>
         </div>
       </div>
     </div>
@@ -216,116 +100,113 @@ export default {
   props: ['cars', 'carMap', 'chargers', 'chargerMap', 'areas', 'config'],
   data() {
     return {
-      car: '',
-      carID: null,
-      mileage: 0,
-      consumption: 0,
-      total: 0,
-      isTripGroupShow: false,
-      charger: '請選擇',
-      chargeID: null,
-      isChargerPickerShow: false,
-      start: '請選擇, 請選擇',
-      startBatteryLevel: 0,
-      end: '請選擇, 請選擇',
-      endBatteryLevel: 0,
-      isCharge: '0',
-      charge: 0,
-      fee: 0,
-      date: new Date(),
-      isCarPickerShow: false,
-      isStartPickerShow: false,
-      isEndPickerShow: false,
-      isDatePickerShow: false,
+      carIndex: 0,
+      chargerIndex: 0,
       trips: [],
-      isFormValidate: false,
+      trip: {},
+      initTrip: {
+        car_id: null,
+        charger_id: null,
+        mileage: 0,
+        consumption: 0,
+        total: 0,
+        start: '請選擇',
+        end: '請選擇',
+        startBatteryLevel: 0,
+        endBatteryLevel: 0,
+        isCharge: '0',
+        charge: 0,
+        fee: 0,
+        tripDate: this.formatDate(new Date()),
+      },
+      validateMap: {
+        car: false,
+        start: false,
+        end: false,
+        charger: true,
+        startBatteryLevel: true,
+        endBatteryLevel: true,
+        charge: true,
+      },
     };
   },
   computed: {
-    displayDate() {
-      if (typeof this.date === 'string') {
-        return this.date;
-      }
-      return `${this.date.getFullYear()}-${this.date.getMonth() + 1}-${this.date.getDate()}`;
+    finalBatteryLevel() {
+      return this.trip.endBatteryLevel + this.trip.charge;
     },
     leftBatteryLevel() {
-      return 100 - parseInt(this.endBatteryLevel, 10);
+      return 100 - this.trip.endBatteryLevel;
     },
-    finalBatteryLevel() {
-      return parseInt(this.endBatteryLevel, 10) + parseInt(this.charge, 10);
+    isValidate() {
+      return !Object.values(this.validateMap).includes(false);
     },
-    startChargeMsg() {
-      return parseInt(this.startBatteryLevel, 10) > parseInt(this.endBatteryLevel, 10) ? '請輸入0-100的數字' : '起點電量必須大於終點電量';
+  },
+  watch: {
+    trip: {
+      handler() {
+        this.validateMap.car = this.trip.car_id !== null;
+        this.validateMap.start = this.trip.start !== '請選擇';
+        this.validateMap.end = this.trip.end !== '請選擇';
+        if (this.trip.isCharge === '1') {
+          this.validateMap.charger = this.trip.charger_id !== null;
+          this.validateMap.charge = this.trip.charge >= 0 && this.trip.charge <= (100 - this.trip.endBatteryLevel);
+        } else {
+          this.validateMap.charger = true;
+          this.validateMap.charge = true;
+          this.trip.charger = null;
+          this.trip.charge = null;
+          this.trip.fee = null;
+        }
+        this.validateMap.startBatteryLevel = this.trip.startBatteryLevel >= 0 && this.trip.startBatteryLevel <= 100;
+        this.validateMap.endBatteryLevel = this.trip.endBatteryLevel >= 0 && this.trip.endBatteryLevel <= 100;
+      },
+      deep: true,
     },
-    endChargeMsg() {
-      return parseInt(this.startBatteryLevel, 10) > parseInt(this.endBatteryLevel, 10) ? '請輸入0-100的數字' : '終點電量必須小於起點電量';
+    carIndex(value) {
+      if (value === '請選擇') {
+        this.trip.car_id = null;
+      } else {
+        this.trip.car_id = this.carMap[value - 1];
+      }
+    },
+    chargerIndex(value) {
+      if (value === '請選擇') {
+        this.trip.charger_id = null;
+      } else {
+        this.trip.charger_id = this.chargerMap[value - 1];
+      }
     },
   },
   methods: {
-    chargeValidator(value) {
-      const intValue = parseInt(value, 10);
-      return intValue >= 0 && intValue <= 100 && parseInt(this.startBatteryLevel, 10) > parseInt(this.endBatteryLevel, 10);
-    },
-    numValidator(value) {
-      const intValue = parseInt(value, 10);
-      return intValue >= 0 && intValue <= 9999999;
-    },
-    finalValidator(value) {
-      const intValue = parseInt(value, 10);
-      return intValue >= 0 && intValue <= 100 - parseInt(this.endBatteryLevel, 10);
-    },
-    districtValidator(value) {
-      return !value.includes('請選擇');
-    },
-    chargerValidator(value) {
-      if (this.isCharge !== '0') {
-        return !value.includes('請選擇');
+    formatDate(date_) {
+      // TODO 共用
+      if (typeof date_ === 'string') {
+        return date_;
       }
-      return true;
-    },
-    updateCar(car, index) {
-      this.car = car;
-      this.carID = this.carMap[index - 1];
-    },
-    updateCharger(charger, index) {
-      this.charger = charger;
-      this.chargeID = this.chargerMap[index - 1];
-    },
-    updateStart(start) {
-      this.start = `${start[0].text}, ${start[1].text}`;
-    },
-    updateEnd(end) {
-      this.end = `${end[0].text}, ${end[1].text}`;
+      const month = `${date_.getMonth() + 1}`.padStart(2, '0');
+      const day = `${date_.getDate()}`.padStart(2, '0');
+      return `${date_.getFullYear()}-${month}-${day}`;
     },
     insertTrip() {
       const trip = {
-        car_id: this.carID,
-        mileage: parseInt(this.mileage, 10),
-        consumption: parseFloat(this.consumption),
-        total: parseFloat(this.total),
-        start: this.start,
-        end: this.end,
-        start_battery_level: parseInt(this.startBatteryLevel, 10),
-        end_battery_level: parseInt(this.endBatteryLevel, 10),
-        is_charge: this.isCharge === '1',
-        charger_id: this.chargeID,
-        charge: parseInt(this.charge, 10) || null,
-        fee: parseInt(this.fee, 10) || null,
+        car_id: this.trip.car_id,
+        charger_id: this.trip.charger_id,
+        mileage: parseInt(this.trip.mileage, 10),
+        consumption: parseFloat(this.trip.consumption),
+        total: parseFloat(this.trip.total),
+        start: this.trip.start,
+        end: this.trip.end,
+        start_battery_level: parseInt(this.trip.startBatteryLevel, 10),
+        end_battery_level: parseInt(this.trip.endBatteryLevel, 10),
+        is_charge: this.trip.isCharge === '1',
+        charge: parseInt(this.trip.charge, 10) || null,
+        fee: parseInt(this.trip.fee, 10) || null,
         final_battery_level: this.finalBatteryLevel,
-        trip_date: this.displayDate,
+        trip_date: this.trip.tripDate,
       };
-      this.start = '請選擇, 請選擇';
-      this.end = '請選擇, 請選擇';
-      this.startBatteryLevel = 0;
-      this.endBatteryLevel = 0;
-      this.isTripGroupShow = false;
-      this.isCharge = '0';
-      this.charger = '請選擇';
-      this.charge = 0;
-      this.fee = 0;
-      this.date = new Date();
+      this.trips = [];
       this.trips.push(trip);
-      this.createTrip();
+      this.confirmCreateTrip();
     },
     createTrip() {
       const url = `${process.env.VUE_APP_API}/trip`;
@@ -338,6 +219,8 @@ export default {
               confirmButtonColor: '#646566',
             }).then(() => {
               this.trips = [];
+              this.trip = { ...this.initTrip };
+              this.$parent.getTrips();
               this.hideModal();
             });
           }
@@ -351,19 +234,19 @@ export default {
     },
     confirmCreateTrip() {
       this.$dialog.confirm({
-        message: '確定要儲存里程嗎?',
+        message: '確定要新增里程嗎?',
         confirmButtonText: '確認',
         cancelButtonText: '取消',
         showCancelButton: true,
         confirmButtonColor: '#646566',
         cancelButtonColor: '#646566',
       }).then(() => {
-        this.insertTrip();
+        this.createTrip();
       }).catch(() => 0);
     },
-    validateForm() {
-      this.isFormValidate = document.getElementsByClassName('van-field__error-message').length === 0;
-    },
+  },
+  created() {
+    this.trip = { ...this.initTrip };
   },
 };
 </script>

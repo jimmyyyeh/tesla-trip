@@ -13,9 +13,6 @@
     justify-content: flex-start;
     margin: 10px 0 0 0;
     padding: 20px 0 0 20px;
-    label {
-      color: $main-color;
-    }
     select {
       background-color: $white-color;
       color: $main-color;
@@ -23,8 +20,14 @@
     }
     input {
       background-color: $white-color;
+      border: $main-color 1px solid;
       color: $main-color;
       border-radius: 5px;
+    }
+    .selector-label {
+      color: $main-color;
+      margin: 0 5px 0 0;
+      font-weight: bold;
     }
     .car-selector {
       display: flex;
