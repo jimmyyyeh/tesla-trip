@@ -1,97 +1,41 @@
 <template>
   <NavTab></NavTab>
   <div class="wrap" v-show="isSignIn">
-    <van-form class="car-form">
-      <div class="car-selector">
-        <van-field
-          v-model="car"
-          readonly
-          rows="1"
-          label="車輛"
-          placeholder="車輛"
-          @click="isCarPickerShow=!isCarPickerShow"
-        />
-        <van-button class="create-button" size="small" icon="plus" @click="addCar"/>
-        <van-button class="create-button" size="small" icon="minus" @click="removeCar"/>
+    <div class="car-form">
+      <div class="car-selector selector">
+        <div class="car-group">
+          <label for="cars">車輛:</label>
+          <select name="cars" id="cars" v-model="carIndex">
+            <option>請選擇</option>
+            <option v-for="(car, index) in cars" :key="index" :value="index">{{ car }}</option>
+          </select>
+        </div>
+        <div class="button-group">
+          <button class="default-button" v-show="!isCarInfoShow" @click="isCarInfoShow=!isCarInfoShow">+</button>
+          <button class="default-button" v-show="isCarInfoShow" @click="removeCar"> 刪除 </button>
+          <button v-if="isValidate" class="default-button" v-show="isCarInfoShow" @click="upsertCar">{{ carIndex ==='請選擇' ? '新增' : '更新' }}</button>
+          <button v-else class="default-button" disabled v-show="isCarInfoShow" @click="upsertCar">{{ carIndex ==='請選擇' ? '新增' : '更新' }}</button>
+        </div>
       </div>
-      <van-popup class="picker" :show="isCarPickerShow">
-        <van-picker
-          title="車輛"
-          :columns="cars"
-          confirm-button-text="確認"
-          cancel-button-text="關閉"
-          @change="updateCar"
-          @confirm="isCarPickerShow=false"
-          @cancel="isCarPickerShow=false"
-        />
-      </van-popup>
-      <van-cell-group inset v-show="isCarInfoShow">
-        <van-field
-          v-model="carInfo.model"
-          readonly
-          label="型號"
-          placeholder="型號"
-          @click="isModelPickerShow=!isModelPickerShow"
-        />
-        <van-popup class="picker" :show="isModelPickerShow">
-          <van-picker
-            title="型號"
-            :columns="models"
-            confirm-button-text="確認"
-            cancel-button-text="關閉"
-            @change="updateModel"
-            @confirm="isModelPickerShow=false"
-            @cancel="isModelPickerShow=false"
-          />
-        </van-popup>
-        <van-field
-          v-model="carInfo.spec"
-          readonly
-          label="規格"
-          placeholder="規格"
-          @click="isSpecPickerShow=!isSpecPickerShow"
-        />
-        <van-popup class="picker" :show="isSpecPickerShow">
-          <van-picker
-            title="規格"
-            :columns="specs[carInfo.model]"
-            confirm-button-text="確認"
-            cancel-button-text="關閉"
-            @change="updateSpec"
-            @confirm="isSpecPickerShow=false"
-            @cancel="isSpecPickerShow=false"
-          />
-        </van-popup>
-        <van-field
-          v-model="displayDate"
-          readonly
-          label="出廠日期"
-          placeholder="出廠日期"
-          @click="isDatePickerShow=!isDatePickerShow"
-        />
-        <van-popup class="picker" :show="isDatePickerShow">
-          <van-datetime-picker
-            v-model="carInfo.manufactureDate"
-            type="date"
-            title="請選擇出廠日期"
-            confirm-button-text="確認"
-            cancel-button-text="關閉"
-            @confirm="isDatePickerShow=false"
-            @cancel="isDatePickerShow=false"
-          />
-        </van-popup>
-        <van-field class="submit" readonly>
-          <template #button>
-            <van-button v-if="isValidate" class="submit-button" @click="upsertCar">
-              {{ carInfo.id ? '更新' : '確認' }}
-            </van-button>
-            <van-button v-else class="submit-button" disabled @click="upsertCar">
-              {{ carInfo.id ? '更新' : '確認' }}
-            </van-button>
-          </template>
-        </van-field>
-      </van-cell-group>
-    </van-form>
+      <div class="car-info" v-show="isCarInfoShow">
+        <div class="manufacture-date-selector selector">
+          <label for="manufacture-date">* 出廠日期:</label>
+          <input type="date" id="manufacture-date" v-model="carInfo.manufactureDate">
+        </div>
+        <div class="model-selector selector">
+          <label for="models">* 型號:</label>
+          <select name="models" id="models" v-model="carInfo.model">
+            <option v-for="(model, index) in models" :key="index" :value="model">{{ model }}</option>
+          </select>
+        </div>
+        <div class="spec-selector selector" v-show="carInfo.model !== '請選擇'">
+          <label for="specs">* 規格:</label>
+          <select name="specs" id="specs" v-model="carInfo.spec">
+            <option v-for="(spec, index) in specs[carInfo.model]" :key="index" :value="spec">{{ spec }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
   <SignInModal ref="signInModal" :initMethod="initData"></SignInModal>
 </template>
@@ -107,59 +51,60 @@ export default {
   },
   data() {
     return {
-      isCarInfoShow: false,
       isValidate: false,
+      isCarInfoShow: false,
       nickname: '',
-      car: '請選擇',
-      cars: ['請選擇'],
+      carIndex: '請選擇',
+      carID: null,
+      cars: [],
       carMap: {},
-      isCarPickerShow: false,
       carInfo: {
-        model: '',
-        spec: '',
-        manufactureDate: new Date(),
+        model: '請選擇',
+        spec: '請選擇',
+        manufactureDate: this.formatDate(new Date()),
       },
       models: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
-      isModelPickerShow: false,
       specs: {
         ModelS: ['請選擇', 'Model S', 'Model S Plaid'],
         Model3: ['請選擇', 'Real-Wheel Drive', 'Lone Range AWD', 'Performance'],
         ModelX: ['請選擇', 'Model X', 'Model X Plaid'],
         ModelY: ['請選擇', 'Lone Range AWD', 'Performance'],
       },
-      isSpecPickerShow: false,
-      isDatePickerShow: false,
     };
   },
-  computed: {
-    displayDate() {
-      const date = this.carInfo.manufactureDate;
-      if (typeof date === 'string') {
-        return date;
-      }
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    },
-  },
   watch: {
+    carIndex(value) {
+      if (value === '請選擇') {
+        this.carID = null;
+        this.carInfo = {
+          model: '請選擇',
+          spec: '請選擇',
+          manufactureDate: this.formatDate(new Date()),
+        };
+      } else {
+        this.carID = this.carMap[value];
+        this.getCars(this.carID);
+        this.isCarInfoShow = true;
+      }
+    },
     carInfo: {
       handler() {
-        this.isValidate = this.carInfo.model && this.carInfo.spec;
+        const isModelSelected = this.carInfo.model && this.carInfo.model !== '請選擇';
+        const isSpecSelected = this.carInfo.spec && this.carInfo.spec !== '請選擇';
+        this.isValidate = isModelSelected && isSpecSelected;
       },
       deep: true,
     },
   },
   methods: {
-    updateCar(car, index) {
-      const carID = this.carMap[index - 1];
-      this.getCars(carID);
-      this.car = car;
-      this.isCarInfoShow = true;
-    },
-    updateModel(model) {
-      this.carInfo.model = model;
-    },
-    updateSpec(spec) {
-      this.carInfo.spec = spec;
+    formatDate(date_) {
+      // TODO 共用
+      if (typeof date_ === 'string') {
+        return date_;
+      }
+      const month = `${date_.getMonth() + 1}`.padStart(2, '0');
+      const day = `${date_.getDate()}`.padStart(2, '0');
+      return `${date_.getFullYear()}-${month}-${day}`;
     },
     getCars(carID) {
       let url = `${process.env.VUE_APP_API}/car`;
@@ -178,6 +123,8 @@ export default {
               this.carInfo.spec = selectedCar.spec;
               this.carInfo.manufactureDate = selectedCar.manufacture_date;
             } else {
+              this.cars = [];
+              this.carMap = {};
               dataList.forEach((data, index) => {
                 this.cars.push(`${data.model}/${data.spec}/${data.manufacture_date}`);
                 this.carMap[index] = data.id;
@@ -197,8 +144,8 @@ export default {
       let url = `${process.env.VUE_APP_API}/car`;
       let method = 'post';
       let alertMsg = '新增成功';
-      if (this.car.id) {
-        url = `${url}/${this.carInfo.id}`;
+      if (this.carID) {
+        url = `${url}/${this.carID}`;
         method = 'put';
         alertMsg = '更新成功';
       }
@@ -206,7 +153,7 @@ export default {
       const payload = {
         spec: this.carInfo.spec,
         model: this.carInfo.model,
-        manufacture_date: this.displayDate,
+        manufacture_date: this.carInfo.manufactureDate,
       };
       this.$http[method](url, payload, this.config)
         .then((res) => {
@@ -226,9 +173,6 @@ export default {
             this.getCars();
           }
         });
-    },
-    addCar() {
-      this.isCarInfoShow = true;
     },
     removeCar() {
       const url = `${process.env.VUE_APP_API}/car/${this.carInfo.id}`;

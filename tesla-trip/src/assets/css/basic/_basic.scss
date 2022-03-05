@@ -1,5 +1,7 @@
 $main-color: #646566;
+$sub-color: #E0E0E0;
 $white-color: #FFFFFF;
+$black-color: #000000;
 $not-validated-color: #FF0000;
 $disabled-color: #E0E0E0;
 
@@ -41,6 +43,8 @@ $disabled-color: #E0E0E0;
 
 .default-button:disabled {
   background-color: $disabled-color;
+  color: $black-color;
+  border: $main-color 1px solid;
 }
 
 //pagination

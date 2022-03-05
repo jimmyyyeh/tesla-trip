@@ -1,23 +1,50 @@
 @import "./src/assets/css/basic/basic";
 
 .wrap {
-  @include centralize;
-
   .car-form {
-    width: 60%;
-    height: 80vh;
+    background-color: $sub-color;
     border: $main-color 1px solid;
-    margin: 10px;
-    position: relative;
-
+    box-shadow: 3px 3px 12px $main-color;
+    border-radius: 5px;
+    width: 50vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 10px 0 0 0;
+    padding: 20px 0 0 20px;
+    label {
+      color: $main-color;
+    }
+    select {
+      background-color: $white-color;
+      color: $main-color;
+      border-radius: 5px;
+    }
+    input {
+      background-color: $white-color;
+      color: $main-color;
+      border-radius: 5px;
+    }
     .car-selector {
       display: flex;
       align-items: center;
-
-      .create-button {
-        margin: 3px;
+      position: relative;
+      .button-group{
+        position: absolute;
+        right: 0;
+        margin: 0 10px 0 0;
+      }
+    }
+    .car-info {
+      .selector {
+        margin: 10px;
+      }
+    }
+    .button-group {
+      .default-button {
+        margin: 0 5px 0 0;
       }
     }
   }
 }
-
