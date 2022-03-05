@@ -30,7 +30,7 @@ $disabled-color: #E0E0E0;
   border-radius: 5px !important;
 }
 
-.modal-button {
+.default-button {
   background-color: $main-color;
   color: $white-color;
   border: none;
@@ -39,7 +39,7 @@ $disabled-color: #E0E0E0;
   padding: 10px 15px 10px 15px;
 }
 
-.modal-button:disabled {
+.default-button:disabled {
   background-color: $disabled-color;
 }
 

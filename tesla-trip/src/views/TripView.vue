@@ -1,36 +1,42 @@
 <template>
   <NavTab></NavTab>
   <div class="wrap" v-show="isSignIn">
-    <div class="search-bar">
-      <div class="chargerSelector selector">
-        <label for="chargers">超充站:</label>
-        <select name="chargers" id="chargers" v-model="filter.charger">
-          <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{ charger }}</option>
-        </select>
+    <div class="toolbar">
+      <div class="selector-group">
+        <div class="chargerSelector selector">
+          <label for="chargers">超充站:</label>
+          <select name="chargers" id="chargers" v-model="filter.charger">
+            <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{ charger }}</option>
+          </select>
+        </div>
+        <div class="startSelector selector">
+          <label for="starts">起點:</label>
+          <select name="starts" id="starts" v-model="filter.start">
+            <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
+          </select>
+        </div>
+        <div class="endSelector selector">
+          <label for="ends">終點:</label>
+          <select name="ends" id="ends" v-model="filter.end">
+            <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
+          </select>
+        </div>
+        <div class="modelSelector selector">
+          <label for="models">車款:</label>
+          <select name="models" id="models" v-model="filter.model">
+            <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{ model }}</option>
+          </select>
+        </div>
+        <div class="specSelector selector" v-show="specOptions[filter.model]">
+          <label for="specs">型號:</label>
+          <select name="specs" id="specs" v-model="filter.spec">
+            <option v-for="(spec, index) in specOptions[filter.model]" :key="index" :value="spec">{{ spec }}</option>
+          </select>
+        </div>
       </div>
-      <div class="startSelector selector">
-        <label for="starts">起點:</label>
-        <select name="starts" id="starts" v-model="filter.start">
-          <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
-        </select>
-      </div>
-      <div class="endSelector selector">
-        <label for="ends">終點:</label>
-        <select name="ends" id="ends" v-model="filter.end">
-          <option v-for="(area, index) in areaOptions" :key="index" :value="area">{{ area }}</option>
-        </select>
-      </div>
-      <div class="modelSelector selector">
-        <label for="models">車款:</label>
-        <select name="models" id="models" v-model="filter.model">
-          <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{ model }}</option>
-        </select>
-      </div>
-      <div class="specSelector selector" v-show="specOptions[filter.model]">
-        <label for="specs">型號:</label>
-        <select name="specs" id="specs" v-model="filter.spec">
-          <option v-for="(spec, index) in specOptions[filter.model]" :key="index" :value="spec">{{ spec }}</option>
-        </select>
+      <div class="button-group">
+        <button class="default-button" @click="clearFilter">重設條件</button>
+        <button class="default-button" @click="showTripModal">新增旅程</button>
       </div>
     </div>
     <div class="trip">
@@ -247,6 +253,11 @@ export default {
             this.refreshToken(response.data, response.data.error_code);
           }
         });
+    },
+    clearFilter() {
+      Object.keys(this.filter).forEach((key) => {
+        this.filter[key] = '請選擇';
+      });
     },
     initData() {
       this.getCars();

@@ -22,8 +22,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button v-if="isFormValidate" type="button" class="modal-button" @click="signIn()">確認</button>
-          <button v-else type="button" class="modal-button" disabled>確認</button>
+          <button v-if="isFormValidate" type="button" class="default-button" @click="signIn()">確認</button>
+          <button v-else type="button" class="default-button" disabled>確認</button>
         </div>
       </div>
     </div>

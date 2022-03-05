@@ -7,21 +7,35 @@
   align-items: center;
   justify-content: flex-start;
   height: 100vh;
-
-  .search-bar {
-    width: 80vw;
-    margin: 10px 0 10px 0;
+  .toolbar {
     display: flex;
-    .selector {
-      margin: 0 10px 0 0;
-      label {
-        color: $main-color;
-        font-weight: bold;
+    width: 80vw;
+    position: relative;
+    margin: 10px 0 10px 0;
+
+    .selector-group {
+      margin: 10px 0 10px 0;
+      display: flex;
+      align-items: center;
+
+      .selector {
+        margin: 0 10px 0 0;
+        label {
+          color: $main-color;
+          font-weight: bold;
+        }
+        select {
+          background-color: $white-color;
+          color: $main-color;
+          border-radius: 5px;
+        }
       }
-      select {
-        background-color: $white-color;
-        color: $main-color;
-        border-radius: 5px;
+    }
+    .button-group {
+      position: absolute;
+      right: 0;
+      button {
+        margin: 0 10px 0 0;
       }
     }
   }
