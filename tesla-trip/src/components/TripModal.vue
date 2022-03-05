@@ -159,6 +159,9 @@ export default {
         }
         this.validateMap.startBatteryLevel = this.trip.startBatteryLevel >= 0 && this.trip.startBatteryLevel <= 100;
         this.validateMap.endBatteryLevel = this.trip.endBatteryLevel >= 0 && this.trip.endBatteryLevel <= 100;
+        this.initTrip.mileage = this.trip.mileage;
+        this.initTrip.consumption = this.trip.consumption;
+        this.initTrip.total = this.trip.total;
       },
       deep: true,
     },
@@ -220,6 +223,7 @@ export default {
             }).then(() => {
               this.trips = [];
               this.trip = { ...this.initTrip };
+              this.chargerIndex = 0;
               this.$parent.getTrips();
               this.hideModal();
             });
@@ -228,6 +232,7 @@ export default {
         .catch((error) => {
           const response = error.response;
           if (response) {
+            this.$parent.refreshToken(response.data, response.data.error_code, this.createTrip);
             console.log(response.data);
           }
         });
