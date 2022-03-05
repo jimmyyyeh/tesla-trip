@@ -43,9 +43,12 @@
   }
 
   .trip {
+    background: rgba(255, 255, 255, 0.8) url('https://i.imgur.com/XR6jF7C.png') no-repeat;
+    background-blend-mode: lighten;
+    background-size: 100%;
     margin: 0 0 10px 0;
-    width: 80vw;
-    height: 100%;
+    width: 90vw;
+    height: 80%;
     .table {
       text-align: center;
       color: $main-color;

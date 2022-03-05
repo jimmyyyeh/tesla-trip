@@ -51,9 +51,9 @@
           <th scope="col">起點</th>
           <th scope="col">終點</th>
           <th scope="col">是否充電</th>
-          <th scope="col">充電%數</th>
-          <th scope="col">充電費用</th>
-          <th scope="col">最終電量</th>
+<!--          <th scope="col">充電%數</th>-->
+<!--          <th scope="col">充電費用</th>-->
+<!--          <th scope="col">最終電量</th>-->
         </tr>
         </thead>
         <tbody>
@@ -66,9 +66,9 @@
           <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
           <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
           <td> {{ trip.is_charge ? '是' : '否' }}</td>
-          <td> {{ trip.charge || '-' }}</td>
-          <td> {{ trip.fee || '-' }}</td>
-          <td> {{ trip.final_battery_level }}%</td>
+<!--          <td> {{ trip.charge || '-' }}</td>-->
+<!--          <td> {{ trip.fee || '-' }}</td>-->
+<!--          <td> {{ trip.final_battery_level }}%</td>-->
         </tr>
         </tbody>
       </table>
