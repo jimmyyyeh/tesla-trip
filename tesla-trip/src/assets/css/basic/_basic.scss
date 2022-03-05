@@ -9,6 +9,11 @@ $disabled-color: #E0E0E0;
   align-items: center;
 }
 
+.under-construction {
+  width: 100vw;
+  height: 100vh;
+}
+
 .wrap {
   @include centralize;
 }
