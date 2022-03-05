@@ -2,12 +2,14 @@
 
 .wrap {
   .car-form {
-    background-color: $sub-color;
+    background: rgba(255, 255, 255, 0.6) url('https://i.imgur.com/mhuHPIG.png') no-repeat;
+    background-blend-mode: lighten;
+    background-size: 100%;
     border: $main-color 1px solid;
     box-shadow: 3px 3px 12px $main-color;
     border-radius: 5px;
     width: 50vw;
-    height: 70vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
