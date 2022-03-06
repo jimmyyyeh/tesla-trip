@@ -27,10 +27,9 @@
           <input type="text" id="email" v-model="signUpUser.email">
           <label class="validate-label" v-show="!signUpValidateMap.email">請輸入電子郵件</label>
         </div>
-        <div class="age column">
-          <label class="input-label" for="age">年齡:</label>
-          <input type="number" id="age" v-model="signUpUser.age">
-          <label class="validate-label" v-show="!signUpValidateMap.age">請輸入年齡</label>
+        <div class="birthday column">
+          <label class="input-label" for="birthday">生日:</label>
+          <input type="date" id="birthday" v-model="signUpUser.birthday">
         </div>
         <div class="sex column">
           <label class="input-label">性別:</label>
@@ -80,7 +79,7 @@ export default {
         confirmPassword: null,
         nickname: null,
         email: null,
-        age: null,
+        birthday: this.formatDate(new Date()),
         sex: '1',
       },
       signUpValidateMap: {
@@ -88,7 +87,6 @@ export default {
         password: false,
         confirmPassword: true,
         email: false,
-        age: false,
       },
       signInUser: {
         username: null,
@@ -115,7 +113,6 @@ export default {
         this.signUpValidateMap.password = this.signUpUser.password !== null;
         this.signUpValidateMap.confirmPassword = this.signUpUser.password === this.signUpUser.confirmPassword;
         this.signUpValidateMap.email = this.signUpUser.email !== null;
-        this.signUpValidateMap.age = this.signUpUser.age !== null;
       },
       deep: true,
     },
@@ -128,6 +125,15 @@ export default {
     },
   },
   methods: {
+    formatDate(date_) {
+      // TODO 共用
+      if (typeof date_ === 'string') {
+        return date_;
+      }
+      const month = `${date_.getMonth() + 1}`.padStart(2, '0');
+      const day = `${date_.getDate()}`.padStart(2, '0');
+      return `${date_.getFullYear()}-${month}-${day}`;
+    },
     signIn() {
       const url = `${process.env.VUE_APP_API}/sign-in`;
       this.$http.post(url, this.signInUser)
