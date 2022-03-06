@@ -22,6 +22,11 @@ const routes = [
     component: () => import('../views/CarView.vue'),
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../views/ProfileView.vue'),
+  },
+  {
     path: '/auth',
     name: 'auth',
     component: () => import('../views/AuthView.vue'),
