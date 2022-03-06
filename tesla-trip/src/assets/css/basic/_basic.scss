@@ -11,6 +11,18 @@ $disabled-color: #E0E0E0;
   align-items: center;
 }
 
+.wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.8) url('https://i.imgur.com/mhuHPIG.png') no-repeat fixed;
+  background-size: cover;
+  background-blend-mode: lighten;
+}
+
 .under-construction {
   width: 100vw;
   height: 100vh;

@@ -97,7 +97,6 @@ export default {
         this.getCars(this.carID);
         this.isCarInfoShow = true;
       }
-      console.log(this.carID);
     },
     carInfo: {
       handler() {

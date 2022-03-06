@@ -2,9 +2,7 @@
 
 .wrap {
   .car-form {
-    background: rgba(255, 255, 255, 0.6) url('https://i.imgur.com/mhuHPIG.png') no-repeat;
-    background-blend-mode: lighten;
-    background-size: 100%;
+    background-color: $sub-color;
     border: $main-color 1px solid;
     box-shadow: 3px 3px 12px $main-color;
     border-radius: 5px;
