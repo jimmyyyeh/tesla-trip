@@ -247,7 +247,7 @@ export default {
         });
     },
     getChargeInfo(trip) {
-      return `充電%數: ${trip.charge} <br> 充電費用: ${trip.fee} <br> 最終電量: ${trip.final_battery_level} <br> `;
+      return `充電站: ${trip.charger}<br>補電電量: ${trip.charge}%<br>充電費用: ${trip.fee}元`;
     },
     clearFilter() {
       Object.keys(this.filter).forEach((key) => {

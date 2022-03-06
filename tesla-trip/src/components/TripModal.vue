@@ -132,9 +132,6 @@ export default {
     };
   },
   computed: {
-    finalBatteryLevel() {
-      return this.trip.endBatteryLevel + this.trip.charge;
-    },
     leftBatteryLevel() {
       return 100 - this.trip.endBatteryLevel;
     },
@@ -205,7 +202,6 @@ export default {
         is_charge: this.trip.isCharge === '1',
         charge: parseInt(this.trip.charge, 10) || null,
         fee: parseInt(this.trip.fee, 10) || null,
-        final_battery_level: this.finalBatteryLevel,
         trip_date: this.trip.tripDate,
       };
       this.trips = [];
