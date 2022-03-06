@@ -1,20 +1,28 @@
 @import "./src/assets/css/basic/basic";
 
 .wrap {
+  .sign-up-form {
+    height: 90vh;
+  }
+  .sign-in-form {
+    height: 50vh;
+  }
   .sign-up-form, .sign-in-form {
     background-color: $sub-color;
     border: $main-color 1px solid;
     box-shadow: 3px 3px 12px $main-color;
     border-radius: 5px;
-    width: 50vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     margin: 10px 0 0 0;
     padding: 20px;
+    position: relative;
 
     .column {
       margin: 10px;
+      display: flex;
+      align-items: center;
 
       .input-label {
         width: 10em;
@@ -33,13 +41,14 @@
     }
 
     .button-group {
+      position: absolute;
+      bottom: 10px;
       display: flex;
-      justify-content: space-around;
       width: 100%;
-
+      justify-content: flex-end;
+      align-items: center;
       button {
-        width: 90%;
-        margin: 10px;
+        margin: 0 30px 0 0;
       }
     }
   }
