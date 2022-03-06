@@ -12,15 +12,20 @@ $disabled-color: #E0E0E0;
 }
 
 .wrap {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
   background: rgba(255, 255, 255, 0.8) url('https://i.imgur.com/mhuHPIG.png') no-repeat fixed;
   background-size: cover;
   background-blend-mode: lighten;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+  }
 }
 
 .under-construction {
@@ -97,4 +102,10 @@ $disabled-color: #E0E0E0;
       }
     }
   }
+}
+
+.overlay {
+  @include centralize;
+  width: 100%;
+  height: 100%;
 }

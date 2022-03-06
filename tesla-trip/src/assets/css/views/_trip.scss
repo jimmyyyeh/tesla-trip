@@ -1,48 +1,55 @@
 @import "./src/assets/css/basic/basic";
 
 .wrap {
-  .toolbar {
-    display: flex;
-    width: 80vw;
-    position: relative;
-    margin: 10px 0 10px 0;
-
-    .selector-group {
-      margin: 10px 0 10px 0;
+  .container {
+    .toolbar {
       display: flex;
-      align-items: center;
+      width: 80vw;
+      position: relative;
+      margin: 10px 0 10px 0;
 
-      .selector {
-        margin: 0 10px 0 0;
-        .selector-label {
-          color: $main-color;
-          margin: 0 5px 0 0;
-          width: 5em;
-          font-weight: bold;
+      .selector-group {
+        margin: 10px 0 10px 0;
+        display: flex;
+        align-items: center;
+
+        .selector {
+          margin: 0 10px 0 0;
+
+          .selector-label {
+            color: $main-color;
+            margin: 0 5px 0 0;
+            width: 5em;
+            font-weight: bold;
+          }
+
+          select {
+            background-color: $white-color;
+            color: $main-color;
+            border-radius: 5px;
+          }
         }
-        select {
-          background-color: $white-color;
-          color: $main-color;
-          border-radius: 5px;
+      }
+
+      .button-group {
+        position: absolute;
+        right: 0;
+
+        .default-button {
+          margin: 0 10px 0 0;
         }
       }
     }
-    .button-group {
-      position: absolute;
-      right: 0;
-      .default-button {
-        margin: 0 10px 0 0;
-      }
-    }
-  }
 
-  .trip {
-    margin: 0 0 10px 0;
-    width: 90vw;
-    height: 80%;
-    .table {
-      text-align: center;
-      color: $main-color;
+    .trip {
+      margin: 0 0 10px 0;
+      width: 90vw;
+      height: 80%;
+
+      .table {
+        text-align: center;
+        color: $main-color;
+      }
     }
   }
 }
