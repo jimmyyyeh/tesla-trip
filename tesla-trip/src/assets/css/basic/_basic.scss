@@ -125,6 +125,6 @@ $disabled-color: #E0E0E0;
 input {
   background-color: $white-color;
   border: $main-color 1px solid;
-  color: $main-color;
+  color: $main-color !important;
   border-radius: 5px;
 }

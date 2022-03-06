@@ -81,7 +81,9 @@ export default {
       }).then(() => {
         Cookies.remove('tesla-trip-sign-in');
         this.$router.push('/');
-      }).catch(() => 0);
+      }).catch(() => {
+        this.$router.push('/');
+      });
     },
     signIn() {
       const url = `${process.env.VUE_APP_API}/sign-in`;
