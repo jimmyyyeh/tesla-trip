@@ -1,18 +1,6 @@
 import { createApp } from 'vue';
 import {
-  Button,
-  Cell,
-  CellGroup,
-  DatetimePicker,
   Dialog,
-  DropdownMenu,
-  DropdownItem,
-  Field,
-  Form,
-  Picker,
-  Popup,
-  Radio,
-  RadioGroup,
   Tab,
   Tabs,
 } from 'vant';
@@ -27,19 +15,7 @@ import 'vant/lib/index.css';
 const app = createApp(App);
 app.use(VueAxios, axios);
 app.use(router);
-app.use(Button);
-app.use(Cell);
-app.use(CellGroup);
-app.use(DatetimePicker);
 app.use(Dialog);
-app.use(DropdownMenu);
-app.use(DropdownItem);
-app.use(Field);
-app.use(Form);
-app.use(Picker);
-app.use(Popup);
-app.use(Radio);
-app.use(RadioGroup);
 app.use(Tab);
 app.use(Tabs);
 app.component('NavTab', NavTab);
