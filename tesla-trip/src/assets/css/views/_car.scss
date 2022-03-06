@@ -1,50 +1,57 @@
 @import "./src/assets/css/basic/basic";
 
 .wrap {
-  .car-form {
-    background-color: $sub-color;
-    border: $main-color 1px solid;
-    box-shadow: 3px 3px 12px $main-color;
-    border-radius: 5px;
-    width: 50vw;
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: 10px 0 0 0;
-    padding: 20px 0 0 20px;
-    select {
-      background-color: $white-color;
-      color: $main-color;
-      border-radius: 5px;
-    }
-    input {
-      background-color: $white-color;
+  .container {
+    .car-form {
+      background-color: $sub-color;
       border: $main-color 1px solid;
-      color: $main-color;
+      box-shadow: 3px 3px 12px $main-color;
       border-radius: 5px;
-    }
-    .selector-label {
-      color: $main-color;
-      margin: 0 5px 0 0;
-      font-weight: bold;
-    }
-    .car-selector {
+      width: 50vw;
+      height: 50vh;
       display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
-      justify-content: space-around;
-      .button-group{
-        margin: 0 10px 0 0;
+      margin: 10px 0 0 0;
+      padding: 20px 0 0 20px;
+
+      select {
+        background-color: $white-color;
+        color: $main-color;
+        border-radius: 5px;
       }
-    }
-    .car-info {
-      .selector {
-        margin: 10px;
+
+      .car-selector {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+
+        .button-group {
+          margin: 0 10px 0 30px;
+        }
       }
-    }
-    .button-group {
-      .default-button {
-        margin: 0 5px 0 0;
+
+      .car-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 100%;
+
+        .selector-label {
+          width: 10em;
+        }
+
+        .selector {
+          margin: 10px;
+        }
+      }
+
+      .button-group {
+        .default-button {
+          margin: 0 5px 0 0;
+        }
       }
     }
   }

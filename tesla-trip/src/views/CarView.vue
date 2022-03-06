@@ -50,18 +50,13 @@
       </div>
     </div>
   </div>
-  <SignInModal ref="signInModal" :initMethod="initData"></SignInModal>
 </template>
 
 <script>
 import authMixins from '@/mixins/authMixins';
-import SignInModal from '@/components/SignInModal.vue';
 
 export default {
   mixins: [authMixins],
-  components: {
-    SignInModal,
-  },
   data() {
     return {
       isValidate: false,

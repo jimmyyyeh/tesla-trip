@@ -1,0 +1,46 @@
+@import "./src/assets/css/basic/basic";
+
+.wrap {
+  .sign-up-form, .sign-in-form {
+    background-color: $sub-color;
+    border: $main-color 1px solid;
+    box-shadow: 3px 3px 12px $main-color;
+    border-radius: 5px;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 10px 0 0 0;
+    padding: 20px;
+
+    .column {
+      margin: 10px;
+
+      .input-label {
+        width: 10em;
+      }
+
+    }
+
+    .sex {
+      display: flex;
+
+      .radio-label {
+        color: $main-color;
+        font-weight: bold;
+        margin: 0 5px 0 0;
+      }
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+
+      button {
+        width: 90%;
+        margin: 10px;
+      }
+    }
+  }
+}

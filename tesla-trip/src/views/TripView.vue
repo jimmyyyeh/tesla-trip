@@ -11,9 +11,9 @@
             <label class="selector-label">我的旅程:</label>
             <div>
               <input type="radio" name="is-my-trip" value="1" v-model="filter.isMyTrip"/>
-              <label>是</label>
+              <label class="radio-label">是</label>
               <input type="radio" name="is-my-trip" value="0" v-model="filter.isMyTrip"/>
-              <label>否</label>
+              <label class="radio-label">否</label>
             </div>
           </div>
           <div class="charger-selector selector">
@@ -86,14 +86,12 @@
       <PaginateComponent :refresh-method="getTrips" :pager="pager" v-show="isSignIn"></PaginateComponent>
     </div>
   </div>
-  <SignInModal ref="signInModal" :initMethod="initData"></SignInModal>
   <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers" :chargerMap="chargerMap" :areas="areas"
              :config="config"></TripModal>
 </template>
 
 <script>
 import authMixins from '@/mixins/authMixins';
-import SignInModal from '@/components/SignInModal.vue';
 import TripModal from '@/components/TripModal.vue';
 import PaginateComponent from '@/components/PaginateComponent.vue';
 import { Tooltip } from 'bootstrap';
@@ -101,7 +99,6 @@ import { Tooltip } from 'bootstrap';
 export default {
   mixins: [authMixins],
   components: {
-    SignInModal,
     TripModal,
     PaginateComponent,
   },

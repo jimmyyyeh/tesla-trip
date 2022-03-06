@@ -21,15 +21,6 @@ export default {
         },
       };
     },
-    getAuth() {
-      const signInCookie = Cookies.get('tesla-trip-sign-in');
-      if (!signInCookie) {
-        const refs = this.$refs;
-        refs.signInModal.showModal();
-      } else {
-        this.initAuth();
-      }
-    },
     setCookie() {
       const expireTime = (1 / 24 / 60) * 30;
       Cookies.set('tesla-trip-sign-in', JSON.stringify(this.user), { expires: expireTime });
@@ -37,10 +28,25 @@ export default {
     setUpAuth() {
       this.setCookie();
       this.initAuth();
-      this.initData();
+    },
+    checkAuth() {
+      const signInCookie = Cookies.get('tesla-trip-sign-in');
+      if (!signInCookie) {
+        if (this.$route.name !== 'auth') {
+          this.$dialog.alert({
+            message: '請先登入',
+            confirmButtonText: '確認',
+            confirmButtonColor: '#646566',
+          }).then(() => {
+            this.$router.push('/auth');
+          });
+        }
+      } else {
+        this.initAuth();
+      }
     },
     refreshToken(data, errorCode, retryMethod) {
-      if (errorCode !== 1004) {
+      if (errorCode !== 1005) {
         console.log(data);
       } else {
         const url = `${process.env.VUE_APP_API}/refresh-token`;
@@ -65,6 +71,6 @@ export default {
     },
   },
   mounted() {
-    this.getAuth();
+    this.checkAuth();
   },
 };

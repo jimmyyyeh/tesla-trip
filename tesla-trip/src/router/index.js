@@ -21,6 +21,11 @@ const routes = [
     name: 'car',
     component: () => import('../views/CarView.vue'),
   },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: () => import('../views/AuthView.vue'),
+  },
 ];
 
 const router = createRouter({
