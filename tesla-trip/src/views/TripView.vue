@@ -49,30 +49,27 @@
           <tr>
             <th scope="col">日期</th>
             <th scope="col">車型</th>
-            <th scope="col">滿電里程(KM)</th>
-            <th scope="col">平均電力(Wh/km)</th>
-            <th scope="col">電量總計(kWh)</th>
+            <th scope="col">滿電里程</th>
+            <th scope="col">平均電力</th>
+            <th scope="col">電量總計</th>
             <th scope="col">起點</th>
             <th scope="col">終點</th>
-            <th scope="col">是否充電</th>
-  <!--          <th scope="col">充電%數</th>-->
-  <!--          <th scope="col">充電費用</th>-->
-  <!--          <th scope="col">最終電量</th>-->
+            <th scope="col">充電資訊</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="(trip, index) in trips" :key="index">
             <td> {{ trip.trip_date }}</td>
             <td> {{ trip.car }}</td>
-            <td> {{ trip.mileage }}</td>
-            <td> {{ trip.consumption }}</td>
-            <td> {{ trip.total }}</td>
+            <td> {{ trip.mileage }}KM</td>
+            <td> {{ trip.consumption }}Wh/km</td>
+            <td> {{ trip.total }}kWh</td>
             <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
             <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
-            <td> {{ trip.is_charge ? '是' : '否' }}</td>
-  <!--          <td> {{ trip.charge || '-' }}</td>-->
-  <!--          <td> {{ trip.fee || '-' }}</td>-->
-  <!--          <td> {{ trip.final_battery_level }}%</td>-->
+            <td v-if="trip.is_charge" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-html="true" :title="getChargeInfo(trip)">
+              &#9432;
+            </td>
+            <td v-else> - </td>
           </tr>
           </tbody>
         </table>
@@ -90,6 +87,7 @@ import authMixins from '@/mixins/authMixins';
 import SignInModal from '@/components/SignInModal.vue';
 import TripModal from '@/components/TripModal.vue';
 import PaginateComponent from '@/components/PaginateComponent.vue';
+import { Tooltip } from 'bootstrap';
 
 export default {
   mixins: [authMixins],
@@ -248,6 +246,9 @@ export default {
           }
         });
     },
+    getChargeInfo(trip) {
+      return `充電%數: ${trip.charge} <br> 充電費用: ${trip.fee} <br> 最終電量: ${trip.final_battery_level} <br> `;
+    },
     clearFilter() {
       Object.keys(this.filter).forEach((key) => {
         this.filter[key] = '請選擇';
@@ -259,6 +260,10 @@ export default {
       this.getChargers();
       this.getAreas();
     },
+    initToolTip() {
+      Array.from(document.querySelectorAll('td[data-bs-toggle="tooltip"]'))
+        .forEach((tooltipNode) => new Tooltip(tooltipNode));
+    },
     showTripModal() {
       const refs = this.$refs;
       refs.tripModal.showModal();
@@ -269,6 +274,9 @@ export default {
       return;
     }
     this.initData();
+  },
+  updated() {
+    this.initToolTip();
   },
 };
 </script>
