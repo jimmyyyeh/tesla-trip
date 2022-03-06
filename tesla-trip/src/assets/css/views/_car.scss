@@ -32,10 +32,8 @@
     .car-selector {
       display: flex;
       align-items: center;
-      position: relative;
+      justify-content: space-around;
       .button-group{
-        position: absolute;
-        right: 0;
         margin: 0 10px 0 0;
       }
     }
