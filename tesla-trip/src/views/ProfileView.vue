@@ -1,6 +1,6 @@
 <template>
   <NavTab></NavTab>
-  <div class="wrap">
+  <div class="wrap" v-show="isSignIn">
     <div class="container">
       <div class="profile-form">
         <div class="username column">

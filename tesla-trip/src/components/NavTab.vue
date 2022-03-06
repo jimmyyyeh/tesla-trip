@@ -5,6 +5,7 @@
     <van-tab title="充電站景點" name="attraction"></van-tab>
     <van-tab title="愛車資料" name="car"></van-tab>
     <van-tab title="個人檔案" name="profile"></van-tab>
+    <van-tab :title="$parent.isSignIn ? '登出': '登入'" name="auth"></van-tab>
   </van-tabs>
 </template>
 
@@ -19,6 +20,7 @@ export default {
         attraction: '/attraction',
         car: '/car',
         profile: '/profile',
+        auth: '/auth',
       },
     };
   },

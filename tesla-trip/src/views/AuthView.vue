@@ -1,7 +1,7 @@
 <template>
   <NavTab></NavTab>
   <div class="wrap">
-    <div class="container">
+    <div class="container" v-show="!isSignIn">
       <div v-if="isNewUser" class="sign-up-form">
         <div class="username column">
           <label class="input-label" for="sign-up-username">使用者名稱:</label>
@@ -185,7 +185,7 @@ export default {
   },
   mounted() {
     if (this.isSignIn) {
-      this.$router.push('/');
+      this.signOut();
     }
   },
 };
