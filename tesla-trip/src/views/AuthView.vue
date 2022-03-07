@@ -1,7 +1,7 @@
 <template>
   <NavTab></NavTab>
   <div class="wrap">
-    <div class="container" v-show="!isSignIn">
+    <form class="container" v-show="!isSignIn">
       <div v-if="isNewUser" class="sign-up-form">
         <div class="username column">
           <label class="input-label" for="sign-up-username">使用者名稱:</label>
@@ -10,12 +10,12 @@
         </div>
         <div class="password column">
           <label class="input-label" for="sign-up-password">密碼:</label>
-          <input type="password" id="sign-up-password" v-model="signUpUser.password">
+          <input type="password" id="sign-up-password" autocomplete="true" v-model="signUpUser.password">
           <label class="validate-label" v-show="!signUpValidateMap.password">請輸入密碼</label>
         </div>
         <div class="confirm-password column">
           <label class="input-label" for="confirm-password">確認密碼:</label>
-          <input type="password" id="confirm-password" v-model="signUpUser.confirmPassword">
+          <input type="password" id="confirm-password" autocomplete="true" v-model="signUpUser.confirmPassword">
           <label class="validate-label" v-show="!signUpValidateMap.confirmPassword">兩次密碼不符</label>
         </div>
         <div class="nickname column">
@@ -45,24 +45,24 @@
           <button v-else class="default-button" disabled>註冊</button>
         </div>
       </div>
-      <div v-else class="sign-in-form">
+      <form v-else class="sign-in-form">
         <div class="username column">
           <label class="input-label" for="sign-in-username">使用者名稱:</label>
           <input type="text" id="sign-in-username" v-model="signInUser.username">
-          <label class="validate-label" v-show="!signUpValidateMap.username">請輸入使用者名稱</label>
+          <label class="validate-label" v-show="!signInValidateMap.username">請輸入使用者名稱</label>
         </div>
         <div class="password column">
           <label class="input-label" for="sign-in-password">密碼:</label>
-          <input type="password" id="sign-in-password" v-model="signInUser.password">
-          <label class="validate-label" v-show="!signUpValidateMap.password">請輸入密碼</label>
+          <input type="password" id="sign-in-password" autocomplete="true" v-model="signInUser.password">
+          <label class="validate-label" v-show="!signInValidateMap.password">請輸入密碼</label>
         </div>
         <div class="button-group">
           <button v-if="isSignInValidate" class="default-button" @click="signIn">登入</button>
           <button v-else class="default-button" disabled>登入</button>
           <button class="default-button" @click="isNewUser=true">註冊</button>
         </div>
-      </div>
-    </div>
+      </form>
+    </form>
   </div>
 </template>
 <script>
