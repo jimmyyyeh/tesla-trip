@@ -46,7 +46,7 @@ export default {
         this.initAuth();
       }
     },
-    refreshToken(data, errorCode, retryMethod) {
+    refreshToken(data, errorCode) {
       if (errorCode !== 1005) {
         console.log(data);
       } else {
@@ -59,7 +59,6 @@ export default {
             if (res.status === 200) {
               this.user = res.data.data;
               this.setUpAuth();
-              retryMethod();
             }
           })
           .catch((error) => {

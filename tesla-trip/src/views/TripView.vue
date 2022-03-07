@@ -148,7 +148,11 @@ export default {
       let url = originUrl;
       Object.keys(filter).forEach((key) => {
         if (filter[key]) {
-          url = `${url}?${key}=${filter[key]}`;
+          if (url.includes('?')) {
+            url = `${url}&${key}=${filter[key]}`;
+          } else {
+            url = `${url}?${key}=${filter[key]}`;
+          }
         }
       });
       return url;
@@ -209,6 +213,7 @@ export default {
           if (response) {
             console.log(response.data);
             this.refreshToken(response.data, response.data.error_code);
+            this.getTrips(page);
           }
         });
     },
