@@ -15,6 +15,10 @@
           <label class="input-label">性別:</label>
           <label class="input-label">{{ user.sex === 1 ? '男' : '女' }}</label>
         </div>
+        <div class="point column">
+          <label class="input-label">積分:</label>
+          <label class="input-label">{{ user.point }}</label>
+        </div>
         <hr>
         <div class="nickname column">
           <label class="input-label">暱稱:</label>
@@ -44,6 +48,7 @@ export default {
         email: null,
         birthday: null,
         sex: '1',
+        point: 0,
       },
     };
   },
