@@ -7,56 +7,89 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <div class="trip-form">
+          <form class="trip-form">
             <div class="car-selector selector column">
-              <label class="selector-label" for="cars">車輛:</label>
-              <select name="cars" id="cars" v-model="carIndex">
-                <option v-for="(car, index) in cars" :key="index" :value="index">{{ car }}</option>
-              </select>
+              <div class="input">
+                <label class="selector-label" for="cars">車輛:</label>
+                <select name="cars" id="cars" v-model="carIndex">
+                  <option v-for="(car, index) in cars" :key="index" :value="index">{{
+                      car
+                    }}
+                  </option>
+                </select>
+              </div>
             </div>
             <div class="date-selector column">
-              <label class="selector-label" for="date">日期:</label>
-              <input type="date" id="date" v-model="trip.tripDate">
+              <div class="input">
+                <label class="selector-label" for="date">日期:</label>
+                <input type="date" id="date" v-model="trip.tripDate">
+              </div>
             </div>
             <div class="mileage column">
-              <label class="selector-label" for="mileage">滿電里程:</label>
-              <input type="number" id="mileage" v-model="trip.mileage">
+              <div class="input">
+                <label class="selector-label" for="mileage">滿電里程:</label>
+                <input type="number" id="mileage" v-model="trip.mileage">
+              </div>
             </div>
             <div class="consumption column">
-              <label class="selector-label" for="consumption">平均電力:</label>
-              <input type="number" id="consumption" v-model="trip.consumption">
+              <div class="input">
+                <label class="selector-label" for="consumption">平均電力:</label>
+                <input type="number" id="consumption" v-model="trip.consumption">
+              </div>
             </div>
             <div class="total column">
-              <label class="selector-label" for="total">電量總計:</label>
-              <input type="number" id="total" v-model="trip.total">
+              <div class="input">
+                <label class="selector-label" for="total">電量總計:</label>
+                <input type="number" id="total" v-model="trip.total">
+              </div>
             </div>
             <div class="start-selector selector column">
-              <label class="selector-label" for="starts">起點:</label>
-              <select name="starts" id="starts" v-model="trip.start">
-                <option v-for="(area, index) in areas" :key="index" :value="area">{{
-                    area
-                  }}
-                </option>
-              </select>
-              <label class="selector-label" for="start-battery-level">電量:</label>
-              <input type="number" id="start-battery-level" v-model="trip.startBatteryLevel">
-              <label class="validate-label" v-show="!validateMap.startBatteryLevel">請輸入0-100間的數字</label>
+              <div class="input">
+                <label class="selector-label" for="starts">起點:</label>
+                <select name="starts" id="starts" v-model="trip.start">
+                  <option v-for="(area, index) in areas" :key="index" :value="area">{{
+                      area
+                    }}
+                  </option>
+                </select>
+              </div>
+              <div class="input">
+                <label class="selector-label" for="start-battery-level">電量:</label>
+                <input type="number" id="start-battery-level" v-model="trip.startBatteryLevel">
+              </div>
+              <div class="validate-label"
+                   :style="{visibility: !validateMap.startBatteryLevel ? 'visible' : 'hidden'}"
+                   data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true"
+                   title="請輸入1-100間的數字"
+              >
+                &#9432;
+              </div>
             </div>
             <div class="end-selector selector column">
-              <label class="selector-label" for="ends">終點:</label>
-              <select name="ends" id="ends" v-model="trip.end">
-                <option v-for="(area, index) in areas" :key="index" :value="area">{{
-                    area
-                  }}
-                </option>
-              </select>
-              <label class="selector-label" for="end-battery-level">電量:</label>
-              <input type="number" id="end-battery-level" v-model="trip.endBatteryLevel">
-              <label class="validate-label" v-show="!validateMap.endBatteryLevel">請輸入0-100間的數字</label>
+              <div class="input">
+                <label class="selector-label" for="ends">終點:</label>
+                <select name="ends" id="ends" v-model="trip.end">
+                  <option v-for="(area, index) in areas" :key="index" :value="area">{{
+                      area
+                    }}
+                  </option>
+                </select>
+              </div>
+              <div class="input">
+                <label class="selector-label" for="end-battery-level">電量:</label>
+                <input type="number" id="end-battery-level" v-model="trip.endBatteryLevel">
+              </div>
+              <div class="validate-label"
+                   :style="{visibility: !validateMap.endBatteryLevel ? 'visible' : 'hidden'}"
+                   data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true"
+                   title="請輸入1-100間的數字"
+              >
+                &#9432;
+              </div>
             </div>
             <div class="charge-selector column">
-              <label class="selector-label">是否充電:</label>
-              <div class="charge-group">
+              <div class="input">
+                <label class="selector-label">是否充電:</label>
                 <input type="radio" name="is-charge" value="1" v-model="trip.isCharge"/>
                 <label class="selector-label">是</label>
                 <input type="radio" name="is-charge" value="0" v-model="trip.isCharge"/>
@@ -64,25 +97,37 @@
               </div>
             </div>
             <div class="charge-group" v-show="trip.isCharge === '1'">
-              <div class="charger-selector column">
-                <label class="selector-label" for="chargers">超充站:</label>
-                <select name="chargers" id="chargers" v-model="chargerIndex">
-                  <option v-for="(charger, index) in chargers" :key="index" :value="index">
-                    {{ charger }}
-                  </option>
-                </select>
+              <div class="input">
+                <div class="charger-selector column">
+                  <label class="selector-label" for="chargers">超充站:</label>
+                  <select name="chargers" id="chargers" v-model="chargerIndex">
+                    <option v-for="(charger, index) in chargers" :key="index" :value="index">
+                      {{ charger }}
+                    </option>
+                  </select>
+                </div>
               </div>
               <div class="charge column">
-                <label class="selector-label" for="charge">充電%數:</label>
-                <input type="number" id="charge" v-model="trip.charge">
-                <label class="validate-label" v-show="!validateMap.charge">請輸入0-{{leftBatteryLevel}}間的數字</label>
+                <div class="input">
+                  <label class="selector-label" for="charge">充電%數:</label>
+                  <input type="number" id="charge" v-model="trip.charge">
+                </div>
+                <div class="validate-label"
+                     :style="{visibility: !validateMap.charge ? 'visible' : 'hidden'}"
+                     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true"
+                     :title="'請輸入0-' + leftBatteryLevel + '間的數字'"
+                >
+                  &#9432;
+                </div>
               </div>
               <div class="fee column">
-                <label class="selector-label" for="fee">充電費用:</label>
-                <input type="number" id="fee" v-model="trip.fee">
+                <div class="input">
+                  <label class="selector-label" for="fee">充電費用:</label>
+                  <input type="number" id="fee" v-model="trip.fee">
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button v-if="isValidate" class="default-button" @click="insertTrip">送出</button>
@@ -95,6 +140,7 @@
 
 <script>
 import modalMixins from '@/mixins/modalMixins';
+import { Tooltip } from 'bootstrap';
 
 export default {
   mixins: [modalMixins],
@@ -246,9 +292,16 @@ export default {
         this.createTrip();
       }).catch(() => 0);
     },
+    initToolTip() {
+      Array.from(document.querySelectorAll('div[data-bs-toggle="tooltip"]'))
+        .forEach((tooltipNode) => new Tooltip(tooltipNode));
+    },
   },
   created() {
     this.trip = { ...this.initTrip };
+  },
+  updated() {
+    this.initToolTip();
   },
 };
 </script>
