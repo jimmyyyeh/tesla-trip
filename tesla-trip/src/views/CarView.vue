@@ -31,7 +31,7 @@
             </select>
           </div>
           <div class="spec-selector selector" v-show="carInfo.model !== '請選擇'">
-            <label class="selector-label" for="specs">* 規格:</label>
+            <label class="selector-label" for="specs">- 規格:</label>
             <select name="specs" id="specs" v-model="carInfo.spec">
               <option v-for="(spec, index) in specs[carInfo.model]" :key="index" :value="spec">{{
                   spec

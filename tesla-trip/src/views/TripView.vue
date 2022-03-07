@@ -255,6 +255,7 @@ export default {
       Object.keys(this.filter).forEach((key) => {
         this.filter[key] = '請選擇';
       });
+      this.filter.isMyTrip = '0';
     },
     initData() {
       this.getCars();
