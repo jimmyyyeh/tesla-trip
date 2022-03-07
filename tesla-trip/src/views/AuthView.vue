@@ -4,60 +4,107 @@
     <form class="container" v-show="!isSignIn">
       <div v-if="isNewUser" class="sign-up-form">
         <div class="username column">
-          <label class="input-label" for="sign-up-username">使用者名稱:</label>
-          <input type="text" id="sign-up-username" v-model="signUpUser.username">
-          <label class="validate-label" v-show="signUpValidateMap.username">請輸入使用者名稱</label>
+          <div class="input">
+            <label class="input-label" for="sign-up-username">使用者名稱:</label>
+            <input type="text" id="sign-up-username" v-model="signUpUser.username">
+          </div>
+          <div class="validate-label"
+               :style="{visibility: signUpValidateMap.username ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者名稱"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="password column">
-          <label class="input-label" for="sign-up-password">密碼:</label>
-          <input type="password" id="sign-up-password" autocomplete="true"
-                 v-model="signUpUser.password">
-          <label class="validate-label" v-show="signUpValidateMap.password">請輸入密碼</label>
+          <div class="input">
+            <label class="input-label" for="sign-up-password">密碼:</label>
+            <input type="password" id="sign-up-password" autocomplete="true"
+                   v-model="signUpUser.password">
+          </div>
+          <div class="validate-label"
+               :style="{visibility: signUpValidateMap.password ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者密碼"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="confirm-password column">
+          <div class="input">
           <label class="input-label" for="confirm-password">確認密碼:</label>
           <input type="password" id="confirm-password" autocomplete="true"
                  v-model="signUpUser.confirmPassword">
-          <label class="validate-label" v-show="signUpValidateMap.confirmPassword">兩次密碼不符</label>
+          </div>
+          <div class="validate-label"
+               :style="{visibility: signUpValidateMap.confirmPassword ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="兩次密碼不符"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="nickname column">
-          <label class="input-label" for="nickname">暱稱:</label>
-          <input type="text" id="nickname" v-model="signUpUser.nickname">
+          <div class="input">
+            <label class="input-label" for="nickname">暱稱:</label>
+            <input type="text" id="nickname" v-model="signUpUser.nickname">
+          </div>
         </div>
         <div class="email column">
+          <div class="input">
           <label class="input-label" for="email">電子郵件:</label>
           <input type="text" id="email" v-model="signUpUser.email">
-          <label class="validate-label" v-show="signUpValidateMap.email">請輸入電子郵件</label>
+          </div>
+          <div class="validate-label"
+               :style="{visibility: signUpValidateMap.email ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入電子郵件"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="birthday column">
-          <label class="input-label" for="birthday">生日:</label>
-          <input type="date" id="birthday" v-model="signUpUser.birthday">
+          <div class="input">
+            <label class="input-label" for="birthday">生日:</label>
+            <input type="date" id="birthday" v-model="signUpUser.birthday">
+          </div>
         </div>
         <div class="sex column">
-          <label class="input-label">性別:</label>
-          <div>
-            <input type="radio" name="sex" value="1" v-model="signUpUser.sex"/>
+          <div class="input">
+            <label class="input-label">性別:</label>
+            <input class="input-radio" type="radio" name="sex" value="1" v-model="signUpUser.sex"/>
             <label class="radio-label">男</label>
-            <input type="radio" name="sex" value="2" v-model="signUpUser.sex"/>
+            <input class="input-radio" type="radio" name="sex" value="2" v-model="signUpUser.sex"/>
             <label class="radio-label">女</label>
           </div>
         </div>
         <div class="button-group">
+          <button class="default-button" @click="isNewUser=false">登入</button>
           <button v-if="isSignUpFormValidated" class="default-button" @click="signUp">註冊</button>
           <button v-else class="default-button" disabled>註冊</button>
         </div>
       </div>
       <form v-else class="sign-in-form">
         <div class="username column">
-          <label class="input-label" for="sign-in-username">使用者名稱:</label>
-          <input type="text" id="sign-in-username" v-model="signInUser.username">
-          <label class="validate-label" v-show="signInValidateMap.username">請輸入使用者名稱</label>
+          <div class="input">
+            <label class="input-label" for="sign-in-username">使用者名稱:</label>
+            <input type="text" id="sign-in-username" v-model="signInUser.username">
+          </div>
+          <div class="validate-label"
+               :style="{visibility: signInValidateMap.username ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者名稱"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="password column">
-          <label class="input-label" for="sign-in-password">密碼:</label>
-          <input type="password" id="sign-in-password" autocomplete="true"
-                 v-model="signInUser.password">
-          <label class="validate-label" v-show="signInValidateMap.password">請輸入密碼</label>
+          <div class="input">
+            <label class="input-label" for="sign-in-password">密碼:</label>
+            <input type="password" id="sign-in-password" autocomplete="true"
+                   v-model="signInUser.password">
+          </div>
+          <div class="validate-label"
+               :style="{visibility: signInValidateMap.password ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者密碼"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="button-group">
           <button v-if="isSignInFormValidated" class="default-button" @click="signIn">登入</button>
@@ -70,11 +117,13 @@
 </template>
 <script>
 import authMixins from '@/mixins/authMixins';
+import { Tooltip } from 'bootstrap';
 
 export default {
   mixins: [authMixins],
   data() {
     return {
+      test: true,
       isNewUser: false,
       signUpUser: {
         username: null,
@@ -195,11 +244,18 @@ export default {
           }
         });
     },
+    initToolTip() {
+      Array.from(document.querySelectorAll('div[data-bs-toggle="tooltip"]'))
+        .forEach((tooltipNode) => new Tooltip(tooltipNode));
+    },
   },
   mounted() {
     if (this.isSignIn) {
       this.signOut();
     }
+  },
+  updated() {
+    this.initToolTip();
   },
 };
 </script>
