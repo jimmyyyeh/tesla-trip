@@ -73,7 +73,7 @@ export default {
         nickname: null,
         email: null,
         birthday: null,
-        sex: '0',
+        sex: 1,
         point: 0,
       },
       validateMap: {
@@ -108,8 +108,6 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.refreshToken(response.data, response.data.error_code);
-            this.getProfile();
           }
         });
     },
@@ -128,7 +126,7 @@ export default {
               confirmButtonColor: '#646566',
             }).then(() => {
               this.user = res.data.data;
-              this.setUpAuth();
+              this.getProfile();
             });
           }
         })
@@ -136,14 +134,14 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.refreshToken(response.data, response.data.error_code);
-            this.updateProfile();
           }
         });
     },
   },
   mounted() {
-    this.getProfile();
+    if (this.isSignIn) {
+      this.getProfile();
+    }
   },
   updated() {
     initToolTip();

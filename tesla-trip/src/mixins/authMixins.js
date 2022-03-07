@@ -1,12 +1,10 @@
 import Cookies from 'js-cookie';
-import { ErrorCode } from '@/assets/constant/constant';
 
 export default {
   data() {
     return {
       user: null,
       isSignIn: false,
-      token: null,
       config: null,
       signInRequiredPage: ['car', 'profile', 'trip'],
     };
@@ -16,10 +14,9 @@ export default {
       const signInCookie = Cookies.get('tesla-trip-sign-in');
       this.isSignIn = true;
       this.user = JSON.parse(signInCookie);
-      this.token = this.user.token;
       this.config = {
         headers: {
-          Authorization: this.token,
+          Authorization: this.user.token,
         },
       };
     },
@@ -45,30 +42,37 @@ export default {
         }
       } else {
         this.initAuth();
+        this.refreshToken();
       }
     },
-    refreshToken(data, errorCode) {
-      if (errorCode !== ErrorCode.TOKEN_EXPIRED) {
-        console.log(data);
-      } else {
-        const url = `${process.env.VUE_APP_API}/refresh-token`;
-        const payload = {
-          refresh_token: this.user.refresh_token,
-        };
-        this.$http.post(url, payload)
-          .then((res) => {
-            if (res.status === 200) {
-              this.user = res.data.data;
-              this.setUpAuth();
-            }
-          })
-          .catch((error) => {
-            const response = error.response;
-            if (response) {
-              console.log(response.data);
-            }
-          });
-      }
+    refreshToken() {
+      const url = `${process.env.VUE_APP_API}/refresh-token`;
+      const payload = {
+        refresh_token: this.user.refresh_token,
+      };
+      this.$http.post(url, payload)
+        .then((res) => {
+          if (res.status === 200) {
+            this.user = res.data.data;
+            this.setUpAuth();
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+            this.$dialog.alert({
+              message: '授權逾時',
+              confirmButtonText: '確認',
+              confirmButtonColor: '#646566',
+            }).then(() => {
+              Cookies.remove('tesla-trip-sign-in');
+              this.$router.push('/');
+            }).catch(() => {
+              this.$router.push('/');
+            });
+          }
+        });
     },
     signOut() {
       this.$dialog.alert({

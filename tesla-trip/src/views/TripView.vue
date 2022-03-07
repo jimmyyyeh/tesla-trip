@@ -161,7 +161,6 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.refreshToken(response.data, response.data.error_code);
           }
         });
     },
@@ -198,8 +197,6 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.refreshToken(response.data, response.data.error_code);
-            this.getTrips(page);
           }
         });
     },
@@ -219,7 +216,6 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.refreshToken(response.data, response.data.error_code);
           }
         });
     },
@@ -243,7 +239,6 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.refreshToken(response.data, response.data.error_code);
           }
         });
     },

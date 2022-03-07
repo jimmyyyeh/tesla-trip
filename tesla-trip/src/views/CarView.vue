@@ -138,8 +138,6 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.refreshToken(response.data, response.data.error_code);
-            this.getCars(carID);
           }
         });
     },
@@ -173,8 +171,7 @@ export default {
         .catch((error) => {
           const response = error.response;
           if (response) {
-            this.refreshToken(response.data, response.data.error_code);
-            this.upsertCar();
+            console.log(response.data);
           }
         });
     },
