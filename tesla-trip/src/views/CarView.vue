@@ -14,22 +14,15 @@
             <button class="default-button" v-show="!isCarInfoShow"
                     @click="isCarInfoShow=!isCarInfoShow">+
             </button>
-            <button class="default-button" v-show="isCarInfoShow" @click="removeCar"> 刪除</button>
-            <button v-if="isValidate" class="default-button" v-show="isCarInfoShow"
-                    @click="upsertCar">{{ carID ? '更新' : '新增' }}
-            </button>
-            <button v-else class="default-button" disabled v-show="isCarInfoShow" @click="upsertCar">
-              {{ carID ? '更新' : '新增' }}
-            </button>
           </div>
         </div>
         <div class="car-info" v-show="isCarInfoShow">
           <div class="manufacture-date-selector selector">
-            <label class="selector-label" for="manufacture-date">* 出廠日期:</label>
+            <label class="selector-label" for="manufacture-date">- 出廠日期:</label>
             <input type="date" id="manufacture-date" v-model="carInfo.manufactureDate">
           </div>
           <div class="model-selector selector">
-            <label class="selector-label" for="models">* 型號:</label>
+            <label class="selector-label" for="models">- 型號:</label>
             <select name="models" id="models" v-model="carInfo.model">
               <option v-for="(model, index) in models" :key="index" :value="model">{{
                   model
@@ -45,6 +38,15 @@
                 }}
               </option>
             </select>
+          </div>
+          <div class="button-group">
+            <button class="default-button" v-show="isCarInfoShow" @click="removeCar"> 刪除</button>
+            <button v-if="isValidate" class="default-button" v-show="isCarInfoShow"
+                    @click="upsertCar">{{ carID ? '更新' : '新增' }}
+            </button>
+            <button v-else class="default-button" disabled v-show="isCarInfoShow" @click="upsertCar">
+              {{ carID ? '更新' : '新增' }}
+            </button>
           </div>
         </div>
       </div>
