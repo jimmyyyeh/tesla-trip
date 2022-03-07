@@ -140,8 +140,7 @@
 
 <script>
 import modalMixins from '@/mixins/modalMixins';
-import { Tooltip } from 'bootstrap';
-import { formatDate } from '@/utils/tools';
+import { formatDate, initToolTip } from '@/utils/tools';
 
 export default {
   mixins: [modalMixins],
@@ -284,16 +283,12 @@ export default {
         this.createTrip();
       }).catch(() => 0);
     },
-    initToolTip() {
-      Array.from(document.querySelectorAll('div[data-bs-toggle="tooltip"]'))
-        .forEach((tooltipNode) => new Tooltip(tooltipNode));
-    },
   },
   created() {
     this.trip = { ...this.initTrip };
   },
   updated() {
-    this.initToolTip();
+    initToolTip();
   },
 };
 </script>

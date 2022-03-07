@@ -117,8 +117,7 @@
 </template>
 <script>
 import authMixins from '@/mixins/authMixins';
-import { Tooltip } from 'bootstrap';
-import { formatDate } from '@/utils/tools';
+import { formatDate, initToolTip } from '@/utils/tools';
 
 export default {
   mixins: [authMixins],
@@ -236,10 +235,6 @@ export default {
           }
         });
     },
-    initToolTip() {
-      Array.from(document.querySelectorAll('div[data-bs-toggle="tooltip"]'))
-        .forEach((tooltipNode) => new Tooltip(tooltipNode));
-    },
   },
   mounted() {
     if (this.isSignIn) {
@@ -247,7 +242,7 @@ export default {
     }
   },
   updated() {
-    this.initToolTip();
+    initToolTip();
   },
 };
 </script>

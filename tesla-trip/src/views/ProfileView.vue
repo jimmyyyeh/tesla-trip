@@ -4,32 +4,57 @@
     <div class="container">
       <div class="profile-form">
         <div class="username column">
-          <label class="input-label">使用者名稱:</label>
-          <label class="input-label">{{ profile.username }}</label>
+          <div class="input">
+            <label class="input-label">使用者名稱:</label>
+            <label class="input-label">{{ profile.username }}</label>
+          </div>
         </div>
         <div class="birthday column">
-          <label class="input-label">生日:</label>
-          <label class="input-label">{{ profile.birthday }}</label>
+          <div class="input">
+            <label class="input-label">生日:</label>
+            <label class="input-label">{{ profile.birthday }}</label>
+          </div>
         </div>
         <div class="sex column">
-          <label class="input-label">性別:</label>
-          <label class="input-label">{{ profile.sex === 1 ? '男' : '女' }}</label>
+          <div class="input">
+            <label class="input-label">性別:</label>
+            <label class="input-label">{{ profile.sex === 1 ? '男' : '女' }}</label>
+          </div>
         </div>
         <div class="point column">
-          <label class="input-label">積分:</label>
-          <label class="input-label">{{ profile.point }}</label>
+          <div class="input">
+            <label class="input-label">積分:</label>
+            <label class="input-label">{{ profile.point }}</label>
+          </div>
         </div>
         <hr>
         <div class="nickname column">
-          <label class="input-label">暱稱:</label>
-          <input type="text" v-model="profile.nickname">
+          <div class="input">
+            <label class="input-label">暱稱:</label>
+            <input type="text" v-model="profile.nickname">
+          </div>
+          <div class="validate-label"
+               :style="{visibility: validateMap.nickname ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入暱稱"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="email column">
-          <label class="input-label">電子郵件:</label>
-          <input type="text" v-model="profile.email">
+          <div class="input">
+            <label class="input-label">電子郵件:</label>
+            <input type="text" v-model="profile.email">
+          </div>
+          <div class="validate-label"
+               :style="{visibility: validateMap.email ? 'visible' : 'hidden'}"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入電子郵件"
+          >
+            &#9432;
+          </div>
         </div>
         <div class="button-group">
-          <button class="default-button" @click="updateProfile">更新</button>
+          <button v-if="isProfileFormValidated" class="default-button" @click="updateProfile">更新</button>
+          <button v-else class="default-button" disabled>更新</button>
         </div>
       </div>
     </div>
@@ -37,6 +62,7 @@
 </template>
 <script>
 import authMixins from '@/mixins/authMixins';
+import { initToolTip } from '@/utils/tools';
 
 export default {
   mixins: [authMixins],
@@ -50,7 +76,24 @@ export default {
         sex: '0',
         point: 0,
       },
+      validateMap: {
+        nickname: false,
+        email: false,
+      },
     };
+  },
+  computed: {
+    isProfileFormValidated() {
+      return !this.validateMap.nickname && !this.validateMap.email;
+    },
+  },
+  watch: {
+    'profile.nickname': function () {
+      this.validateMap.nickname = this.profile.nickname === '';
+    },
+    'profile.email': function () {
+      this.validateMap.email = this.profile.email === '';
+    },
   },
   methods: {
     getProfile() {
@@ -65,6 +108,8 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
+            this.refreshToken(response.data, response.data.error_code);
+            this.getProfile();
           }
         });
     },
@@ -99,6 +144,9 @@ export default {
   },
   mounted() {
     this.getProfile();
+  },
+  updated() {
+    initToolTip();
   },
 };
 </script>

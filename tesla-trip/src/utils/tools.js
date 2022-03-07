@@ -1,3 +1,5 @@
+import { Tooltip } from 'bootstrap';
+
 function formatDate(date_) {
   if (typeof date_ === 'string') {
     return date_;
@@ -21,4 +23,9 @@ function formatUrl(originUrl, filter) {
   return url;
 }
 
-export { formatDate, formatUrl };
+function initToolTip() {
+  Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    .forEach((tooltipNode) => new Tooltip(tooltipNode));
+}
+
+export { formatDate, formatUrl, initToolTip };

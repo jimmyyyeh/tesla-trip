@@ -94,8 +94,7 @@
 import authMixins from '@/mixins/authMixins';
 import TripModal from '@/components/TripModal.vue';
 import PaginateComponent from '@/components/PaginateComponent.vue';
-import { formatUrl } from '@/utils/tools';
-import { Tooltip } from 'bootstrap';
+import { formatUrl, initToolTip } from '@/utils/tools';
 
 export default {
   mixins: [authMixins],
@@ -263,10 +262,6 @@ export default {
       this.getChargers();
       this.getAreas();
     },
-    initToolTip() {
-      Array.from(document.querySelectorAll('td[data-bs-toggle="tooltip"]'))
-        .forEach((tooltipNode) => new Tooltip(tooltipNode));
-    },
     showTripModal() {
       const refs = this.$refs;
       refs.tripModal.showModal();
@@ -279,7 +274,7 @@ export default {
     this.initData();
   },
   updated() {
-    this.initToolTip();
+    initToolTip();
   },
 };
 </script>
