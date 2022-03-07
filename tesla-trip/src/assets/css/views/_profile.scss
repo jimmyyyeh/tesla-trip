@@ -7,14 +7,7 @@
       width: 90%;
     }
     .profile-form {
-      background-color: transparent;
-      border: $main-color 1px solid;
-      border-radius: 5px;
-      box-shadow: 3px 3px 12px $main-color;
-      margin: 10% 0 0 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      @include form;
 
       .column {
         display: flex;

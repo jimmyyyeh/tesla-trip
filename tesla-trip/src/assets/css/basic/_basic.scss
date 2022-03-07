@@ -12,6 +12,17 @@ $disabled-color: #C4E1FF;
   align-items: center;
 }
 
+@mixin form {
+  background-color: transparent;
+  border: $main-color 1px solid;
+  border-radius: 5px;
+  box-shadow: 3px 3px 12px $main-color;
+  margin: 10% 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .wrap {
   background: rgba(255, 255, 255, 0.8) url('https://i.imgur.com/mhuHPIG.png') no-repeat fixed;
   background-size: cover;
