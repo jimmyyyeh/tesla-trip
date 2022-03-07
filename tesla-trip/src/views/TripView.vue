@@ -94,6 +94,7 @@
 import authMixins from '@/mixins/authMixins';
 import TripModal from '@/components/TripModal.vue';
 import PaginateComponent from '@/components/PaginateComponent.vue';
+import { formatUrl } from '@/utils/tools';
 import { Tooltip } from 'bootstrap';
 
 export default {
@@ -143,20 +144,6 @@ export default {
     },
   },
   methods: {
-    formatUrl(originUrl, filter) {
-      // TODO 共用
-      let url = originUrl;
-      Object.keys(filter).forEach((key) => {
-        if (filter[key]) {
-          if (url.includes('?')) {
-            url = `${url}&${key}=${filter[key]}`;
-          } else {
-            url = `${url}?${key}=${filter[key]}`;
-          }
-        }
-      });
-      return url;
-    },
     getCars() {
       const url = `${process.env.VUE_APP_API}/car`;
       this.$http.get(url, this.config)
@@ -199,7 +186,7 @@ export default {
       }
       const queryFilter = this.getTripsFilter();
       queryFilter.page = page;
-      url = this.formatUrl(url, queryFilter);
+      url = formatUrl(url, queryFilter);
       this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {

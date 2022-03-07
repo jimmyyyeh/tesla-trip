@@ -20,5 +20,6 @@ module.exports = {
     'vuejs-accessibility/label-has-for': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vuejs-accessibility/form-control-has-label': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vuejs-accessibility/click-events-have-key-events': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'import/prefer-default-export': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 };

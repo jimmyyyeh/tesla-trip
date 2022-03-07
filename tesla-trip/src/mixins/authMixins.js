@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { ErrorCode } from '@/assets/constant/constant';
 
 export default {
   data() {
@@ -47,7 +48,7 @@ export default {
       }
     },
     refreshToken(data, errorCode) {
-      if (errorCode !== 1005) {
+      if (errorCode !== ErrorCode.TOKEN_EXPIRED) {
         console.log(data);
       } else {
         const url = `${process.env.VUE_APP_API}/refresh-token`;

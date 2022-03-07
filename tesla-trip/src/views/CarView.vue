@@ -56,6 +56,7 @@
 
 <script>
 import authMixins from '@/mixins/authMixins';
+import { formatDate } from '@/utils/tools';
 
 export default {
   mixins: [authMixins],
@@ -71,7 +72,7 @@ export default {
       carInfo: {
         model: '請選擇',
         spec: '請選擇',
-        manufactureDate: this.formatDate(new Date()),
+        manufactureDate: formatDate(new Date()),
       },
       models: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
       specs: {
@@ -89,7 +90,7 @@ export default {
         this.carInfo = {
           model: '請選擇',
           spec: '請選擇',
-          manufactureDate: this.formatDate(new Date()),
+          manufactureDate: formatDate(new Date()),
         };
       } else {
         this.carID = this.carMap[value - 1];
@@ -107,15 +108,6 @@ export default {
     },
   },
   methods: {
-    formatDate(date_) {
-      // TODO 共用
-      if (typeof date_ === 'string') {
-        return date_;
-      }
-      const month = `${date_.getMonth() + 1}`.padStart(2, '0');
-      const day = `${date_.getDate()}`.padStart(2, '0');
-      return `${date_.getFullYear()}-${month}-${day}`;
-    },
     getCars(carID) {
       let url = `${process.env.VUE_APP_API}/car`;
       if (carID) {

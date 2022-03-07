@@ -118,6 +118,7 @@
 <script>
 import authMixins from '@/mixins/authMixins';
 import { Tooltip } from 'bootstrap';
+import { formatDate } from '@/utils/tools';
 
 export default {
   mixins: [authMixins],
@@ -131,7 +132,7 @@ export default {
         confirmPassword: null,
         nickname: null,
         email: null,
-        birthday: this.formatDate(new Date()),
+        birthday: formatDate(new Date()),
         sex: '1',
       },
       signUpValidateMap: {
@@ -181,15 +182,6 @@ export default {
     },
   },
   methods: {
-    formatDate(date_) {
-      // TODO 共用
-      if (typeof date_ === 'string') {
-        return date_;
-      }
-      const month = `${date_.getMonth() + 1}`.padStart(2, '0');
-      const day = `${date_.getDate()}`.padStart(2, '0');
-      return `${date_.getFullYear()}-${month}-${day}`;
-    },
     signIn() {
       const url = `${process.env.VUE_APP_API}/sign-in`;
       this.$http.post(url, this.signInUser)

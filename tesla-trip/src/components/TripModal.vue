@@ -141,6 +141,7 @@
 <script>
 import modalMixins from '@/mixins/modalMixins';
 import { Tooltip } from 'bootstrap';
+import { formatDate } from '@/utils/tools';
 
 export default {
   mixins: [modalMixins],
@@ -164,7 +165,7 @@ export default {
         isCharge: '0',
         charge: 0,
         fee: 0,
-        tripDate: this.formatDate(new Date()),
+        tripDate: formatDate(new Date()),
       },
       validateMap: {
         car: false,
@@ -225,15 +226,6 @@ export default {
     },
   },
   methods: {
-    formatDate(date_) {
-      // TODO 共用
-      if (typeof date_ === 'string') {
-        return date_;
-      }
-      const month = `${date_.getMonth() + 1}`.padStart(2, '0');
-      const day = `${date_.getDate()}`.padStart(2, '0');
-      return `${date_.getFullYear()}-${month}-${day}`;
-    },
     insertTrip() {
       const trip = {
         car_id: this.trip.car_id,
