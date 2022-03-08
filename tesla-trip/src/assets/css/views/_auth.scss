@@ -2,33 +2,8 @@
 
 .wrap {
   .container {
-    .sign-in-form, .sign-up-form {
+    .sign-in-form, .sign-up-form, .forget-password-form {
       @include form;
-
-      .column {
-        display: flex;
-        justify-content: flex-start;
-        margin: 10px;
-        padding: 0 0 0 10px;
-        width: 100%;
-
-        .input {
-          .input-label {
-            width: 10em;
-          }
-
-          .radio-label {
-            color: $main-color;
-            margin: 0 5px 0 5px;
-          }
-        }
-      }
-
-      .button-group {
-        button {
-          margin: 10px;
-        }
-      }
     }
   }
 }

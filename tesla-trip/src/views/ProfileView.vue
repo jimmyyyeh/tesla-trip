@@ -89,7 +89,7 @@ export default {
   },
   computed: {
     isProfileFormValidated() {
-      return !this.validateMap.nickname && !this.validateMap.email;
+      return !Object.values(this.validateMap).includes(true) && !Object.values(this.profile).includes('');
     },
   },
   watch: {

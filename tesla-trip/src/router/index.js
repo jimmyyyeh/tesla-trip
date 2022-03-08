@@ -31,6 +31,16 @@ const routes = [
     name: 'auth',
     component: () => import('../views/AuthView.vue'),
   },
+  {
+    path: '/resetPassword/:token',
+    name: 'resetPassword',
+    component: () => import('../views/ResetPasswordView.vue'),
+  },
+  {
+    path: '/verify/:token',
+    name: 'verify',
+    component: () => import('../views/VerifyView.vue'),
+  },
 ];
 
 const router = createRouter({
