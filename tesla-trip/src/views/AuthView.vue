@@ -181,20 +181,51 @@ export default {
     },
   },
   methods: {
+    sendVerifyEmail() {
+      const url = `${process.env.VUE_APP_API}/resend-verify`;
+      const payload = {
+        username: this.signInUser.username,
+      };
+      this.$http.post(url, payload).then((res) => {
+        if (res.status === 200) {
+          this.$dialog.alert({
+            message: '請收取驗證信件以開通',
+            confirmButtonText: '確認',
+            confirmButtonColor: '#646566',
+          }).then(() => {
+            this.$router.push('/');
+          });
+        }
+      }).catch((error) => {
+        const response = error.response;
+        console.log(response.data);
+      });
+    },
     signIn() {
       const url = `${process.env.VUE_APP_API}/sign-in`;
       this.$http.post(url, this.signInUser)
         .then((res) => {
           if (res.status === 200) {
-            this.$dialog.alert({
-              message: '登入成功',
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => {
-              this.user = res.data.data;
-              this.setUpAuth();
-              this.$router.push('/');
-            });
+            const user = res.data.data;
+            if (user.is_verified) {
+              this.$dialog.alert({
+                message: '登入成功',
+                confirmButtonText: '確認',
+                confirmButtonColor: '#646566',
+              }).then(() => {
+                this.user = res.data.data;
+                this.setUpAuth();
+                this.$router.push('/');
+              });
+            } else {
+              this.$dialog.alert({
+                message: '尚未驗證 請進行email驗證',
+                confirmButtonText: '發送驗證信',
+                confirmButtonColor: '#646566',
+              }).then(() => {
+                this.sendVerifyEmail();
+              });
+            }
           }
         })
         .catch((error) => {
@@ -215,7 +246,7 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.$dialog.alert({
-              message: '註冊成功 請重新登入',
+              message: '註冊成功 請收取驗證信件以開通',
               confirmButtonText: '確認',
               confirmButtonColor: '#646566',
             }).then(() => {
