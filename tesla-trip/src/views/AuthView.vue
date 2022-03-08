@@ -10,7 +10,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: signUpValidateMap.username ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者名稱"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.username"
           >
             &#9432;
           </div>
@@ -23,7 +23,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: signUpValidateMap.password ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者密碼"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.password"
           >
             &#9432;
           </div>
@@ -36,7 +36,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: signUpValidateMap.confirmPassword ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="兩次密碼不符"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.confirmPassword"
           >
             &#9432;
           </div>
@@ -54,7 +54,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: signUpValidateMap.email ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入電子郵件"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.email"
           >
             &#9432;
           </div>
@@ -88,7 +88,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: signInValidateMap.username ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者名稱"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signInValidateMsg.username"
           >
             &#9432;
           </div>
@@ -101,7 +101,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: signInValidateMap.password ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入使用者密碼"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signInValidateMsg.password"
           >
             &#9432;
           </div>
@@ -118,6 +118,7 @@
 <script>
 import authMixins from '@/mixins/authMixins';
 import { formatDate, initToolTip } from '@/utils/tools';
+import { Pattern } from '@/assets/constant/constant';
 
 export default {
   mixins: [authMixins],
@@ -148,6 +149,16 @@ export default {
         username: false,
         password: false,
       },
+      signInValidateMsg: {
+        username: '請輸入使用者名稱',
+        password: '請輸入密碼',
+      },
+      signUpValidateMsg: {
+        username: '請輸入使用者名稱',
+        password: '請輸入密碼',
+        confirmPassword: '密碼不一致',
+        email: '請輸入電子郵件',
+      },
     };
   },
   watch: {
@@ -168,7 +179,12 @@ export default {
       this.signUpValidateMap.confirmPassword = this.signUpUser.confirmPassword !== this.signUpUser.password;
     },
     'signUpUser.email': function () {
-      this.signUpValidateMap.email = this.signUpUser.email === '';
+      if (this.signUpUser.email === '') {
+        this.signUpValidateMap.email = '請輸入電子郵件';
+      } else if (!this.signUpUser.email.match(Pattern.EMAIL)) {
+        this.signUpValidateMap.email = '電子郵件格式不符';
+      }
+      this.signUpValidateMap.email = this.signUpUser.email === '' || !this.signUpUser.email.match(Pattern.EMAIL);
     },
 
   },

@@ -35,7 +35,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: validateMap.nickname ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入暱稱"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="validateMsg.nickname"
           >
             &#9432;
           </div>
@@ -47,7 +47,7 @@
           </div>
           <div class="validate-label"
                :style="{visibility: validateMap.email ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="請輸入電子郵件"
+               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="validateMsg.email"
           >
             &#9432;
           </div>
@@ -63,6 +63,7 @@
 <script>
 import authMixins from '@/mixins/authMixins';
 import { initToolTip } from '@/utils/tools';
+import { Pattern } from '@/assets/constant/constant';
 
 export default {
   mixins: [authMixins],
@@ -80,6 +81,10 @@ export default {
         nickname: false,
         email: false,
       },
+      validateMsg: {
+        nickname: '請輸入暱稱',
+        email: '請輸入電子郵件',
+      },
     };
   },
   computed: {
@@ -92,7 +97,12 @@ export default {
       this.validateMap.nickname = this.profile.nickname === '';
     },
     'profile.email': function () {
-      this.validateMap.email = this.profile.email === '';
+      if (this.profile.email === '') {
+        this.validateMsg.email = '請輸入電子郵件';
+      } else if (!this.profile.email.match(Pattern.EMAIL)) {
+        this.validateMsg.email = '電子郵件格式不符';
+      }
+      this.validateMap.email = this.profile.email === '' || !this.profile.email.match(Pattern.EMAIL);
     },
   },
   methods: {
