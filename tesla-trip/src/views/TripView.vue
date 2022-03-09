@@ -10,9 +10,9 @@
           <div class="my-trip-selector selector">
             <label class="selector-label">我的旅程:</label>
             <div class="radio-group">
-              <input type="radio" name="is-my-trip" value="1" v-model="filter.isMyTrip"/>
+              <input type="radio" name="is-my-trip" value="1" v-model="filter.is_my_trip"/>
               <label class="radio-label">是</label>
-              <input type="radio" name="is-my-trip" value="0" v-model="filter.isMyTrip"/>
+              <input type="radio" name="is-my-trip" value="0" v-model="filter.is_my_trip"/>
               <label class="radio-label">否</label>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default {
         end: '請選擇',
         model: '請選擇',
         spec: '請選擇',
-        isMyTrip: '0',
+        is_my_trip: '0',
       },
     };
   },
@@ -204,9 +204,6 @@ export default {
     },
     getTrips(page) {
       let url = `${process.env.VUE_APP_API}/trip`;
-      if (this.filter.isMyTrip === '1') {
-        url = `${url}/${this.user.id}`;
-      }
       const queryFilter = this.getTripsFilter();
       queryFilter.page = page;
       url = formatUrl(url, queryFilter);
@@ -292,7 +289,7 @@ export default {
       Object.keys(this.filter).forEach((key) => {
         this.filter[key] = '請選擇';
       });
-      this.filter.isMyTrip = '0';
+      this.filter.is_my_trip = '0';
     },
     initData() {
       this.getCars();
