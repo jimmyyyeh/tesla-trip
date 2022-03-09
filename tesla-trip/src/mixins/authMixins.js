@@ -76,7 +76,8 @@ export default {
         });
     },
     signOut() {
-      this.$dialog.alert({
+      this.$dialog.confirm({
+        title: '登出',
         message: '確定要登出嗎',
         showCancelButton: true,
         confirmButtonText: '確認',

@@ -273,6 +273,7 @@ export default {
     },
     confirmCreateTrip() {
       this.$dialog.confirm({
+        title: '新增里程',
         message: '確定要新增里程嗎?',
         confirmButtonText: '確認',
         cancelButtonText: '取消',
