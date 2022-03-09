@@ -2,7 +2,7 @@
   <NavTab></NavTab>
   <div class="wrap">
     <div class="container">
-      <form class="reset-password-form">
+      <div class="reset-password-form">
         <div class="username column">
           <div class="input">
             <label class="input-label" for="sign-up-username">使用者名稱:</label>
@@ -45,9 +45,10 @@
           <button v-if="isResetPasswordFormValidated" class="default-button" @click="resetPassword">重設密碼</button>
           <button v-else class="default-button" disabled>發送重設信</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
+  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 
 <script>
@@ -58,6 +59,12 @@ export default {
   mixins: [authMixins],
   data() {
     return {
+      alert: {
+        title: '',
+        message: '',
+        isCancelShow: false,
+        confirmFunction: (() => {}),
+      },
       resetUser: {
         username: '',
         password: '',
@@ -93,6 +100,9 @@ export default {
     },
   },
   methods: {
+    returnAuth() {
+      this.$router.push('/auth');
+    },
     resetPassword() {
       const url = `${process.env.VUE_APP_API}/reset-password`;
       const payload = {
@@ -102,24 +112,20 @@ export default {
       };
       this.$http.post(url, payload).then((res) => {
         if (res.status === 200) {
-          this.$dialog.alert({
-            message: '重設密碼 請用新密碼登入',
-            confirmButtonText: '確認',
-            confirmButtonColor: '#646566',
-          }).then(() => {
-            this.$router.push('/auth');
-          });
+          const refs = this.$refs;
+          this.alert.title = null;
+          this.alert.message = '重設密碼成功 請使用新密碼登入';
+          this.alert.confirmFunction = this.returnAuth;
+          refs.alertModal.showModal();
         }
       }).catch((error) => {
         const response = error.response;
         console.log(response.data);
-        this.$dialog.alert({
-          message: '重設密碼錯誤 請重新操作',
-          confirmButtonText: '確認',
-          confirmButtonColor: '#646566',
-        }).then(() => {
-          this.$router.push('/auth');
-        });
+        const refs = this.$refs;
+        this.alert.title = null;
+        this.alert.message = '重設密碼錯誤 請重新操作';
+        this.alert.confirmFunction = this.returnAuth;
+        refs.alertModal.showModal();
       });
     },
   },

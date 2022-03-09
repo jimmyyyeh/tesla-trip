@@ -113,6 +113,7 @@
   <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers"
              :chargerMap="chargerMap" :areas="areas"
              :config="config"></TripModal>
+  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 
 <script>
@@ -129,6 +130,12 @@ export default {
   },
   data() {
     return {
+      alert: {
+        title: '',
+        message: '',
+        isCancelShow: false,
+        confirmFunction: (() => {}),
+      },
       pager: {
         page: 1,
         per_page: 10,

@@ -59,6 +59,7 @@
       </div>
     </div>
   </div>
+  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 <script>
 import authMixins from '@/mixins/authMixins';
@@ -69,6 +70,12 @@ export default {
   mixins: [authMixins],
   data() {
     return {
+      alert: {
+        title: '',
+        message: '',
+        isCancelShow: false,
+        confirmFunction: (() => {}),
+      },
       profile: {
         username: null,
         nickname: null,
@@ -130,14 +137,12 @@ export default {
       this.$http.put(url, payload, this.config)
         .then((res) => {
           if (res.status === 200) {
-            this.$dialog.alert({
-              message: '更新成功',
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => {
-              this.user = res.data.data;
-              this.getProfile();
-            });
+            this.user = res.data.data;
+            const refs = this.$refs;
+            this.alert.title = null;
+            this.alert.message = '更新成功';
+            this.alert.confirmFunction = this.getProfile;
+            refs.alertModal.showModal();
           }
         })
         .catch((error) => {

@@ -7,7 +7,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <form class="trip-form">
+          <div class="trip-form">
             <div class="car-selector selector column">
               <div class="input">
                 <label class="selector-label" for="cars">車輛:</label>
@@ -127,7 +127,7 @@
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
         <div class="modal-footer">
           <button v-if="isValidate" class="default-button" @click="insertTrip">送出</button>
@@ -136,6 +136,7 @@
       </div>
     </div>
   </div>
+  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 
 <script>
@@ -147,6 +148,12 @@ export default {
   props: ['cars', 'carMap', 'chargers', 'chargerMap', 'areas', 'config'],
   data() {
     return {
+      alert: {
+        title: '',
+        message: '',
+        isCancelShow: true,
+        confirmFunction: (() => {}),
+      },
       carIndex: 0,
       chargerIndex: 0,
       trips: [],
@@ -245,22 +252,22 @@ export default {
       this.trips.push(trip);
       this.confirmCreateTrip();
     },
+    resetTrip() {
+      this.trips = [];
+      this.trip = { ...this.initTrip };
+      this.chargerIndex = 0;
+      this.$parent.getTrips();
+    },
     createTrip() {
       const url = `${process.env.VUE_APP_API}/trip`;
       this.$http.post(url, this.trips, this.config)
         .then((res) => {
           if (res.status === 200) {
-            this.$dialog.alert({
-              message: '儲存旅程成功',
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => {
-              this.trips = [];
-              this.trip = { ...this.initTrip };
-              this.chargerIndex = 0;
-              this.$parent.getTrips();
-              this.hideModal();
-            });
+            this.$parent.alert.title = '成功';
+            this.$parent.alert.message = '儲存旅程成功';
+            this.$parent.alert.confirmFunction = this.resetTrip;
+            const refs = this.$parent.$refs;
+            refs.alertModal.showModal();
           }
         })
         .catch((error) => {
@@ -272,17 +279,12 @@ export default {
         });
     },
     confirmCreateTrip() {
-      this.$dialog.confirm({
-        title: '新增里程',
-        message: '確定要新增里程嗎?',
-        confirmButtonText: '確認',
-        cancelButtonText: '取消',
-        showCancelButton: true,
-        confirmButtonColor: '#646566',
-        cancelButtonColor: '#646566',
-      }).then(() => {
-        this.createTrip();
-      }).catch(() => 0);
+      this.hideModal();
+      const refs = this.$refs;
+      this.alert.title = '新增里程';
+      this.alert.message = '確定要新增里程嗎';
+      this.alert.confirmFunction = this.createTrip;
+      refs.alertModal.showModal();
     },
   },
   created() {

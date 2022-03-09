@@ -1,0 +1,24 @@
+@import "./src/assets/css/basic/basic";
+
+#alert-modal {
+  .modal-dialog{
+    @include centralize;
+    width: 100vw;
+    height: 50vh;
+    .modal-content {
+      width: 20vw;
+      border: $main-color 1px solid;
+      border-radius: 5px;
+      box-shadow: 3px 3px 12px $main-color;
+      .modal-header, .modal-body, .modal-footer {
+        border: none;
+        @include centralize;
+        .button-group {
+          .default-button{
+            margin: 0 10px 0 10px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <NavTab></NavTab>
   <div class="wrap" v-show="isSignIn">
     <div class="container">
-      <form class="car-form">
+      <div class="car-form">
         <div class="car-selector selector">
           <div class="car-group">
             <label class="selector-label" for="cars">車輛:</label>
@@ -12,9 +12,6 @@
           </div>
           <div class="button-group">
             <input type="button" class="create-button" v-show="!isCarInfoShow" @click="isCarInfoShow=!isCarInfoShow" value="+">
-<!--            <button class="default-button" v-show="!isCarInfoShow"-->
-<!--                    @click="isCarInfoShow=!isCarInfoShow">-->
-<!--            </button>-->
           </div>
         </div>
         <div class="car-info" v-show="isCarInfoShow">
@@ -41,18 +38,22 @@
             </select>
           </div>
           <div class="button-group">
-            <button class="default-button" v-show="isCarInfoShow && carID" @click="removeCar"> 刪除</button>
-            <button v-if="isValidate" class="default-button" v-show="isCarInfoShow"
-                    @click="upsertCar">{{ carID ? '更新' : '新增' }}
+            <button class="default-button" v-show="isCarInfoShow && carID" @click="confirmRemoveCar">刪除</button>
+            <button v-if="isValidate && carID" class="default-button" v-show="isCarInfoShow"
+                    @click="updateCar">更新
             </button>
-            <button v-else class="default-button" disabled v-show="isCarInfoShow" @click="upsertCar">
+            <button v-else-if="isValidate && !carID" class="default-button" v-show="isCarInfoShow"
+                    @click="insertCar">新增
+            </button>
+            <button v-else class="default-button" disabled v-show="isCarInfoShow">
               {{ carID ? '更新' : '新增' }}
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
+  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 
 <script>
@@ -63,6 +64,12 @@ export default {
   mixins: [authMixins],
   data() {
     return {
+      alert: {
+        title: '',
+        message: '',
+        isCancelShow: false,
+        confirmFunction: (() => {}),
+      },
       isValidate: false,
       isCarInfoShow: false,
       nickname: '',
@@ -78,9 +85,9 @@ export default {
       models: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
       specs: {
         ModelS: ['請選擇', 'Model S', 'Model S Plaid'],
-        Model3: ['請選擇', 'Real-Wheel Drive', 'Lone Range AWD', 'Performance'],
+        Model3: ['請選擇', 'Real-Wheel Drive', 'Long Range AWD', 'Performance'],
         ModelX: ['請選擇', 'Model X', 'Model X Plaid'],
-        ModelY: ['請選擇', 'Lone Range AWD', 'Performance'],
+        ModelY: ['請選擇', 'Long Range AWD', 'Performance'],
       },
     };
   },
@@ -142,31 +149,45 @@ export default {
           }
         });
     },
-    upsertCar() {
-      let url = `${process.env.VUE_APP_API}/car`;
-      let method = 'post';
-      let alertMsg = '新增成功';
-      if (this.carID) {
-        url = `${url}/${this.carID}`;
-        method = 'put';
-        alertMsg = '更新成功';
-      }
-
+    insertCar() {
+      const url = `${process.env.VUE_APP_API}/car`;
       const payload = {
         spec: this.carInfo.spec,
         model: this.carInfo.model,
         manufacture_date: this.carInfo.manufactureDate,
       };
-      this.$http[method](url, payload, this.config)
+      this.$http.post(url, payload, this.config)
         .then((res) => {
           if (res.status === 200) {
-            this.$dialog.alert({
-              message: alertMsg,
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => {
-              this.getCars();
-            });
+            const refs = this.$refs;
+            this.alert.title = null;
+            this.alert.message = '新增成功';
+            this.alert.confirmFunction = this.getCars;
+            refs.alertModal.showModal();
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
+    },
+    updateCar() {
+      const url = `${process.env.VUE_APP_API}/car/${this.carID}`;
+      const payload = {
+        spec: this.carInfo.spec,
+        model: this.carInfo.model,
+        manufacture_date: this.carInfo.manufactureDate,
+      };
+      this.$http.put(url, payload, this.config)
+        .then((res) => {
+          if (res.status === 200) {
+            const refs = this.$refs;
+            this.alert.title = null;
+            this.alert.message = '更新成功';
+            this.alert.confirmFunction = this.getCars;
+            refs.alertModal.showModal();
           }
         })
         .catch((error) => {
@@ -181,13 +202,7 @@ export default {
       this.$http.delete(url, this.config)
         .then((res) => {
           if (res.status === 200) {
-            this.$dialog.alert({
-              message: '刪除成功',
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => {
-              this.getCars();
-            });
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -196,6 +211,13 @@ export default {
             console.log(response.data);
           }
         });
+    },
+    confirmRemoveCar() {
+      const refs = this.$refs;
+      this.alert.title = '確認刪除';
+      this.alert.message = '確定要刪除車輛嗎?';
+      this.alert.confirmFunction = this.removeCar;
+      refs.alertModal.showModal();
     },
     initData() {
       this.getCars();

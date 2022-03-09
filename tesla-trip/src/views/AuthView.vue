@@ -2,7 +2,7 @@
   <NavTab></NavTab>
   <div class="wrap">
     <div class="container" v-show="!isSignIn">
-      <form v-if="isForgetPassword" class="forget-password-form">
+      <div v-if="isForgetPassword" class="forget-password-form">
         <div class="email column">
           <div class="input">
             <label class="input-label" for="forget-email">電子郵件:</label>
@@ -20,8 +20,8 @@
           <button v-if="isForgetPasswordFormValidated" class="default-button" @click="resetPassword">發送重設信</button>
           <button v-else class="default-button" disabled>發送重設信</button>
         </div>
-      </form>
-      <form v-else-if="isRegistered" class="sign-in-form">
+      </div>
+      <div v-else-if="isRegistered" class="sign-in-form">
         <div class="username column">
           <div class="input">
             <label class="input-label" for="sign-in-username">使用者名稱:</label>
@@ -53,8 +53,8 @@
           <button class="default-button" @click="isRegistered=false;isForgetPassword=false">註冊</button>
           <button class="default-button" @click="isRegistered=false;isForgetPassword=true">忘記密碼</button>
         </div>
-      </form>
-      <form v-else class="sign-up-form">
+      </div>
+      <div v-else class="sign-up-form">
         <div class="username column">
           <div class="input">
             <label class="input-label" for="sign-up-username">使用者名稱:</label>
@@ -131,9 +131,10 @@
           <button v-if="isSignUpFormValidated" class="default-button" @click="signUp">註冊</button>
           <button v-else class="default-button" disabled>註冊</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
+  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 <script>
 import authMixins from '@/mixins/authMixins';
@@ -144,6 +145,12 @@ export default {
   mixins: [authMixins],
   data() {
     return {
+      alert: {
+        title: '',
+        message: '',
+        isCancelShow: false,
+        confirmFunction: (() => {}),
+      },
       isForgetPassword: false,
       isRegistered: true,
       signUpUser: {
@@ -237,6 +244,9 @@ export default {
     },
   },
   methods: {
+    returnHome() {
+      this.$router.push('/');
+    },
     sendVerifyEmail() {
       const url = `${process.env.VUE_APP_API}/resend-verify`;
       const payload = {
@@ -244,13 +254,11 @@ export default {
       };
       this.$http.post(url, payload).then((res) => {
         if (res.status === 200) {
-          this.$dialog.alert({
-            message: '請收取驗證信件以開通',
-            confirmButtonText: '確認',
-            confirmButtonColor: '#646566',
-          }).then(() => {
-            this.$router.push('/');
-          });
+          const refs = this.$refs;
+          this.alert.title = '等待驗證';
+          this.alert.message = '請收取驗證信件以開通';
+          this.alert.confirmFunction = this.returnHome;
+          refs.alertModal.showModal();
         }
       }).catch((error) => {
         const response = error.response;
@@ -264,23 +272,19 @@ export default {
           if (res.status === 200) {
             const user = res.data.data;
             if (user.is_verified) {
-              this.$dialog.alert({
-                message: '登入成功',
-                confirmButtonText: '確認',
-                confirmButtonColor: '#646566',
-              }).then(() => {
-                this.user = res.data.data;
-                this.setUpAuth();
-                this.$router.push('/');
-              });
+              this.user = res.data.data;
+              this.setUpAuth();
+              const refs = this.$refs;
+              this.alert.title = null;
+              this.alert.message = '登入成功';
+              this.alert.confirmFunction = this.returnHome;
+              refs.alertModal.showModal();
             } else {
-              this.$dialog.alert({
-                message: '尚未驗證 請進行email驗證',
-                confirmButtonText: '發送驗證信',
-                confirmButtonColor: '#646566',
-              }).then(() => {
-                this.sendVerifyEmail();
-              });
+              const refs = this.$refs;
+              this.alert.title = '等待驗證';
+              this.alert.message = '尚未驗證 請至email確認驗證信';
+              this.alert.confirmFunction = this.sendVerifyEmail;
+              refs.alertModal.showModal();
             }
           }
         })
@@ -288,11 +292,11 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.$dialog.alert({
-              message: '登入失敗 請確認資訊',
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => 0);
+            const refs = this.$refs;
+            this.alert.title = '失敗';
+            this.alert.message = '登入失敗 請確認登入資訊';
+            this.alert.confirmFunction = (() => {});
+            refs.alertModal.showModal();
           }
         });
     },
@@ -301,24 +305,22 @@ export default {
       this.$http.post(url, this.signUpUser)
         .then((res) => {
           if (res.status === 200) {
-            this.$dialog.alert({
-              message: '註冊成功 請收取驗證信件以開通',
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => {
-              window.location.reload();
-            });
+            const refs = this.$refs;
+            this.alert.title = '等待驗證';
+            this.alert.message = '註冊成功 請至email確認驗證信';
+            this.alert.confirmFunction = this.returnHome;
+            refs.alertModal.showModal();
           }
         })
         .catch((error) => {
           const response = error.response;
           if (response) {
             console.log(response.data);
-            this.$dialog.alert({
-              message: '註冊失敗 請確認使用者名稱及電子郵件是否重複',
-              confirmButtonText: '確認',
-              confirmButtonColor: '#646566',
-            }).then(() => 0);
+            const refs = this.$refs;
+            this.alert.title = '失敗';
+            this.alert.message = '註冊失敗 請確認使用者名稱及電子郵件是否重複';
+            this.alert.confirmFunction = (() => {});
+            refs.alertModal.showModal();
           }
         });
     },
@@ -329,13 +331,11 @@ export default {
       };
       this.$http.post(url, payload).then((res) => {
         if (res.status === 200) {
-          this.$dialog.alert({
-            message: '請收取驗證信件以重設密碼',
-            confirmButtonText: '確認',
-            confirmButtonColor: '#646566',
-          }).then(() => {
-            this.$router.push('/');
-          });
+          const refs = this.$refs;
+          this.alert.title = '信件已發送';
+          this.alert.message = '請至email確認重設密碼信件';
+          this.alert.confirmFunction = this.returnHome;
+          refs.alertModal.showModal();
         }
       }).catch((error) => {
         const response = error.response;
