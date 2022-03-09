@@ -55,6 +55,7 @@ export default {
           if (res.status === 200) {
             this.user = res.data.data;
             this.setUpAuth();
+            console.log('token refreshed');
           }
         })
         .catch((error) => {

@@ -9,7 +9,7 @@
         <div class="selector-group">
           <div class="my-trip-selector selector">
             <label class="selector-label">我的旅程:</label>
-            <div>
+            <div class="radio-group">
               <input type="radio" name="is-my-trip" value="1" v-model="filter.isMyTrip"/>
               <label class="radio-label">是</label>
               <input type="radio" name="is-my-trip" value="0" v-model="filter.isMyTrip"/>
@@ -19,7 +19,10 @@
           <div class="charger-selector selector">
             <label class="selector-label" for="chargers">超充站:</label>
             <select name="chargers" id="chargers" v-model="filter.charger">
-              <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{ charger }}</option>
+              <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{
+                  charger
+                }}
+              </option>
             </select>
           </div>
           <div class="start-selector selector">
@@ -37,19 +40,24 @@
           <div class="model-selector selector">
             <label class="selector-label" for="models">車款:</label>
             <select name="models" id="models" v-model="filter.model">
-              <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{ model }}</option>
+              <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{
+                  model
+                }}
+              </option>
             </select>
           </div>
-          <div class="spec-selector selector" v-show="specOptions[filter.model]">
+          <div class="spec-selector selector" :style="{visibility: specOptions[filter.model] ? 'visible' : 'hidden'}">
             <label class="selector-label" for="specs">型號:</label>
             <select name="specs" id="specs" v-model="filter.spec">
-              <option v-for="(spec, index) in specOptions[filter.model]" :key="index" :value="spec">{{ spec }}</option>
+              <option v-for="(spec, index) in specOptions[filter.model]" :key="index" :value="spec">
+                {{ spec }}
+              </option>
             </select>
           </div>
         </div>
         <div class="button-group">
-          <button class="default-button" @click="clearFilter">重設條件</button>
-          <button class="default-button" @click="showTripModal">新增旅程</button>
+          <button class="default-button" @click="clearFilter">重設</button>
+          <button class="default-button" @click="showTripModal">新增</button>
         </div>
       </div>
       <div class="trip">
@@ -64,6 +72,7 @@
             <th scope="col">起點</th>
             <th scope="col">終點</th>
             <th scope="col">充電資訊</th>
+            <th scope="col">評分</th>
           </tr>
           </thead>
           <tbody>
@@ -75,18 +84,34 @@
             <td> {{ trip.total }}kWh</td>
             <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
             <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
-            <td v-if="trip.is_charge" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-html="true" :title="getChargeInfo(trip)">
-              &#9432;
+            <td>
+              <div class="charge-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-html="true" :title="getChargeInfo(trip)">
+                <button class="image-button">
+                  <img v-if="trip.is_charge" src="https://i.imgur.com/Y5jhyMb.png" alt="charge info"/>
+                  <label v-else> - </label>
+                </button>
+              </div>
             </td>
-            <td v-else> - </td>
+            <td>
+              <div class="rate">
+                <button class="image-button" @click="rateTrip(trip.id)">
+                    <img
+                      :src="trip.is_rate ? 'https://i.imgur.com/zC5NSQY.png' : 'https://i.imgur.com/ZfGOkQY.png'"
+                      alt="rate"/>
+                </button>
+                <label> {{ trip.trip_rate_count || 0 }}</label>
+              </div>
+            </td>
           </tr>
           </tbody>
         </table>
       </div>
-      <PaginateComponent :refresh-method="getTrips" :pager="pager" v-show="isSignIn"></PaginateComponent>
+      <PaginateComponent :refresh-method="getTrips" :pager="pager"
+                         v-show="isSignIn"></PaginateComponent>
     </div>
   </div>
-  <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers" :chargerMap="chargerMap" :areas="areas"
+  <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers"
+             :chargerMap="chargerMap" :areas="areas"
              :config="config"></TripModal>
 </template>
 
@@ -243,7 +268,25 @@ export default {
         });
     },
     getChargeInfo(trip) {
-      return `充電站: ${trip.charger}<br>補電電量: ${trip.charge}%<br>充電費用: ${trip.fee}元`;
+      return trip.is_charge ? `充電站: ${trip.charger}<br>補電電量: ${trip.charge}%<br>充電費用: ${trip.fee}元` : '';
+    },
+    rateTrip(tripID) {
+      const url = `${process.env.VUE_APP_API}/trip-rate`;
+      const payload = {
+        trip_id: tripID,
+      };
+      this.$http.post(url, payload, this.config)
+        .then((res) => {
+          if (res.status === 200) {
+            this.getTrips(this.pager.page);
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
     },
     clearFilter() {
       Object.keys(this.filter).forEach((key) => {
