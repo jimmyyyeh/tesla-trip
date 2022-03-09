@@ -2,7 +2,7 @@
   <NavTab></NavTab>
   <div class="wrap" v-show="isSignIn">
     <div class="container">
-      <div class="car-form">
+      <form class="car-form">
         <div class="car-selector selector">
           <div class="car-group">
             <label class="selector-label" for="cars">車輛:</label>
@@ -11,9 +11,10 @@
             </select>
           </div>
           <div class="button-group">
-            <button class="default-button" v-show="!isCarInfoShow"
-                    @click="isCarInfoShow=!isCarInfoShow">+
-            </button>
+            <input type="button" class="create-button" v-show="!isCarInfoShow" @click="isCarInfoShow=!isCarInfoShow" value="+">
+<!--            <button class="default-button" v-show="!isCarInfoShow"-->
+<!--                    @click="isCarInfoShow=!isCarInfoShow">-->
+<!--            </button>-->
           </div>
         </div>
         <div class="car-info" v-show="isCarInfoShow">
@@ -40,7 +41,7 @@
             </select>
           </div>
           <div class="button-group">
-            <button class="default-button" v-show="isCarInfoShow" @click="removeCar"> 刪除</button>
+            <button class="default-button" v-show="isCarInfoShow && carID" @click="removeCar"> 刪除</button>
             <button v-if="isValidate" class="default-button" v-show="isCarInfoShow"
                     @click="upsertCar">{{ carID ? '更新' : '新增' }}
             </button>
@@ -49,7 +50,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>

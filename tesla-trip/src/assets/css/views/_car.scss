@@ -4,6 +4,8 @@
   .container {
     .car-form {
       @include form;
+      position: absolute;
+      top: 50px;
 
       select {
         background-color: $white-color;
@@ -37,7 +39,7 @@
 
         .button-group {
           @include centralize;
-          button {
+          .create-button {
             margin: 10px;
           }
         }

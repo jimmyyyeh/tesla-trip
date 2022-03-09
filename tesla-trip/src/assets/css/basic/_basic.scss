@@ -94,10 +94,22 @@ $disabled-color: #C4E1FF;
   font-size: small;
   font-weight: bold;
   padding: 10px 15px 10px 15px;
+
+  &:disabled {
+    background-color: $disabled-color;
+  }
 }
 
-.default-button:disabled {
-  background-color: $disabled-color;
+.create-button {
+  background-color: $button-color;
+  color: $white-color !important;
+  border: none;
+  width: 2em;
+  height: 2em;
+
+  &:disabled {
+    background-color: $disabled-color;
+  }
 }
 
 // tab
