@@ -189,12 +189,25 @@ export default {
         });
     },
     confirmRemoveCar() {
-      const refs = this.$refs;
-      this.alert.title = '確認刪除';
-      this.alert.message = '確定要刪除車輛嗎?';
-      this.alert.isCancelShow = true;
-      this.alert.confirmFunction = this.removeCar;
-      refs.confirmModal.showModal();
+      const url = `${process.env.VUE_APP_API}/car/deduct-point/${this.carInfo.id}`;
+      this.$http.get(url, this.config)
+        .then((res) => {
+          if (res.status === 200) {
+            const total = res.data.data.total;
+            const refs = this.$refs;
+            this.alert.title = '確認刪除';
+            this.alert.message = `刪除車輛會扣除 ${total}點 點數, 確定要刪除車輛嗎?`;
+            this.alert.isCancelShow = true;
+            this.alert.confirmFunction = this.removeCar;
+            refs.confirmModal.showModal();
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
     },
     initData() {
       this.getCars();
