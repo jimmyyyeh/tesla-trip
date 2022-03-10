@@ -39,14 +39,11 @@
           </div>
           <div class="button-group">
             <button class="default-button" v-show="isCarInfoShow && carID" @click="confirmRemoveCar">刪除</button>
-            <button v-if="isValidate && carID" class="default-button" v-show="isCarInfoShow"
-                    @click="updateCar">更新
-            </button>
-            <button v-else-if="isValidate && !carID" class="default-button" v-show="isCarInfoShow"
+            <button v-if="isValidate" class="default-button" v-show="!carID"
                     @click="insertCar">新增
             </button>
-            <button v-else class="default-button" disabled v-show="isCarInfoShow">
-              {{ carID ? '更新' : '新增' }}
+            <button v-else class="default-button" disabled v-show="!carID">
+              新增
             </button>
           </div>
         </div>
@@ -162,30 +159,6 @@ export default {
             const refs = this.$refs;
             this.alert.title = null;
             this.alert.message = '新增成功';
-            this.alert.confirmFunction = this.getCars;
-            refs.alertModal.showModal();
-          }
-        })
-        .catch((error) => {
-          const response = error.response;
-          if (response) {
-            console.log(response.data);
-          }
-        });
-    },
-    updateCar() {
-      const url = `${process.env.VUE_APP_API}/car/${this.carID}`;
-      const payload = {
-        spec: this.carInfo.spec,
-        model: this.carInfo.model,
-        manufacture_date: this.carInfo.manufactureDate,
-      };
-      this.$http.put(url, payload, this.config)
-        .then((res) => {
-          if (res.status === 200) {
-            const refs = this.$refs;
-            this.alert.title = null;
-            this.alert.message = '更新成功';
             this.alert.confirmFunction = this.getCars;
             refs.alertModal.showModal();
           }
