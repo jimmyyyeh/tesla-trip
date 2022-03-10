@@ -263,11 +263,11 @@ export default {
       this.$http.post(url, this.trips, this.config)
         .then((res) => {
           if (res.status === 200) {
+            const refs = this.$parent.$refs;
             this.$parent.alert.title = '成功';
             this.$parent.alert.message = '儲存旅程成功';
             this.$parent.alert.confirmFunction = this.resetTrip;
-            const refs = this.$parent.$refs;
-            refs.confirmModal.showModal();
+            refs.alertModal.showModal();
           }
         })
         .catch((error) => {
@@ -280,10 +280,10 @@ export default {
     },
     confirmCreateTrip() {
       this.hideModal();
-      const refs = this.$refs;
-      this.alert.title = '新增里程';
-      this.alert.message = '確定要新增里程嗎';
-      this.alert.confirmFunction = this.createTrip;
+      const refs = this.$parent.$refs;
+      this.$parent.alert.title = '新增里程';
+      this.$parent.alert.message = '確定要新增里程嗎';
+      this.$parent.alert.confirmFunction = this.createTrip;
       refs.confirmModal.showModal();
     },
   },
