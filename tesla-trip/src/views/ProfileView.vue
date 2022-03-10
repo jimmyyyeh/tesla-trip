@@ -63,19 +63,14 @@
 </template>
 <script>
 import authMixins from '@/mixins/authMixins';
+import pageMixins from '@/mixins/pageMixins';
 import { initToolTip } from '@/utils/tools';
 import { Pattern } from '@/assets/constant/constant';
 
 export default {
-  mixins: [authMixins],
+  mixins: [authMixins, pageMixins],
   data() {
     return {
-      alert: {
-        title: '',
-        message: '',
-        isCancelShow: false,
-        confirmFunction: (() => {}),
-      },
       profile: {
         username: null,
         nickname: null,
@@ -152,11 +147,9 @@ export default {
           }
         });
     },
-  },
-  mounted() {
-    if (this.isSignIn) {
+    initData() {
       this.getProfile();
-    }
+    },
   },
   updated() {
     initToolTip();

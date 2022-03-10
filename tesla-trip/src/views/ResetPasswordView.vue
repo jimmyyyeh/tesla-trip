@@ -53,18 +53,13 @@
 
 <script>
 import authMixins from '@/mixins/authMixins';
+import pageMixins from '@/mixins/pageMixins';
 import { initToolTip } from '@/utils/tools';
 
 export default {
-  mixins: [authMixins],
+  mixins: [authMixins, pageMixins],
   data() {
     return {
-      alert: {
-        title: '',
-        message: '',
-        isCancelShow: false,
-        confirmFunction: (() => {}),
-      },
       resetUser: {
         username: '',
         password: '',

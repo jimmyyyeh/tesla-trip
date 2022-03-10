@@ -55,18 +55,13 @@
 
 <script>
 import authMixins from '@/mixins/authMixins';
+import pageMixins from '@/mixins/pageMixins';
 import { formatDate } from '@/utils/tools';
 
 export default {
-  mixins: [authMixins],
+  mixins: [authMixins, pageMixins],
   data() {
     return {
-      alert: {
-        title: '',
-        message: '',
-        isCancelShow: false,
-        confirmFunction: (() => {}),
-      },
       isValidate: false,
       isCarInfoShow: false,
       nickname: '',
@@ -195,12 +190,6 @@ export default {
     initData() {
       this.getCars();
     },
-  },
-  mounted() {
-    if (!this.isSignIn) {
-      return;
-    }
-    this.initData();
   },
 };
 </script>

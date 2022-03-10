@@ -5,19 +5,10 @@
 
 <script>
 import authMixins from '@/mixins/authMixins';
+import pageMixins from '@/mixins/pageMixins';
 
 export default {
-  data() {
-    return {
-      alert: {
-        title: '',
-        message: '',
-        isCancelShow: false,
-        confirmFunction: (() => {}),
-      },
-    };
-  },
-  mixins: [authMixins],
+  mixins: [authMixins, pageMixins],
   methods: {
     returnAuth() {
       this.$router.push('/auth');

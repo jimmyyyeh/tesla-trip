@@ -118,24 +118,19 @@
 
 <script>
 import authMixins from '@/mixins/authMixins';
+import pageMixins from '@/mixins/pageMixins';
 import TripModal from '@/components/TripModal.vue';
 import PaginateComponent from '@/components/PaginateComponent.vue';
 import { formatUrl, initToolTip } from '@/utils/tools';
 
 export default {
-  mixins: [authMixins],
+  mixins: [authMixins, pageMixins],
   components: {
     TripModal,
     PaginateComponent,
   },
   data() {
     return {
-      alert: {
-        title: '',
-        message: '',
-        isCancelShow: false,
-        confirmFunction: (() => {}),
-      },
       pager: {
         page: 1,
         per_page: 10,
@@ -308,12 +303,6 @@ export default {
       const refs = this.$refs;
       refs.tripModal.showModal();
     },
-  },
-  mounted() {
-    if (!this.isSignIn) {
-      return;
-    }
-    this.initData();
   },
   updated() {
     initToolTip();

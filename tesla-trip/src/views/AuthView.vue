@@ -137,9 +137,9 @@
   <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 <script>
-import authMixins from '@/mixins/authMixins';
 import { formatDate, initToolTip } from '@/utils/tools';
 import { Pattern } from '@/assets/constant/constant';
+import authMixins from '@/mixins/authMixins';
 
 export default {
   mixins: [authMixins],
@@ -273,7 +273,7 @@ export default {
             const user = res.data.data;
             if (user.is_verified) {
               this.user = res.data.data;
-              this.setUpAuth();
+              this.setAuth();
               const refs = this.$refs;
               this.alert.title = null;
               this.alert.message = '登入成功';
@@ -323,6 +323,14 @@ export default {
             refs.alertModal.showModal();
           }
         });
+    },
+    signOut() {
+      const refs = this.$refs;
+      this.alert.title = '登出';
+      this.alert.message = '確定要登出嗎';
+      this.alert.isCancelShow = true;
+      this.alert.confirmFunction = this.removeCookie;
+      refs.alertModal.showModal();
     },
     resetPassword() {
       const url = `${process.env.VUE_APP_API}/request-reset-password`;

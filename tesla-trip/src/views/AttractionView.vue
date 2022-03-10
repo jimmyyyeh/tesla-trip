@@ -5,9 +5,10 @@
 
 <script>
 import authMixins from '@/mixins/authMixins';
+import pageMixins from '@/mixins/pageMixins';
 
 export default {
-  mixins: [authMixins],
+  mixins: [authMixins, pageMixins],
 };
 
 </script>
