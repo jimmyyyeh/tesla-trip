@@ -4,9 +4,8 @@
   .container {
     .toolbar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      width: 90vw;
+      flex-direction: row;
       margin: 10px 0 10px 0;
 
       .selector-group {
@@ -20,6 +19,7 @@
             align-items: center;
             justify-content: space-around;
             .radio-label {
+              font-size: 0.95em;
               color: $main-color;
               font-weight: bold;
               margin: 0 5px 0 0;
@@ -30,6 +30,7 @@
         .selector {
           margin: 10px;
           display: flex;
+          flex-direction: column;
           justify-content: flex-start;
           .selector-label {
             width: 5em;
@@ -44,6 +45,9 @@
       }
 
       .button-group {
+        display: flex;
+        width: 100%;
+
         .default-button {
           margin: 0 10px 0 0;
         }
@@ -52,8 +56,8 @@
 
     .trip {
       margin: 0 0 10px 0;
-      width: 90vw;
       height: 80%;
+      width: 90vw;
 
       .table {
         text-align: center;

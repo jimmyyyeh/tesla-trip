@@ -6,9 +6,13 @@
     </div>
     <div class="container" v-show="!isLoading">
       <div class="toolbar">
+        <div class="button-group">
+          <button class="default-button" @click="showTripModal">新增</button>
+          <button class="default-button" @click="clearFilter">重設</button>
+        </div>
         <div class="selector-group">
           <div class="my-trip-selector selector">
-            <label class="selector-label">我的旅程:</label>
+            <label class="selector-label">我的旅程</label>
             <div class="radio-group">
               <input type="radio" name="is-my-trip" value="1" v-model="filter.is_my_trip"/>
               <label class="radio-label">是</label>
@@ -17,7 +21,7 @@
             </div>
           </div>
           <div class="charger-selector selector">
-            <label class="selector-label" for="chargers">超充站:</label>
+            <label class="selector-label" for="chargers">超充站</label>
             <select name="chargers" id="chargers" v-model="filter.charger">
               <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{
                   charger
@@ -26,19 +30,19 @@
             </select>
           </div>
           <div class="start-selector selector">
-            <label class="selector-label" for="starts">起點:</label>
+            <label class="selector-label" for="starts">起點</label>
             <select name="starts" id="starts" v-model="filter.start">
               <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
             </select>
           </div>
           <div class="end-selector selector">
-            <label class="selector-label" for="ends">終點:</label>
+            <label class="selector-label" for="ends">終點</label>
             <select name="ends" id="ends" v-model="filter.end">
               <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
             </select>
           </div>
           <div class="model-selector selector">
-            <label class="selector-label" for="models">車款:</label>
+            <label class="selector-label" for="models">車款</label>
             <select name="models" id="models" v-model="filter.model">
               <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{
                   model
@@ -46,18 +50,14 @@
               </option>
             </select>
           </div>
-          <div class="spec-selector selector" :style="{visibility: specOptions[filter.model] ? 'visible' : 'hidden'}">
-            <label class="selector-label" for="specs">型號:</label>
+          <div class="spec-selector selector">
+            <label class="selector-label" for="specs">型號</label>
             <select name="specs" id="specs" v-model="filter.spec">
-              <option v-for="(spec, index) in specOptions[filter.model]" :key="index" :value="spec">
+              <option v-for="(spec, index) in specOptions[filter.model] || ['請選擇']" :key="index" :value="spec">
                 {{ spec }}
               </option>
             </select>
           </div>
-        </div>
-        <div class="button-group">
-          <button class="default-button" @click="clearFilter">重設</button>
-          <button class="default-button" @click="showTripModal">新增</button>
         </div>
       </div>
       <div class="trip">
