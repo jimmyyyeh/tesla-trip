@@ -12,6 +12,9 @@ export default {
     isSignIn() {
       return this.user !== null;
     },
+    isSignInRequired() {
+      return this.signInRequiredPage.includes(this.$route.name);
+    },
   },
   methods: {
     returnAuth() {
@@ -69,6 +72,9 @@ export default {
         this.user = JSON.parse(signInCookie);
         await this.refresh();
       } else {
+        if (!this.isSignInRequired) {
+          return;
+        }
         const refs = this.$refs;
         this.alert.title = '請先登入';
         this.alert.message = '確認';
@@ -79,14 +85,11 @@ export default {
     },
   },
   async mounted() {
-    if (this.$route.name === 'auth') {
-      return;
-    }
     await this.initAuth();
     if (!this.isSignIn) {
       return;
     }
-    if (this.signInRequiredPage.includes(this.$route.name)) {
+    if (this.isSignInRequired) {
       this.initData();
     }
   },

@@ -135,6 +135,7 @@
     </div>
   </div>
   <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
+  <AlertModal ref="confirmModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 <script>
 import { formatDate, initToolTip } from '@/utils/tools';
@@ -330,7 +331,7 @@ export default {
       this.alert.message = '確定要登出嗎';
       this.alert.isCancelShow = true;
       this.alert.confirmFunction = this.removeCookie;
-      refs.alertModal.showModal();
+      refs.confirmModal.showModal();
     },
     resetPassword() {
       const url = `${process.env.VUE_APP_API}/request-reset-password`;

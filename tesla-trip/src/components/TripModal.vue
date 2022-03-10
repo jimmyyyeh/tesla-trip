@@ -267,7 +267,7 @@ export default {
             this.$parent.alert.message = '儲存旅程成功';
             this.$parent.alert.confirmFunction = this.resetTrip;
             const refs = this.$parent.$refs;
-            refs.alertModal.showModal();
+            refs.confirmModal.showModal();
           }
         })
         .catch((error) => {
@@ -284,7 +284,7 @@ export default {
       this.alert.title = '新增里程';
       this.alert.message = '確定要新增里程嗎';
       this.alert.confirmFunction = this.createTrip;
-      refs.alertModal.showModal();
+      refs.confirmModal.showModal();
     },
   },
   created() {

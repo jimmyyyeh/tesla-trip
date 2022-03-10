@@ -51,6 +51,7 @@
     </div>
   </div>
   <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
+  <AlertModal ref="confirmModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 
 <script>
@@ -155,7 +156,7 @@ export default {
             this.alert.title = null;
             this.alert.message = '新增成功';
             this.alert.confirmFunction = this.getCars;
-            refs.alertModal.showModal();
+            refs.confirmModal.showModal();
           }
         })
         .catch((error) => {
@@ -165,12 +166,19 @@ export default {
           }
         });
     },
+    returnCar() {
+      this.$router.push('/car');
+    },
     removeCar() {
       const url = `${process.env.VUE_APP_API}/car/${this.carInfo.id}`;
       this.$http.delete(url, this.config)
         .then((res) => {
           if (res.status === 200) {
-            window.location.reload();
+            const refs = this.$refs;
+            this.alert.title = null;
+            this.alert.message = '車輛已刪除';
+            this.alert.confirmFunction = this.returnCar;
+            refs.alertModal.showModal();
           }
         })
         .catch((error) => {
@@ -184,8 +192,9 @@ export default {
       const refs = this.$refs;
       this.alert.title = '確認刪除';
       this.alert.message = '確定要刪除車輛嗎?';
+      this.alert.isCancelShow = true;
       this.alert.confirmFunction = this.removeCar;
-      refs.alertModal.showModal();
+      refs.confirmModal.showModal();
     },
     initData() {
       this.getCars();
