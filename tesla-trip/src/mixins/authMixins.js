@@ -5,7 +5,7 @@ export default {
     return {
       user: null,
       config: null,
-      signInRequiredPage: ['car', 'profile', 'trip'],
+      signInRequiredPage: ['car', 'profile', 'trip', 'product', 'redeem'],
     };
   },
   computed: {

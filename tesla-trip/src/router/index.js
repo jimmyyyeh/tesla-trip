@@ -41,6 +41,16 @@ const routes = [
     name: 'verify',
     component: () => import('../views/VerifyView.vue'),
   },
+  {
+    path: '/product',
+    name: 'product',
+    component: () => import('../views/ProductView.vue'),
+  },
+  {
+    path: '/redeem/:token',
+    name: 'redeem',
+    component: () => import('../views/RedeemView.vue'),
+  },
 ];
 
 const router = createRouter({

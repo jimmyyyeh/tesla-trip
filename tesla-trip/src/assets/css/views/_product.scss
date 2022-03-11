@@ -1,0 +1,20 @@
+@import "./src/assets/css/basic/basic";
+
+.wrap {
+  .container {
+    .product-form {
+      @include form;
+      width: 30vw;
+      height: 30vw;
+
+      .product-selector {
+        margin: 10px 0 10px 0;
+        select {
+          background-color: $white-color;
+          color: $main-color;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}
