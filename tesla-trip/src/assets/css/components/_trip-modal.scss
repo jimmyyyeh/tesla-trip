@@ -1,6 +1,9 @@
 @import "./src/assets/css/basic/basic";
 
 .trip-form {
+  @media (max-width: $phone-size) {
+    display: none;
+  }
   select {
     color: $main-color;
     border-radius: 5px;

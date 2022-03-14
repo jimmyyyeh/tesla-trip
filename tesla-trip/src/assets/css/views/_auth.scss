@@ -4,6 +4,15 @@
   .container {
     .sign-in-form, .sign-up-form, .forget-password-form {
       @include form;
+
+      .column {
+
+        .input {
+          @media (max-width: $phone-size) {
+            @include centralize;
+          }
+        }
+      }
     }
   }
 }

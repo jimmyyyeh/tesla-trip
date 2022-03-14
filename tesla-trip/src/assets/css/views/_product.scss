@@ -4,15 +4,33 @@
   .container {
     .product-form {
       @include form;
-      width: 30vw;
-      height: 30vw;
+      width: 50%;
+      height: 70%;
+
+      @media (max-width: $pad-size) {
+        width: 100%;
+        height: 70%;
+      }
 
       .product-selector {
         margin: 10px 0 10px 0;
+
         select {
           background-color: $white-color;
           color: $main-color;
           border-radius: 5px;
+        }
+      }
+
+      .qrcode {
+        @include centralize;
+        width: 100%;
+        height: 100%;
+
+        img {
+          @media (max-width: $phone-size) {
+            width: 100%;
+          }
         }
       }
     }

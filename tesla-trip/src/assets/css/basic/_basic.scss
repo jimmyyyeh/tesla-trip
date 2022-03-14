@@ -6,6 +6,10 @@ $not-validated-color: #FF0000;
 $button-color: #46A3FF;
 $disabled-color: #C4E1FF;
 
+$pad-size: 820px;
+$phone-size: 414px;
+
+
 @mixin centralize {
   display: flex;
   justify-content: center;
@@ -47,8 +51,9 @@ $disabled-color: #C4E1FF;
   }
 }
 
+
 .wrap {
-  background: rgba(255, 255, 255, 0.8) url('https://i.imgur.com/mhuHPIG.png') no-repeat fixed;
+  background: rgba(255, 255, 255, 0.8) url('https://i.imgur.com/mhuHPIG.png') no-repeat fixed center;
   background-size: cover;
   background-blend-mode: lighten;
   display: flex;
@@ -96,6 +101,10 @@ $disabled-color: #C4E1FF;
   font-weight: bold;
   padding: 10px 15px 10px 15px;
 
+  @media (max-width: $phone-size) {
+    font-size: smaller;
+  }
+
   &:disabled {
     background-color: $disabled-color;
   }
@@ -113,17 +122,58 @@ $disabled-color: #C4E1FF;
   }
 }
 
-// tab
-.van-tabs__nav {
-  background: $disabled-color !important;
-
-  .van-tab__text {
-    color: $main-color;
+// offcanvas
+.offcanvas-bar {
+  width: 100%;
+  .offcanvas-button {
+    display: none;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    border: none;
+    @media (max-width: $phone-size) {
+      display: block;
+    }
   }
+}
 
-  .van-tabs__line {
-    background-color: $button-color !important;
-    transform: translateX(1764px) translateX(-50%);
+
+.offcanvas {
+  display: none;
+  width: 50vw;
+  @media (max-width: $phone-size) {
+    display: block;
+  }
+  .offcanvas-header {
+    background-color: $button-color;
+  }
+  .offcanvas-body{
+    ul {
+      li {
+        color: $main-color;
+        font-weight: bold;
+        margin: 0 0 5px 0;
+      }
+    }
+  }
+}
+
+// tab
+.van-tabs {
+  @media (max-width: $phone-size) {
+    display: none;
+  }
+  .van-tabs__nav {
+    background: $disabled-color !important;
+
+    .van-tab__text {
+      color: $main-color;
+    }
+
+    .van-tabs__line {
+      background-color: $button-color !important;
+      transform: translateX(1764px) translateX(-50%);
+    }
   }
 }
 
@@ -131,7 +181,9 @@ $disabled-color: #C4E1FF;
 //pagination
 .nav-pagination {
   @include centralize;
-
+  @media (max-width: $phone-size) {
+    display: none;
+  }
   .previous-pages {
     display: flex;
     flex-direction: row-reverse;
@@ -185,9 +237,24 @@ $disabled-color: #C4E1FF;
   width: 5em;
 }
 
+label, select {
+  @media (max-width: $phone-size) {
+    font-size: small;
+  }
+}
+
 input {
   background-color: $white-color;
   border: $main-color 1px solid;
   color: $main-color !important;
   border-radius: 5px;
+  @media (max-width: $phone-size) {
+    font-size: smaller !important;
+  }
+}
+
+.modal-content {
+  @media (max-width: $pad-size) {
+    width: 70vw !important;
+  }
 }

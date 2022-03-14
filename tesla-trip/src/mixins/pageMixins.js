@@ -1,3 +1,5 @@
+import { Offcanvas } from 'bootstrap';
+
 export default {
   data() {
     return {
@@ -8,5 +10,9 @@ export default {
         confirmFunction: (() => {}),
       },
     };
+  },
+  updated() {
+    Array.from(document.querySelectorAll('.offcanvas'))
+      .forEach((canvasNode) => new Offcanvas(canvasNode));
   },
 };

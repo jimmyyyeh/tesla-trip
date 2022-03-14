@@ -6,8 +6,9 @@ import {
 } from 'vant';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import NavTab from '@/components/NavTab.vue';
 import AlertModal from '@/components/AlertModal.vue';
+import NavTab from '@/components/NavTab.vue';
+import OffCanvas from '@/components/OffCanvas.vue';
 import router from './router';
 import App from './App.vue';
 import '@/assets/css/app.scss';
@@ -20,5 +21,6 @@ app.use(Dialog);
 app.use(Tab);
 app.use(Tabs);
 app.component('NavTab', NavTab);
+app.component('OffCanvas', OffCanvas);
 app.component('AlertModal', AlertModal);
 app.mount('#app');

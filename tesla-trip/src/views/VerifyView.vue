@@ -1,4 +1,8 @@
 <template>
+  <div class="offcanvas-bar">
+    <input class="offcanvas-button" type="image" src="https://i.imgur.com/k2okQiP.png" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" alt="offcanvas">
+  </div>
+  <OffCanvas></OffCanvas>
   <NavTab></NavTab>
   <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
   <AlertModal ref="confirmModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>

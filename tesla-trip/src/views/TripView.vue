@@ -1,110 +1,116 @@
 <template>
+  <div class="offcanvas-bar">
+    <input class="offcanvas-button" type="image" src="https://i.imgur.com/k2okQiP.png" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" alt="offcanvas">
+  </div>
+  <OffCanvas></OffCanvas>
   <NavTab></NavTab>
   <div class="wrap" v-show="isSignIn">
     <div class="overlay" v-show="isLoading">
       <div class="spinner-grow"></div>
     </div>
     <div class="container" v-show="!isLoading">
-      <div class="toolbar">
-        <div class="button-group">
-          <button class="default-button" @click="showTripModal">新增</button>
-          <button class="default-button" @click="clearFilter">重設</button>
-        </div>
-        <div class="selector-group">
-          <div class="my-trip-selector selector">
-            <label class="selector-label">我的旅程</label>
-            <div class="radio-group">
-              <input type="radio" name="is-my-trip" value="1" v-model="filter.is_my_trip"/>
-              <label class="radio-label">是</label>
-              <input type="radio" name="is-my-trip" value="0" v-model="filter.is_my_trip"/>
-              <label class="radio-label">否</label>
+      <div class="trip-form">
+        <div class="toolbar">
+          <div class="button-group">
+            <button class="default-button" @click="showTripModal">新增</button>
+            <button class="default-button" @click="clearFilter">重設</button>
+          </div>
+          <div class="selector-group">
+            <div class="my-trip-selector selector">
+              <label class="selector-label">我的旅程</label>
+              <div class="radio-group">
+                <input type="radio" name="is-my-trip" value="1" v-model="filter.is_my_trip"/>
+                <label class="radio-label">是</label>
+                <input type="radio" name="is-my-trip" value="0" v-model="filter.is_my_trip"/>
+                <label class="radio-label">否</label>
+              </div>
+            </div>
+            <div class="charger-selector selector">
+              <label class="selector-label" for="chargers">超充站</label>
+              <select name="chargers" id="chargers" v-model="filter.charger">
+                <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{
+                    charger
+                  }}
+                </option>
+              </select>
+            </div>
+            <div class="start-selector selector">
+              <label class="selector-label" for="starts">起點</label>
+              <select name="starts" id="starts" v-model="filter.start">
+                <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
+              </select>
+            </div>
+            <div class="end-selector selector">
+              <label class="selector-label" for="ends">終點</label>
+              <select name="ends" id="ends" v-model="filter.end">
+                <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
+              </select>
+            </div>
+            <div class="model-selector selector">
+              <label class="selector-label" for="models">車款</label>
+              <select name="models" id="models" v-model="filter.model">
+                <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{
+                    model
+                  }}
+                </option>
+              </select>
+            </div>
+            <div class="spec-selector selector">
+              <label class="selector-label" for="specs">型號</label>
+              <select name="specs" id="specs" v-model="filter.spec">
+                <option v-for="(spec, index) in specOptions[filter.model] || ['請選擇']" :key="index" :value="spec">
+                  {{ spec }}
+                </option>
+              </select>
             </div>
           </div>
-          <div class="charger-selector selector">
-            <label class="selector-label" for="chargers">超充站</label>
-            <select name="chargers" id="chargers" v-model="filter.charger">
-              <option v-for="(charger, index) in chargers" :key="index" :value="charger">{{
-                  charger
-                }}
-              </option>
-            </select>
-          </div>
-          <div class="start-selector selector">
-            <label class="selector-label" for="starts">起點</label>
-            <select name="starts" id="starts" v-model="filter.start">
-              <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
-            </select>
-          </div>
-          <div class="end-selector selector">
-            <label class="selector-label" for="ends">終點</label>
-            <select name="ends" id="ends" v-model="filter.end">
-              <option v-for="(area, index) in areas" :key="index" :value="area">{{ area }}</option>
-            </select>
-          </div>
-          <div class="model-selector selector">
-            <label class="selector-label" for="models">車款</label>
-            <select name="models" id="models" v-model="filter.model">
-              <option v-for="(model, index) in modelOptions" :key="index" :value="model">{{
-                  model
-                }}
-              </option>
-            </select>
-          </div>
-          <div class="spec-selector selector">
-            <label class="selector-label" for="specs">型號</label>
-            <select name="specs" id="specs" v-model="filter.spec">
-              <option v-for="(spec, index) in specOptions[filter.model] || ['請選擇']" :key="index" :value="spec">
-                {{ spec }}
-              </option>
-            </select>
-          </div>
         </div>
-      </div>
-      <div class="trip">
-        <table class="table">
-          <thead>
-          <tr>
-            <th scope="col">日期</th>
-            <th scope="col">車型</th>
-            <th scope="col">滿電里程</th>
-            <th scope="col">平均電力</th>
-            <th scope="col">電量總計</th>
-            <th scope="col">起點</th>
-            <th scope="col">終點</th>
-            <th scope="col">充電資訊</th>
-            <th scope="col">評分</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="(trip, index) in trips" :key="index">
-            <td> {{ trip.trip_date }}</td>
-            <td> {{ trip.car }}</td>
-            <td> {{ trip.mileage }}KM</td>
-            <td> {{ trip.consumption }}Wh/km</td>
-            <td> {{ trip.total }}kWh</td>
-            <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
-            <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
-            <td>
-              <div class="charge-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-html="true" :title="getChargeInfo(trip)">
-                <button class="image-button">
-                  <img v-if="trip.is_charge" src="https://i.imgur.com/Y5jhyMb.png" alt="charge info"/>
-                  <label v-else> - </label>
-                </button>
-              </div>
-            </td>
-            <td>
-              <div class="rate">
-                <button class="image-button" @click="rateTrip(trip.id)">
-                    <img
-                      :src="trip.is_rate ? 'https://i.imgur.com/zC5NSQY.png' : 'https://i.imgur.com/ZfGOkQY.png'"
-                      alt="rate"/>
-                </button>
-                <label> {{ trip.trip_rate_count || 0 }}</label>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="trip">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">日期</th>
+              <th scope="col">車型</th>
+              <th scope="col">滿電里程</th>
+              <th scope="col">平均電力</th>
+              <th scope="col">電量總計</th>
+              <th scope="col">起點</th>
+              <th scope="col">終點</th>
+              <th scope="col">充電資訊</th>
+              <th scope="col">評分</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(trip, index) in trips" :key="index">
+              <td> {{ trip.trip_date }}</td>
+              <td> {{ trip.car }}</td>
+              <td> {{ trip.mileage }}KM</td>
+              <td> {{ trip.consumption }}Wh/km</td>
+              <td> {{ trip.total }}kWh</td>
+              <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
+              <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
+              <td>
+                <div class="charge-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-html="true" :title="getChargeInfo(trip)">
+                  <button class="image-button">
+                    <img v-if="trip.is_charge" src="https://i.imgur.com/Y5jhyMb.png" alt="charge info"/>
+                    <label v-else> - </label>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <div class="rate">
+                  <button class="image-button" @click="rateTrip(trip.id)">
+                      <img
+                        :src="trip.is_rate ? 'https://i.imgur.com/zC5NSQY.png' : 'https://i.imgur.com/ZfGOkQY.png'"
+                        alt="rate"/>
+                  </button>
+                  <label> {{ trip.trip_rate_count || 0 }}</label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <PaginateComponent :refresh-method="getTrips" :pager="pager"
                          v-show="isSignIn"></PaginateComponent>
@@ -171,6 +177,9 @@ export default {
     },
   },
   methods: {
+    returnHome() {
+      this.$router.push('/');
+    },
     getCars() {
       const url = `${process.env.VUE_APP_API}/car`;
       this.$http.get(url, this.config)
@@ -307,6 +316,16 @@ export default {
   },
   updated() {
     initToolTip();
+  },
+  mounted() {
+    if (window.innerWidth <= 414) {
+      const refs = this.$refs;
+      this.alert.title = '螢幕尺寸不兼容';
+      this.alert.message = '請更換較大螢幕以獲得最佳體驗';
+      this.alert.isCancelShow = false;
+      this.alert.confirmFunction = this.returnHome;
+      refs.alertModal.showModal();
+    }
   },
 };
 </script>
