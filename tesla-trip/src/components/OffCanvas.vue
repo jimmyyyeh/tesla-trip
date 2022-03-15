@@ -6,7 +6,7 @@
     <div class="offcanvas-body">
       <ul>
         <li @click="redirectPage('home')" data-bs-dismiss="offcanvas">首頁</li>
-<!--        <li @click="redirectPage('trip')" data-bs-dismiss="offcanvas">旅途里程</li>-->
+        <li @click="redirectPage('trip')" data-bs-dismiss="offcanvas">旅途里程</li>
 <!--        <li @click="redirectPage('car')" data-bs-dismiss="offcanvas">愛車資料</li>-->
         <li @click="redirectPage('product')" data-bs-dismiss="offcanvas">點數兌換</li>
         <li @click="redirectPage('profile')" data-bs-dismiss="offcanvas">個人檔案</li>

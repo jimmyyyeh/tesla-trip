@@ -24,6 +24,12 @@
         align-items: center;
         justify-content: space-around;
 
+        .charger-selector, .model-selector, .spec-selector {
+          @media (max-width: $pad-size) {
+            display: none !important;
+          }
+        }
+
         .my-trip-selector {
           .radio-group {
             display: flex;
@@ -61,38 +67,92 @@
         display: flex;
         width: 100%;
 
+        @media (max-width: $phone-size) {
+          display: none;
+        }
+
         .default-button {
           margin: 0 10px 0 0;
         }
       }
     }
 
-    .trip {
-      margin: 0 0 10px 0;
-      height: 80%;
-      width: 90vw;
-      @media (max-width: $pad-size) {
-        font-size: smaller;
+    .trip-list {
+      @media (max-width: $phone-size) {
+        display: none;
       }
 
-      .table {
-        text-align: center;
-        color: $main-color;
+      .trip {
+        margin: 0 0 10px 0;
+        height: 80%;
+        width: 90vw;
+        @media (max-width: $pad-size) {
+          font-size: smaller;
+        }
 
-        .rate, .charge-info {
-          @include centralize;
+        .table {
+          text-align: center;
+          color: $main-color;
 
-          .image-button {
-            background: transparent;
-            border: none;
+          .rate, .charge-info {
+            @include centralize;
 
-            img {
-              height: 25px;
-              width: 25px;
+            .image-button {
+              background: transparent;
+              border: none;
+
+              img {
+                height: 25px;
+                width: 25px;
+              }
+            }
+
+          }
+        }
+      }
+    }
+
+    .trip-list-mobile {
+      width: 100%;
+      margin: 10px 0 0 0;
+      display: none;
+      @media (max-width: $phone-size) {
+        display: block;
+      }
+
+      .trip {
+        border: $main-color 1px solid;
+        border-radius: 5px;
+        margin: 0 0 3px 0;
+
+        .trip-content, .header {
+          display: flex;
+          margin: 5px;
+          position: relative;
+
+          .rate {
+            @include centralize;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+
+            .image-button {
+              background: transparent;
+              border: none;
+
+              img {
+                height: 25px;
+                width: 25px;
+              }
+            }
+
+            label {
+              font-size: medium;
+              margin: 5px 0 0 0;
             }
           }
-
         }
+
       }
     }
   }

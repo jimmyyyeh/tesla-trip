@@ -231,7 +231,6 @@ $phone-size: 414px;
 }
 
 .selector-label, .input-label {
-  color: $main-color;
   margin: 0 3px 0 0;
   font-weight: bold;
   width: 5em;
@@ -241,6 +240,10 @@ label, select {
   @media (max-width: $phone-size) {
     font-size: small;
   }
+}
+
+ul, li, h6, label {
+  color: $main-color;
 }
 
 input {
