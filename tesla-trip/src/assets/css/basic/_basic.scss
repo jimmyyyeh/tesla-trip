@@ -127,6 +127,10 @@ $phone-size: 414px;
   width: 100%;
   background-color: $sub-color;
   padding: 5px;
+  display: none;
+  @media (max-width: $phone-size) {
+    display: block;
+  }
 
   .offcanvas-button {
     display: none;
