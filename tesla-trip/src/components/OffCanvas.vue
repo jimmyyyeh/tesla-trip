@@ -1,7 +1,7 @@
 <template>
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      <input class="offcanvas-button" type="image" src="https://i.imgur.com/um46tbY.png" data-bs-dismiss="offcanvas" alt="offcanvas">
     </div>
     <div class="offcanvas-body">
       <ul>

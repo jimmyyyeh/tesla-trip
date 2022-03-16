@@ -125,12 +125,15 @@ $phone-size: 414px;
 // offcanvas
 .offcanvas-bar {
   width: 100%;
+  background-color: $sub-color;
+  padding: 5px;
+
   .offcanvas-button {
     display: none;
     width: 30px;
     height: 30px;
-    margin: 10px;
     border: none;
+    background-color: transparent;
     @media (max-width: $phone-size) {
       display: block;
     }
@@ -144,10 +147,23 @@ $phone-size: 414px;
   @media (max-width: $phone-size) {
     display: block;
   }
+
   .offcanvas-header {
-    background-color: $button-color;
+    background-color: $sub-color;
+    height: 40px;
+
+    .offcanvas-button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: transparent;
+      @media (max-width: $phone-size) {
+        display: block;
+      }
+    }
   }
-  .offcanvas-body{
+
+  .offcanvas-body {
     ul {
       li {
         color: $main-color;
@@ -163,6 +179,7 @@ $phone-size: 414px;
   @media (max-width: $phone-size) {
     display: none;
   }
+
   .van-tabs__nav {
     background: $disabled-color !important;
 
@@ -184,6 +201,7 @@ $phone-size: 414px;
   @media (max-width: $phone-size) {
     display: none;
   }
+
   .previous-pages {
     display: flex;
     flex-direction: row-reverse;
