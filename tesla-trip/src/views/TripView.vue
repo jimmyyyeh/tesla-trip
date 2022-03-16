@@ -166,7 +166,7 @@ export default {
         pages: 1,
         total: 1,
       },
-      isLoading: true,
+      isLoading: false,
       cars: ['請選擇'],
       carMap: {},
       trips: [],
@@ -236,15 +236,20 @@ export default {
       queryFilter.charger = this.chargerMap[chargerIndex] - 1;
       return queryFilter;
     },
-    getTrips(page) {
+    getTrips(page, isAppend) {
       let url = `${process.env.VUE_APP_API}/trip`;
       const queryFilter = this.getTripsFilter();
       queryFilter.page = page;
       url = formatUrl(url, queryFilter);
+      this.isLoading = true;
       this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {
-            this.trips = res.data.data;
+            if (isAppend) {
+              this.trips = this.trips.concat(res.data.data);
+            } else {
+              this.trips = res.data.data;
+            }
             this.pager = res.data.pager;
             this.isLoading = false;
           }
@@ -340,14 +345,16 @@ export default {
     initToolTip();
   },
   mounted() {
-    // if (window.innerWidth <= 414) {
-    //   const refs = this.$refs;
-    //   this.alert.title = '螢幕尺寸不兼容';
-    //   this.alert.message = '請更換較大螢幕以獲得最佳體驗';
-    //   this.alert.isCancelShow = false;
-    //   this.alert.confirmFunction = this.returnHome;
-    //   refs.alertModal.showModal();
-    // }
+    const tripListMobile = document.getElementsByClassName('trip-list-mobile')[0];
+    let currentPage = 1;
+    tripListMobile.addEventListener('scroll', () => {
+      if (tripListMobile.offsetHeight + tripListMobile.scrollTop >= tripListMobile.scrollHeight) {
+        currentPage += 1;
+        if (currentPage < this.pager.pages) {
+          this.getTrips(currentPage, true);
+        }
+      }
+    });
   },
 };
 </script>
