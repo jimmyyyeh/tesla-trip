@@ -16,7 +16,10 @@
             </option>
           </select>
         </div>
-        <div class="qrcode" v-show="image">
+        <div class="overlay" v-show="isLoading">
+          <div class="spinner-grow"></div>
+        </div>
+        <div class="qrcode" v-show="!isLoading && image">
           <img :src="'data:image/jpeg;base64,'+ image" alt="qrcode">
         </div>
       </div>
@@ -38,6 +41,7 @@ export default {
   mixins: [authMixins, pageMixins],
   data() {
     return {
+      isLoading: false,
       params: {},
       image: null,
       productIndex: 0,
@@ -62,10 +66,12 @@ export default {
       const payload = {
         product_id: productID,
       };
+      this.isLoading = true;
       this.$http.post(url, payload, this.config)
         .then((res) => {
           if (res.status === 200) {
             this.image = res.data.data.image;
+            this.isLoading = false;
           }
         })
         .catch((error) => {
