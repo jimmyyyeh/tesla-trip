@@ -51,11 +51,13 @@ $phone-size: 414px;
   }
 }
 
-
-.wrap {
+#app {
   background: rgba(255, 255, 255, 0.8) url('https://i.imgur.com/mhuHPIG.png') no-repeat fixed center;
   background-size: cover;
   background-blend-mode: lighten;
+}
+
+.wrap {
   display: flex;
   align-items: center;
   height: 100vh;
@@ -180,31 +182,47 @@ $phone-size: 414px;
 
 // tab
 .nav-bar {
-  background-color: $sub-color;
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+
   @media (max-width: $phone-size) {
     display: none;
   }
 
-  ul {
+  .logo {
+    @include centralize;
+    margin: 0 0 0 10px;
+    input {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: transparent;
+    }
+  }
+
+
+  .nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 3em;
+    margin: 0 10px 0 0;
 
-    li {
+    .nav-item {
       color: $main-color;
       font-weight: bold;
+      padding: 5px 10px 5px 10px;
 
       &:hover {
         cursor: pointer;
+        background-color: $sub-color;
+        border-radius: 5px;
+        border: none !important;
       }
 
       &.active {
-        color: $white-color;
-        background-color: $button-color !important;
-        border: 2px solid $button-color;
-        border-radius: 20px;
-        padding: 5px 30px 5px 30px;
+        border-bottom: 3px solid $main-color;
       }
     }
   }
