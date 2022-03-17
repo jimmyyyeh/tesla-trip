@@ -179,23 +179,36 @@ $phone-size: 414px;
 }
 
 // tab
-.van-tabs {
+.nav-bar {
+  background-color: $sub-color;
   @media (max-width: $phone-size) {
     display: none;
   }
 
-  .van-tabs__nav {
-    background: $disabled-color !important;
+  ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 3em;
 
-    .van-tab__text {
+    li {
       color: $main-color;
-    }
+      font-weight: bold;
 
-    .van-tabs__line {
-      background-color: $button-color !important;
-      transform: translateX(1764px) translateX(-50%);
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.active {
+        color: $white-color;
+        background-color: $button-color !important;
+        border: 2px solid $button-color;
+        border-radius: 20px;
+        padding: 5px 30px 5px 30px;
+      }
     }
   }
+
 }
 
 
@@ -219,8 +232,8 @@ $phone-size: 414px;
   .page-item {
     &.active {
       .page-link {
-        background-color: $main-color !important;
-        border-color: $main-color !important;
+        background-color: $button-color !important;
+        border-color: $button-color !important;
         color: $white-color !important;
       }
     }

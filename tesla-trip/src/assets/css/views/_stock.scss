@@ -1,0 +1,32 @@
+@import "./src/assets/css/basic/basic";
+
+.wrap {
+  .container {
+    .stock-list {
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      .table {
+        text-align: center;
+        color: $main-color;
+        table-layout: fixed;
+
+        td {
+          text-align: center;
+          vertical-align: middle;
+        }
+      }
+    }
+    .create {
+      display: flex;
+      justify-content: flex-end;
+      input {
+        background: none;
+        border: none;
+        height: 50px;
+        width: 50px;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+@import "./src/assets/css/basic/basic";
+
+#stock-modal{
+  .modal-content {
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+.stock-form {
+  .input {
+    margin: 5px;
+    label {
+      width: 5em;
+    }
+  }
+}

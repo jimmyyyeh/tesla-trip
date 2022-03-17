@@ -46,7 +46,7 @@ export default {
         });
     },
     getProduct() {
-      const url = `${process.env.VUE_APP_API}/qrcode/product/${this.token}`;
+      const url = `${process.env.VUE_APP_API}/qrcode/product/${this.token}?page=1&per_page=100000000000000`;
       this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {

@@ -51,6 +51,11 @@ const routes = [
     name: 'redeem',
     component: () => import('../views/RedeemView.vue'),
   },
+  {
+    path: '/stock',
+    name: 'stock',
+    component: () => import('../views/StockView.vue'),
+  },
 ];
 
 const router = createRouter({

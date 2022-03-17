@@ -5,12 +5,15 @@ export default {
     return {
       user: null,
       config: null,
-      signInRequiredPage: ['car', 'profile', 'trip', 'product', 'redeem'],
+      signInRequiredPage: ['car', 'profile', 'trip', 'product', 'redeem', 'stock'],
     };
   },
   computed: {
     isSignIn() {
       return this.user !== null;
+    },
+    isAdmin() {
+      return this.user && this.user.role === 2;
     },
     isSignInRequired() {
       return this.signInRequiredPage.includes(this.$route.name);

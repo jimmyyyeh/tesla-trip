@@ -78,6 +78,7 @@
     }
 
     .trip-list {
+      height: 90vh;
       @media (max-width: $phone-size) {
         display: none;
       }

@@ -1,13 +1,15 @@
 <template>
-  <van-tabs class="nav-tab" v-model:active="tabName" @click-tab="redirectPage">
-    <van-tab title="首頁" name="home"></van-tab>
-    <van-tab title="旅途里程" name="trip"></van-tab>
-<!--    <van-tab title="充電站景點" name="attraction"></van-tab>-->
-    <van-tab title="愛車資料" name="car"></van-tab>
-    <van-tab title="點數兌換" name="product"></van-tab>
-    <van-tab title="個人檔案" name="profile"></van-tab>
-    <van-tab :title="$parent.isSignIn ? '登出': '登入'" name="auth"></van-tab>
-  </van-tabs>
+  <div class="nav-bar">
+    <ul class="nav">
+      <li class="nav-item" :class="tabName === 'home' ? 'active' : ''" @click="redirectPage('home')">首頁</li>
+      <li class="nav-item" :class="tabName === 'trip' ? 'active' : ''" @click="redirectPage('trip')">旅途里程</li>
+      <li class="nav-item" :class="tabName === 'car' ? 'active' : ''" @click="redirectPage('car')">愛車資料</li>
+      <li class="nav-item" :class="tabName === 'product' ? 'active' : ''" @click="redirectPage('product')">點數兌換</li>
+      <li class="nav-item" :class="tabName === 'stock' ? 'active' : ''" @click="redirectPage('stock')">庫存管理</li>
+      <li class="nav-item" :class="tabName === 'profile' ? 'active' : ''" @click="redirectPage('profile')">個人檔案</li>
+      <li class="nav-item" :class="tabName === 'autu' ? 'active' : ''" @click="redirectPage('auth')">{{ $parent.isSignIn ? '登出': '登入' }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -21,14 +23,15 @@ export default {
         attraction: '/attraction',
         car: '/car',
         product: '/product',
+        stock: '/stock',
         profile: '/profile',
         auth: '/auth',
       },
     };
   },
   methods: {
-    redirectPage() {
-      const path = this.pathMap[this.tabName];
+    redirectPage(name) {
+      const path = this.pathMap[name];
       this.$router.push(path);
     },
   },
