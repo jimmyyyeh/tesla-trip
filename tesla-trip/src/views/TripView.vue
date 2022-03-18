@@ -355,8 +355,8 @@ export default {
     let currentPage = 1;
     tripListMobile.addEventListener('scroll', () => {
       if (tripListMobile.offsetHeight + tripListMobile.scrollTop >= tripListMobile.scrollHeight) {
-        currentPage += 1;
         if (currentPage < this.pager.pages) {
+          currentPage += 1;
           this.getTrips(currentPage, true);
         }
       }
