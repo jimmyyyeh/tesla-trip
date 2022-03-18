@@ -211,8 +211,6 @@ export default {
         this.validateMap.startBatteryLevel = this.trip.startBatteryLevel >= 0 && this.trip.startBatteryLevel <= 100;
         this.validateMap.endBatteryLevel = this.trip.endBatteryLevel >= 0 && this.trip.endBatteryLevel <= 100;
         this.initTrip.mileage = this.trip.mileage;
-        this.initTrip.consumption = this.trip.consumption;
-        this.initTrip.total = this.trip.total;
       },
       deep: true,
     },
@@ -255,6 +253,8 @@ export default {
     resetTrip() {
       this.trips = [];
       this.trip = { ...this.initTrip };
+      console.log(this.initTrip);
+      console.log(this.trip);
       this.chargerIndex = 0;
       this.$parent.getTrips();
     },
