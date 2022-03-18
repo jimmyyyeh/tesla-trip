@@ -10,13 +10,16 @@
         height: 70%;
       }
 
-      .product-selector {
-        margin: 10px 0 10px 0;
+      .selector-group {
+        .selector {
+          margin: 10px 0 0 0;
+          width: 100%;
 
-        select {
-          background-color: $white-color;
-          color: $main-color;
-          border-radius: 5px;
+          select {
+            background-color: $white-color;
+            color: $main-color;
+            border-radius: 5px;
+          }
         }
       }
 
