@@ -95,13 +95,14 @@ export default {
   },
   watch: {
     carIndex(value) {
-      if (value === '請選擇') {
+      if (value === 0) {
         this.carID = null;
         this.carInfo = {
           model: '請選擇',
           spec: '請選擇',
           manufactureDate: formatDate(new Date()),
         };
+        this.isCarInfoShow = false;
       } else {
         this.carID = this.carMap[value - 1];
         this.getCars(this.carID);
