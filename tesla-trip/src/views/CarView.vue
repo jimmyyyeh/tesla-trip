@@ -45,10 +45,20 @@
                 </option>
               </select>
             </div>
+            <div class="upload-image">
+              <input class="upload" id="upload" name="upload" type="file" accept="image/*"
+                     @change="previewImage"/>
+              <button type="button" class="default-button"
+                      onclick="document.getElementById('upload').click();" v-show="!image.name && carInfo.model !== '請選擇'">上傳圖片
+              </button>
+            </div>
           </div>
         </div>
-        <div class="button-group" v-show="isCarInfoShow && carID">
-          <button class="default-button" @click="confirmRemoveCar">刪除</button>
+        <div class="preview-image">
+          <img :src="preview" alt="preview" v-show="carInfo.hasImage"/>
+        </div>
+        <div class="button-group" v-show="isCarInfoShow">
+          <button v-show="carID" class="default-button" @click="confirmRemoveCar">刪除</button>
           <button v-if="isValidate" class="default-button" v-show="!carID"
                   @click="insertCar">新增
           </button>
@@ -83,6 +93,8 @@ export default {
         model: '請選擇',
         spec: '請選擇',
         manufactureDate: formatDate(new Date()),
+        file: null,
+        hasImage: false,
       },
       models: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
       specs: {
@@ -91,6 +103,11 @@ export default {
         ModelX: ['請選擇', 'Model X', 'Model X Plaid'],
         ModelY: ['請選擇', 'Long Range AWD', 'Performance'],
       },
+      image: {
+        name: null,
+        size: null,
+      },
+      preview: '',
     };
   },
   watch: {
@@ -135,6 +152,9 @@ export default {
               this.carInfo.model = selectedCar.model;
               this.carInfo.spec = selectedCar.spec;
               this.carInfo.manufactureDate = selectedCar.manufacture_date;
+              this.carInfo.hasImage = selectedCar.has_image;
+              this.preview = selectedCar.has_image ? 'https://i.imgur.com/mhuHPIG.png' : '';
+              // TODO 圖片網址可取代, 因nginx未架設, 為展示圖片效果暫時寫死
             } else {
               this.cars = ['請選擇'];
               this.carMap = {};
@@ -158,6 +178,7 @@ export default {
         spec: this.carInfo.spec,
         model: this.carInfo.model,
         manufacture_date: this.carInfo.manufactureDate,
+        file: this.carInfo.file,
       };
       this.$http.post(url, payload, this.config)
         .then((res) => {
@@ -218,6 +239,26 @@ export default {
             console.log(response.data);
           }
         });
+    },
+    previewImage(event) {
+      const input = event.target;
+      if (input.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.preview = e.target.result;
+          this.carInfo.file = e.target.result; // base64
+          this.carInfo.hasImage = true;
+        };
+        this.image = input.files[0];
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    clearImage() {
+      this.image = {
+        name: null,
+        size: null,
+      };
+      this.preview = '';
     },
     initData() {
       this.getCars();
