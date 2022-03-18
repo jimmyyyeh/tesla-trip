@@ -9,7 +9,7 @@
       <div class="car-form">
         <div class="field">
           <div class="car-selector selector">
-            <div class="button-bar">
+            <div class="toolbar">
               <button class="image-button" @click="isCarInfoShow=!isCarInfoShow; carIndex=0">
                 <img
                   src="https://i.imgur.com/WRvX8iL.png" alt="edit"/>

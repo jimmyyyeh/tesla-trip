@@ -11,7 +11,8 @@
     </div>
     <div class="container" v-show="!isLoading">
       <div class="stock-list">
-        <div class="create">
+        <div class="toolbar">
+          <input type="text" v-model="filter.name" placeholder="名稱">
           <button class="image-button" @click="showProductModal(null)">
             <img
               src="https://i.imgur.com/rDkYs8J.png" alt="create"/>
@@ -59,7 +60,8 @@
         </table>
       </div>
       <div class="stock-list-mobile">
-        <div class="create">
+        <div class="toolbar">
+          <input type="text" v-model="filter.name" placeholder="名稱">
           <button class="image-button" @click="showProductModal(null)">
             <img
               src="https://i.imgur.com/rDkYs8J.png" alt="create"/>
@@ -104,6 +106,7 @@ import authMixins from '@/mixins/authMixins';
 import pageMixins from '@/mixins/pageMixins';
 import StockModal from '@/components/StockModal.vue';
 import PaginateComponent from '@/components/PaginateComponent.vue';
+import { formatUrl } from '@/utils/tools';
 
 export default {
   mixins: [authMixins, pageMixins],
@@ -122,15 +125,27 @@ export default {
         pages: 1,
         total: 1,
       },
+      filter: {
+        name: null,
+        is_self: 1,
+      },
     };
+  },
+  watch: {
+    filter: {
+      handler() {
+        this.getProducts();
+      },
+      deep: true,
+    },
   },
   methods: {
     getProducts(page, isAppend) {
-      let url = `${process.env.VUE_APP_API}/product?is_self=1`;
+      let url = `${process.env.VUE_APP_API}/product`;
       if (page) {
         url = `${url}&page=${page}`;
       }
-      this.isLoading = true;
+      url = formatUrl(url, this.filter);
       this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {

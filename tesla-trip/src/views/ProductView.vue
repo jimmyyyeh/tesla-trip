@@ -66,7 +66,6 @@ export default {
       const payload = {
         product_id: productID,
       };
-      this.isLoading = true;
       this.$http.post(url, payload, this.config)
         .then((res) => {
           if (res.status === 200) {

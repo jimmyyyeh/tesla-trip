@@ -10,7 +10,7 @@
       <div class="spinner-grow"></div>
     </div>
     <div class="container" v-show="!isLoading">
-      <div class="toolbar">
+      <div class="filter-bar">
         <div class="button-group">
           <button class="default-button" @click="showTripModal">新增</button>
           <button class="default-button" @click="clearFilter">重設</button>
@@ -247,7 +247,6 @@ export default {
       const queryFilter = this.getTripsFilter();
       queryFilter.page = page;
       url = formatUrl(url, queryFilter);
-      this.isLoading = true;
       this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {
