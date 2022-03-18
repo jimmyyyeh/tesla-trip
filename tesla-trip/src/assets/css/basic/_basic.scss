@@ -28,6 +28,7 @@ $phone-size: 414px;
   position: relative;
   @media (max-width: $phone-size) {
     margin: 50px 0 0 0;
+    width: 50vh;
   }
 
   .column {
