@@ -14,15 +14,23 @@
       .field {
         .car-selector {
           display: flex;
-          justify-content: flex-start;
           align-items: center;
           width: 100%;
-          margin: 20px 0 0 0;
+          flex-direction: column;
+          margin: 0;
 
-          .create {
+          .car-group {
+            width: 100%;
+            .selector-label {
+              width: 5em;
+            }
+          }
+
+          .button-bar {
             display: flex;
             justify-content: flex-end;
-            margin: 0 0 0 10px;
+            margin: 10px;
+            width: 100%;
           }
         }
 
@@ -33,7 +41,7 @@
           margin: 0 0 0 0;
 
           .selector-label {
-            width: 10em;
+            width: 5em;
           }
 
           .selector {
@@ -63,17 +71,20 @@
         margin: 5px 0 0 0;
 
         img {
-          height: 250px;
+          height: 20vh;
         }
       }
 
       .button-group {
         @include centralize;
         position: absolute;
-        bottom: 10px;
+        bottom: 0;
 
         .create-button {
           margin: 10px;
+        }
+        @media (max-width: $phone-size) {
+          bottom: 0;
         }
       }
     }

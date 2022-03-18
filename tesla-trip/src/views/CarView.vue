@@ -9,17 +9,21 @@
       <div class="car-form">
         <div class="field">
           <div class="car-selector selector">
+            <div class="button-bar">
+              <button class="image-button" @click="isCarInfoShow=!isCarInfoShow; carIndex=0">
+                <img
+                  src="https://i.imgur.com/WRvX8iL.png" alt="edit"/>
+              </button>
+              <button class="image-button" @click="confirmRemoveCar" v-show="carID">
+                <img
+                  src="https://i.imgur.com/ECKUIzz.png" alt="delete"/>
+              </button>
+            </div>
             <div class="car-group">
               <label class="selector-label" for="cars">車輛:</label>
               <select name="cars" id="cars" v-model="carIndex">
                 <option v-for="(car, index) in cars" :key="index" :value="index">{{ car }}</option>
               </select>
-            </div>
-            <div class="create">
-              <button class="image-button" :style="{visibility: !isCarInfoShow ? 'visible' : 'hidden'}" @click="isCarInfoShow=!isCarInfoShow">
-                <img
-                  src="https://i.imgur.com/rDkYs8J.png" alt="create"/>
-              </button>
             </div>
           </div>
           <div class="car-info" v-show="isCarInfoShow">
@@ -48,22 +52,22 @@
             <div class="upload-image">
               <input class="upload" id="upload" name="upload" type="file" accept="image/*"
                      @change="previewImage"/>
-              <button type="button" class="default-button"
-                      onclick="document.getElementById('upload').click();" v-show="!image.name && carInfo.model !== '請選擇'">上傳圖片
+              <button class="image-button" onclick="document.getElementById('upload').click();" v-show="!carID && !carInfo.hasImage && carInfo.model !== '請選擇'">
+                <img
+                  src="https://i.imgur.com/Jz0PlYK.png" alt="edit"/>
               </button>
             </div>
           </div>
         </div>
         <div class="preview-image">
-          <img :src="preview" alt="preview" v-show="carInfo.hasImage"/>
+          <img :src="preview" alt="preview" v-show="carInfo.hasImage && isCarInfoShow"/>
         </div>
         <div class="button-group" v-show="isCarInfoShow">
-          <button v-show="carID" class="default-button" @click="confirmRemoveCar">刪除</button>
           <button v-if="isValidate" class="default-button" v-show="!carID"
-                  @click="insertCar">新增
+                  @click="insertCar">確認
           </button>
           <button v-else class="default-button" disabled v-show="!carID">
-            新增
+            確認
           </button>
         </div>
       </div>
@@ -159,7 +163,7 @@ export default {
               this.cars = ['請選擇'];
               this.carMap = {};
               dataList.forEach((data, index) => {
-                this.cars.push(`${data.model}/${data.spec}/${data.manufacture_date}`);
+                this.cars.push(data.car);
                 this.carMap[index] = data.id;
               });
             }
@@ -208,7 +212,8 @@ export default {
             const refs = this.$refs;
             this.alert.title = null;
             this.alert.message = '車輛已刪除';
-            this.alert.confirmFunction = this.returnCar;
+            this.alert.confirmFunction = this.getCars;
+            this.carIndex = 0;
             refs.alertModal.showModal();
           }
         })

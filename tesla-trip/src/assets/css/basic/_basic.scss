@@ -23,7 +23,7 @@ $phone-size: 414px;
   flex-direction: column;
   align-items: center;
   margin: 150px 0 0 0;
-  width: 50vh;
+  width: 60vh;
   height: 50vh;
   position: relative;
   @media (max-width: $phone-size) {
@@ -234,7 +234,7 @@ $phone-size: 414px;
 .nav-pagination {
   @include centralize;
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   right: 50%;
   left: 50%;
 
