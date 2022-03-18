@@ -58,6 +58,34 @@
           </tbody>
         </table>
       </div>
+      <div class="stock-list-mobile">
+        <div class="create">
+          <button class="image-button" @click="showProductModal(null)">
+            <img
+              src="https://i.imgur.com/rDkYs8J.png" alt="create"/>
+          </button>
+        </div>
+        <div class="stock" v-for="(product, index) in products" :key="index">
+          <h6 class="header">{{ product.name }}</h6>
+          <div class="stock-content">
+            <ul class="content">
+              <li>庫存數量: {{ product.stock }}</li>
+              <li>點數: {{ product.point }}</li>
+              <li>是否上架: {{ product.is_launched ? '是' : '否' }}</li>
+            </ul>
+            <div class="button-group">
+              <button class="image-button" @click="showProductModal(product)">
+                <img
+                  src="https://i.imgur.com/WRvX8iL.png" alt="edit"/>
+              </button>
+              <button class="image-button" @click="confirmRemoveStock(product)">
+                <img
+                  src="https://i.imgur.com/ECKUIzz.png" alt="delete"/>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <PaginateComponent :refresh-method="getProducts" :pager="pager"
                          v-show="isSignIn"></PaginateComponent>
     </div>
@@ -97,7 +125,7 @@ export default {
     };
   },
   methods: {
-    getProducts(page) {
+    getProducts(page, isAppend) {
       let url = `${process.env.VUE_APP_API}/product?is_self=1`;
       if (page) {
         url = `${url}&page=${page}`;
@@ -106,7 +134,11 @@ export default {
       this.$http.get(url, this.config)
         .then((res) => {
           if (res.status === 200) {
-            this.products = res.data.data;
+            if (isAppend) {
+              this.products = this.products.concat(res.data.data);
+            } else {
+              this.products = res.data.data;
+            }
             this.pager = res.data.pager;
             this.isLoading = false;
           }
@@ -154,6 +186,18 @@ export default {
     initData() {
       this.getProducts();
     },
+  },
+  mounted() {
+    const stockListMobile = document.getElementsByClassName('stock-list-mobile')[0];
+    let currentPage = 1;
+    stockListMobile.addEventListener('scroll', () => {
+      if (stockListMobile.offsetHeight + stockListMobile.scrollTop >= stockListMobile.scrollHeight) {
+        if (currentPage < this.pager.pages) {
+          currentPage += 1;
+          this.getProducts(currentPage, true);
+        }
+      }
+    });
   },
 };
 </script>

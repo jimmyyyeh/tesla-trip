@@ -126,7 +126,11 @@
         border-radius: 5px;
         margin: 0 0 3px 0;
 
-        .trip-content, .header {
+        .header {
+          margin: 5px;
+        }
+
+        .trip-content {
           display: flex;
           margin: 5px;
           position: relative;

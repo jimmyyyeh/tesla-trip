@@ -8,6 +8,10 @@
       border-radius: 10px;
       box-shadow: 3px 3px 12px $main-color;
       margin: 10% 0 0 0;
+      display: block;
+      @media (max-width: $phone-size) {
+        display: none;
+      }
 
       .table {
         @media (max-width: $pad-size) {
@@ -21,6 +25,40 @@
     .create {
       display: flex;
       justify-content: flex-end;
+    }
+
+    .stock-list-mobile {
+      width: 100%;
+      margin: 10px 0 0 0;
+      display: none;
+      overflow-y: auto;
+      @media (max-width: $phone-size) {
+        display: block;
+      }
+
+      .stock {
+        border: $main-color 1px solid;
+        border-radius: 5px;
+        margin: 0 0 3px 0;
+
+        .header {
+          margin: 5px;
+        }
+
+        .stock-content {
+          display: flex;
+          margin: 5px;
+          position: relative;
+
+          .button-group {
+            @include centralize;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+          }
+        }
+
+      }
     }
   }
 }
