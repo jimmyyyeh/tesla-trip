@@ -10,14 +10,11 @@
       padding: 0 10px 0 10px;
       height: 10%;
 
-      @media (max-width: $pad-size) {
+      @media (max-width: $squeeze-size) {
         flex-direction: column-reverse;
-        label, select {
-          font-size: small !important;
-        }
-        .default-button {
-          @media (max-width: $pad-size) {
-            font-size: smaller;
+        @media (max-width: $squeeze-size) {
+          label, select {
+            font-size: small !important;
           }
         }
       }
@@ -28,7 +25,7 @@
         justify-content: space-around;
 
         .charger-selector, .model-selector, .spec-selector {
-          @media (max-width: $phone-size) {
+          @media (max-width: $pad-size) {
             display: none !important;
           }
         }
@@ -70,12 +67,12 @@
         display: flex;
         width: 100%;
 
-        @media (max-width: $phone-size) {
-          display: none !important;
+        @media (max-width: $squeeze-size) {
+          @include centralize;
         }
 
         @media (max-width: $pad-size) {
-          @include centralize;
+          display: none !important;
         }
 
         .default-button {
@@ -92,15 +89,11 @@
       margin: 30px 0 0 0 ;
 
       @media (max-width: $pad-size) {
-        width: 80vw;
-      }
-
-      @media (max-width: $phone-size) {
         display: none;
       }
 
       .table {
-        @media (max-width: $pad-size) {
+        @media (max-width: $squeeze-size) {
           font-size: smaller;
         }
         text-align: center;
@@ -117,7 +110,7 @@
       margin: 10px 0 0 0;
       display: none;
       overflow-y: auto;
-      @media (max-width: $phone-size) {
+      @media (max-width: $pad-size) {
         display: block;
       }
 
