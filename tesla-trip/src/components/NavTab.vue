@@ -1,10 +1,9 @@
 <template>
   <div class="nav-bar">
     <div class="logo">
-      <input type="image" src="https://i.imgur.com/um46tbY.png" alt="logo">
+      <input type="image" class="nav-item" src="https://i.imgur.com/um46tbY.png" alt="logo" @click="redirectPage('home')">
     </div>
     <ul class="nav">
-      <li class="nav-item" :class="tabName === 'home' ? 'active' : ''" @click="redirectPage('home')">首頁</li>
       <li class="nav-item" :class="tabName === 'trip' ? 'active' : ''" @click="redirectPage('trip')">旅途里程</li>
       <li class="nav-item" :class="tabName === 'car' ? 'active' : ''" @click="redirectPage('car')">愛車資料</li>
       <li class="nav-item" :class="tabName === 'product' ? 'active' : ''" @click="redirectPage('product')">點數兌換</li>

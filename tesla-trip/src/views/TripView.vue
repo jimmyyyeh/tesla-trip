@@ -1,6 +1,7 @@
 <template>
   <div class="offcanvas-bar">
-    <input class="offcanvas-button" type="image" src="https://i.imgur.com/um46tbY.png" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" alt="offcanvas">
+    <input class="offcanvas-button" type="image" src="https://i.imgur.com/um46tbY.png"
+           data-bs-toggle="offcanvas" data-bs-target="#offcanvas" alt="offcanvas">
   </div>
   <OffCanvas></OffCanvas>
   <NavTab></NavTab>
@@ -57,7 +58,8 @@
           <div class="spec-selector selector">
             <label class="selector-label" for="specs">型號</label>
             <select name="specs" id="specs" v-model="filter.spec">
-              <option v-for="(spec, index) in specOptions[filter.model] || ['請選擇']" :key="index" :value="spec">
+              <option v-for="(spec, index) in specOptions[filter.model] || ['請選擇']" :key="index"
+                      :value="spec">
                 {{ spec }}
               </option>
             </select>
@@ -65,52 +67,52 @@
         </div>
       </div>
       <div class="trip-list">
-        <div class="trip">
-          <table class="table">
-            <thead>
-            <tr>
-              <th scope="col">日期</th>
-              <th scope="col">車型</th>
-              <th scope="col">滿電里程</th>
-              <th scope="col">平均電力</th>
-              <th scope="col">電量總計</th>
-              <th scope="col">起點</th>
-              <th scope="col">終點</th>
-              <th scope="col">充電資訊</th>
-              <th scope="col">評分</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(trip, index) in trips" :key="index">
-              <td> {{ trip.trip_date }}</td>
-              <td> {{ trip.car }}</td>
-              <td> {{ trip.mileage }}KM</td>
-              <td> {{ trip.consumption }}Wh/km</td>
-              <td> {{ trip.total }}kWh</td>
-              <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
-              <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
-              <td>
-                <div class="charge-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-html="true" :title="getChargeInfo(trip)">
-                  <button class="image-button">
-                    <img v-if="trip.is_charge" src="https://i.imgur.com/Y5jhyMb.png" alt="charge info"/>
-                    <label v-else> - </label>
-                  </button>
-                </div>
-              </td>
-              <td>
-                <div class="rate">
-                  <button class="image-button" @click="rateTrip(trip.id)">
-                      <img
-                        :src="trip.is_rate ? 'https://i.imgur.com/zC5NSQY.png' : 'https://i.imgur.com/ZfGOkQY.png'"
-                        alt="rate"/>
-                  </button>
-                  <label> {{ trip.trip_rate_count || 0 }}</label>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">日期</th>
+            <th scope="col">車型</th>
+            <th scope="col">滿電里程</th>
+            <th scope="col">平均電力</th>
+            <th scope="col">電量總計</th>
+            <th scope="col">起點</th>
+            <th scope="col">終點</th>
+            <th scope="col">充電資訊</th>
+            <th scope="col">評分</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(trip, index) in trips" :key="index">
+            <td> {{ trip.trip_date }}</td>
+            <td> {{ trip.car }}</td>
+            <td> {{ trip.mileage }}KM</td>
+            <td> {{ trip.consumption }}Wh/km</td>
+            <td> {{ trip.total }}kWh</td>
+            <td> {{ trip.start }} ({{ trip.start_battery_level }}%)</td>
+            <td> {{ trip.end }} ({{ trip.end_battery_level }}%)</td>
+            <td>
+              <div class="charge-info" data-bs-toggle="tooltip" data-bs-placement="left"
+                   data-bs-html="true" :title="getChargeInfo(trip)">
+                <button class="image-button">
+                  <img v-if="trip.is_charge" src="https://i.imgur.com/Y5jhyMb.png"
+                       alt="charge info"/>
+                  <label v-else> - </label>
+                </button>
+              </div>
+            </td>
+            <td>
+              <div class="rate">
+                <button class="image-button" @click="rateTrip(trip.id)">
+                  <img
+                    :src="trip.is_rate ? 'https://i.imgur.com/sokgJxr.png' : 'https://i.imgur.com/ZfGOkQY.png'"
+                    alt="rate"/>
+                </button>
+                <label> {{ trip.trip_rate_count || 0 }}</label>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
       <div class="trip-list-mobile">
         <div class="trip" v-for="(trip, index) in trips" :key="index">
@@ -126,7 +128,7 @@
             <div class="rate">
               <button class="image-button" @click="rateTrip(trip.id)">
                 <img
-                  :src="trip.is_rate ? 'https://i.imgur.com/zC5NSQY.png' : 'https://i.imgur.com/ZfGOkQY.png'"
+                  :src="trip.is_rate ? 'https://i.imgur.com/sokgJxr.png' : 'https://i.imgur.com/ZfGOkQY.png'"
                   alt="rate"/>
               </button>
               <label> {{ trip.trip_rate_count || 0 }}</label>
@@ -141,8 +143,12 @@
   <TripModal ref="tripModal" :cars="cars" :carMap="carMap" :chargers="chargers"
              :chargerMap="chargerMap" :areas="areas"
              :config="config"></TripModal>
-  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
-  <AlertModal ref="confirmModal" :title="alert.title" :message="alert.message" :isCancelShow="alert.isCancelShow" :confirmFunction="alert.confirmFunction"></AlertModal>
+  <AlertModal ref="alertModal" :title="alert.title" :message="alert.message"
+              :isCancelShow="alert.isCancelShow"
+              :confirmFunction="alert.confirmFunction"></AlertModal>
+  <AlertModal ref="confirmModal" :title="alert.title" :message="alert.message"
+              :isCancelShow="alert.isCancelShow"
+              :confirmFunction="alert.confirmFunction"></AlertModal>
 </template>
 
 <script>

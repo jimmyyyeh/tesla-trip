@@ -7,49 +7,54 @@
   <div class="wrap" v-show="isSignIn">
     <div class="container">
       <div class="car-form">
-        <div class="car-selector selector">
-          <div class="car-group">
-            <label class="selector-label" for="cars">車輛:</label>
-            <select name="cars" id="cars" v-model="carIndex">
-              <option v-for="(car, index) in cars" :key="index" :value="index">{{ car }}</option>
-            </select>
+        <div class="field">
+          <div class="car-selector selector">
+            <div class="car-group">
+              <label class="selector-label" for="cars">車輛:</label>
+              <select name="cars" id="cars" v-model="carIndex">
+                <option v-for="(car, index) in cars" :key="index" :value="index">{{ car }}</option>
+              </select>
+            </div>
+            <div class="create">
+              <button class="image-button" :style="{visibility: !isCarInfoShow ? 'visible' : 'hidden'}" @click="isCarInfoShow=!isCarInfoShow">
+                <img
+                  src="https://i.imgur.com/rDkYs8J.png" alt="create"/>
+              </button>
+            </div>
           </div>
-          <div class="button-group">
-            <input type="button" class="create-button" v-show="!isCarInfoShow" @click="isCarInfoShow=!isCarInfoShow" value="+">
+          <div class="car-info" v-show="isCarInfoShow">
+            <div class="manufacture-date-selector selector">
+              <label class="selector-label" for="manufacture-date">出廠日期:</label>
+              <input type="date" id="manufacture-date" v-model="carInfo.manufactureDate">
+            </div>
+            <div class="model-selector selector">
+              <label class="selector-label" for="models">型號:</label>
+              <select name="models" id="models" v-model="carInfo.model">
+                <option v-for="(model, index) in models" :key="index" :value="model">{{
+                    model
+                  }}
+                </option>
+              </select>
+            </div>
+            <div class="spec-selector selector" v-show="carInfo.model !== '請選擇'">
+              <label class="selector-label" for="specs">規格:</label>
+              <select name="specs" id="specs" v-model="carInfo.spec">
+                <option v-for="(spec, index) in specs[carInfo.model]" :key="index" :value="spec">{{
+                    spec
+                  }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="car-info" v-show="isCarInfoShow">
-          <div class="manufacture-date-selector selector">
-            <label class="selector-label" for="manufacture-date">- 出廠日期:</label>
-            <input type="date" id="manufacture-date" v-model="carInfo.manufactureDate">
-          </div>
-          <div class="model-selector selector">
-            <label class="selector-label" for="models">- 型號:</label>
-            <select name="models" id="models" v-model="carInfo.model">
-              <option v-for="(model, index) in models" :key="index" :value="model">{{
-                  model
-                }}
-              </option>
-            </select>
-          </div>
-          <div class="spec-selector selector" v-show="carInfo.model !== '請選擇'">
-            <label class="selector-label" for="specs">- 規格:</label>
-            <select name="specs" id="specs" v-model="carInfo.spec">
-              <option v-for="(spec, index) in specs[carInfo.model]" :key="index" :value="spec">{{
-                  spec
-                }}
-              </option>
-            </select>
-          </div>
-          <div class="button-group">
-            <button class="default-button" v-show="isCarInfoShow && carID" @click="confirmRemoveCar">刪除</button>
-            <button v-if="isValidate" class="default-button" v-show="!carID"
-                    @click="insertCar">新增
-            </button>
-            <button v-else class="default-button" disabled v-show="!carID">
-              新增
-            </button>
-          </div>
+        <div class="button-group" v-show="isCarInfoShow && carID">
+          <button class="default-button" @click="confirmRemoveCar">刪除</button>
+          <button v-if="isValidate" class="default-button" v-show="!carID"
+                  @click="insertCar">新增
+          </button>
+          <button v-else class="default-button" disabled v-show="!carID">
+            新增
+          </button>
         </div>
       </div>
     </div>

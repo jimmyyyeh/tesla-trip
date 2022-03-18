@@ -3,30 +3,24 @@
 .wrap {
   .container {
     .stock-list {
-      height: 90vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
+      width: 70vw;
+      border: $main-color 1px solid;
+      border-radius: 10px;
+      box-shadow: 3px 3px 12px $main-color;
+      margin: 10% 0 0 0;
+
       .table {
+        @media (max-width: $pad-size) {
+          font-size: smaller;
+        }
         text-align: center;
         color: $main-color;
-        table-layout: fixed;
-
-        td {
-          text-align: center;
-          vertical-align: middle;
-        }
       }
     }
+
     .create {
       display: flex;
       justify-content: flex-end;
-      input {
-        background: none;
-        border: none;
-        height: 50px;
-        width: 50px;
-      }
     }
   }
 }

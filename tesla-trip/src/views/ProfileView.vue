@@ -7,53 +7,55 @@
   <div class="wrap" v-show="isSignIn">
     <div class="container">
       <div class="profile-form">
-        <div class="username column">
-          <div class="input">
-            <label class="input-label">使用者名稱:</label>
-            <label class="input-label">{{ profile.username }}</label>
+        <div class="field">
+          <div class="username column">
+            <div class="input">
+              <label class="input-label">使用者名稱:</label>
+              <label class="input-label">{{ profile.username }}</label>
+            </div>
           </div>
-        </div>
-        <div class="birthday column">
-          <div class="input">
-            <label class="input-label">生日:</label>
-            <label class="input-label">{{ profile.birthday }}</label>
+          <div class="birthday column">
+            <div class="input">
+              <label class="input-label">生日:</label>
+              <label class="input-label">{{ profile.birthday }}</label>
+            </div>
           </div>
-        </div>
-        <div class="sex column">
-          <div class="input">
-            <label class="input-label">性別:</label>
-            <label class="input-label">{{ profile.sex === 1 ? '男' : '女' }}</label>
+          <div class="sex column">
+            <div class="input">
+              <label class="input-label">性別:</label>
+              <label class="input-label">{{ profile.sex === 1 ? '男' : '女' }}</label>
+            </div>
           </div>
-        </div>
-        <div class="point column">
-          <div class="input">
-            <label class="input-label">積分:</label>
-            <label class="input-label">{{ profile.point }}</label>
+          <div class="point column">
+            <div class="input">
+              <label class="input-label">積分:</label>
+              <label class="input-label">{{ profile.point }}</label>
+            </div>
           </div>
-        </div>
-        <hr>
-        <div class="nickname column">
-          <div class="input">
-            <label class="input-label">暱稱:</label>
-            <input type="text" v-model="profile.nickname">
+          <hr>
+          <div class="nickname column">
+            <div class="input">
+              <label class="input-label">暱稱:</label>
+              <input type="text" v-model="profile.nickname">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: validateMap.nickname ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="validateMsg.nickname"
+            >
+              &#9432;
+            </div>
           </div>
-          <div class="validate-label"
-               :style="{visibility: validateMap.nickname ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="validateMsg.nickname"
-          >
-            &#9432;
-          </div>
-        </div>
-        <div class="email column">
-          <div class="input">
-            <label class="input-label">電子郵件:</label>
-            <input type="text" v-model="profile.email">
-          </div>
-          <div class="validate-label"
-               :style="{visibility: validateMap.email ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="validateMsg.email"
-          >
-            &#9432;
+          <div class="email column">
+            <div class="input">
+              <label class="input-label">電子郵件:</label>
+              <input type="text" v-model="profile.email">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: validateMap.email ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="validateMsg.email"
+            >
+              &#9432;
+            </div>
           </div>
         </div>
         <div class="button-group">

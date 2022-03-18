@@ -4,8 +4,6 @@
   .container {
     .car-form {
       @include form;
-      position: absolute;
-      top: 50px;
 
       select {
         background-color: $white-color;
@@ -13,35 +11,48 @@
         border-radius: 5px;
       }
 
-      .car-selector {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        margin: 10px;
-        .button-group {
-          margin: 0 0 0 5px;
+      .field {
+        .car-selector {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          width: 100%;
+          margin: 30% 0 0 0;
+
+          .create {
+            display: flex;
+            justify-content: flex-end;
+            margin: 0 0 0 10px;
+          }
+        }
+
+        .car-info {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          margin: 0 0 0 0;
+
+          .selector-label {
+            width: 10em;
+          }
+
+          .selector {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 10px 0 0 0;
+          }
+
         }
       }
 
-      .car-info {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        width: 100%;
+      .button-group {
+        @include centralize;
+        position: absolute;
+        bottom: 10px;
 
-        .selector-label {
-          width: 10em;
-        }
-
-        .selector {
+        .create-button {
           margin: 10px;
-        }
-
-        .button-group {
-          @include centralize;
-          .create-button {
-            margin: 10px;
-          }
         }
       }
     }

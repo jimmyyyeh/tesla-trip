@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5>{{originProduct? '編輯庫存' : '新增產品'}}</h5>
+          <h6>{{originProduct? '編輯庫存' : '新增產品'}}</h6>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">

@@ -4,13 +4,63 @@
   .container {
     .sign-in-form, .sign-up-form, .forget-password-form {
       @include form;
+    }
 
-      .column {
+    .sign-in-form {
+      .field {
+        position: absolute;
+        top: 30%;
+        @media (max-width: $phone-size) {
+          top: 10%;
+        }
+      }
 
-        .input {
-          @media (max-width: $phone-size) {
-            @include centralize;
-          }
+      .button-group {
+        @include centralize;
+        position: absolute;
+        bottom: 30%;
+        @media (max-width: $phone-size) {
+          bottom: 20%;
+        }
+      }
+    }
+
+    .sign-up-form {
+      @media (max-width: $phone-size) {
+        height: 60vh;
+      }
+
+      .field {
+        position: absolute;
+        top: 10%;
+      }
+
+      .button-group {
+        @include centralize;
+        position: absolute;
+        bottom: 20%;
+
+        @media (max-width: $phone-size) {
+          bottom: 10%;
+        }
+      }
+    }
+
+    .forget-password-form {
+      .field {
+        position: absolute;
+        top: 30%;
+        @media (max-width: $phone-size) {
+          top: 10%;
+        }
+      }
+
+      .button-group {
+        @include centralize;
+        position: absolute;
+        bottom: 40%;
+        @media (max-width: $phone-size) {
+          bottom: 20%;
         }
       }
     }

@@ -7,7 +7,8 @@
   <div class="wrap">
     <div class="container" v-show="!isSignIn">
       <div v-if="isForgetPassword" class="forget-password-form">
-        <div class="email column">
+        <div class="field">
+          <div class="email column">
           <div class="input">
             <label class="input-label" for="forget-email">電子郵件:</label>
             <input type="text" id="forget-email" v-model="forgetPassword.email">
@@ -19,6 +20,7 @@
             &#9432;
           </div>
         </div>
+        </div>
         <div class="button-group">
           <button class="default-button" @click="isRegistered=true;isForgetPassword=false">登入</button>
           <button v-if="isForgetPasswordFormValidated" class="default-button" @click="resetPassword">發送重設信</button>
@@ -26,29 +28,31 @@
         </div>
       </div>
       <div v-else-if="isRegistered" class="sign-in-form">
-        <div class="username column">
-          <div class="input">
-            <label class="input-label" for="sign-in-username">使用者名稱:</label>
-            <input type="text" id="sign-in-username" v-model="signInUser.username">
+        <div class="field">
+          <div class="username column">
+            <div class="input">
+              <label class="input-label" for="sign-in-username">使用者名稱:</label>
+              <input type="text" id="sign-in-username" v-model="signInUser.username">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: signInValidateMap.username ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signInValidateMsg.username"
+            >
+              &#9432;
+            </div>
           </div>
-          <div class="validate-label"
-               :style="{visibility: signInValidateMap.username ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signInValidateMsg.username"
-          >
-            &#9432;
-          </div>
-        </div>
-        <div class="password column">
-          <div class="input">
-            <label class="input-label" for="sign-in-password">密碼:</label>
-            <input type="password" id="sign-in-password" autocomplete="true"
-                   v-model="signInUser.password">
-          </div>
-          <div class="validate-label"
-               :style="{visibility: signInValidateMap.password ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signInValidateMsg.password"
-          >
-            &#9432;
+          <div class="password column">
+            <div class="input">
+              <label class="input-label" for="sign-in-password">密碼:</label>
+              <input type="password" id="sign-in-password" autocomplete="true"
+                     v-model="signInUser.password">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: signInValidateMap.password ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signInValidateMsg.password"
+            >
+              &#9432;
+            </div>
           </div>
         </div>
         <div class="button-group">
@@ -59,75 +63,77 @@
         </div>
       </div>
       <div v-else class="sign-up-form">
-        <div class="username column">
-          <div class="input">
-            <label class="input-label" for="sign-up-username">使用者名稱:</label>
-            <input type="text" id="sign-up-username" v-model="signUpUser.username">
+        <div class="field">
+          <div class="username column">
+            <div class="input">
+              <label class="input-label" for="sign-up-username">使用者名稱:</label>
+              <input type="text" id="sign-up-username" v-model="signUpUser.username">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: signUpValidateMap.username ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.username"
+            >
+              &#9432;
+            </div>
           </div>
-          <div class="validate-label"
-               :style="{visibility: signUpValidateMap.username ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.username"
-          >
-            &#9432;
+          <div class="password column">
+            <div class="input">
+              <label class="input-label" for="sign-up-password">密碼:</label>
+              <input type="password" id="sign-up-password" autocomplete="true"
+                     v-model="signUpUser.password">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: signUpValidateMap.password ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.password"
+            >
+              &#9432;
+            </div>
           </div>
-        </div>
-        <div class="password column">
-          <div class="input">
-            <label class="input-label" for="sign-up-password">密碼:</label>
-            <input type="password" id="sign-up-password" autocomplete="true"
-                   v-model="signUpUser.password">
+          <div class="confirm-password column">
+            <div class="input">
+            <label class="input-label" for="confirm-password">確認密碼:</label>
+            <input type="password" id="confirm-password" autocomplete="true"
+                   v-model="signUpUser.confirmPassword">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: signUpValidateMap.confirmPassword ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.confirmPassword"
+            >
+              &#9432;
+            </div>
           </div>
-          <div class="validate-label"
-               :style="{visibility: signUpValidateMap.password ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.password"
-          >
-            &#9432;
+          <div class="nickname column">
+            <div class="input">
+              <label class="input-label" for="nickname">暱稱:</label>
+              <input type="text" id="nickname" v-model="signUpUser.nickname">
+            </div>
           </div>
-        </div>
-        <div class="confirm-password column">
-          <div class="input">
-          <label class="input-label" for="confirm-password">確認密碼:</label>
-          <input type="password" id="confirm-password" autocomplete="true"
-                 v-model="signUpUser.confirmPassword">
+          <div class="email column">
+            <div class="input">
+            <label class="input-label" for="sign-up-email">電子郵件:</label>
+            <input type="text" id="sign-up-email" v-model="signUpUser.email">
+            </div>
+            <div class="validate-label"
+                 :style="{visibility: signUpValidateMap.email ? 'visible' : 'hidden'}"
+                 data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.email"
+            >
+              &#9432;
+            </div>
           </div>
-          <div class="validate-label"
-               :style="{visibility: signUpValidateMap.confirmPassword ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.confirmPassword"
-          >
-            &#9432;
+          <div class="birthday column">
+            <div class="input">
+              <label class="input-label" for="birthday">生日:</label>
+              <input type="date" id="birthday" v-model="signUpUser.birthday">
+            </div>
           </div>
-        </div>
-        <div class="nickname column">
-          <div class="input">
-            <label class="input-label" for="nickname">暱稱:</label>
-            <input type="text" id="nickname" v-model="signUpUser.nickname">
-          </div>
-        </div>
-        <div class="email column">
-          <div class="input">
-          <label class="input-label" for="sign-up-email">電子郵件:</label>
-          <input type="text" id="sign-up-email" v-model="signUpUser.email">
-          </div>
-          <div class="validate-label"
-               :style="{visibility: signUpValidateMap.email ? 'visible' : 'hidden'}"
-               data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" :title="signUpValidateMsg.email"
-          >
-            &#9432;
-          </div>
-        </div>
-        <div class="birthday column">
-          <div class="input">
-            <label class="input-label" for="birthday">生日:</label>
-            <input type="date" id="birthday" v-model="signUpUser.birthday">
-          </div>
-        </div>
-        <div class="sex column">
-          <div class="input">
-            <label class="input-label">性別:</label>
-            <input class="input-radio" type="radio" name="sex" value="1" v-model="signUpUser.sex"/>
-            <label class="radio-label">男</label>
-            <input class="input-radio" type="radio" name="sex" value="2" v-model="signUpUser.sex"/>
-            <label class="radio-label">女</label>
+          <div class="sex column">
+            <div class="input">
+              <label class="input-label">性別:</label>
+              <input class="input-radio" type="radio" name="sex" value="1" v-model="signUpUser.sex"/>
+              <label class="radio-label">男</label>
+              <input class="input-radio" type="radio" name="sex" value="2" v-model="signUpUser.sex"/>
+              <label class="radio-label">女</label>
+            </div>
           </div>
         </div>
         <div class="button-group">

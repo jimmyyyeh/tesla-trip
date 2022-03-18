@@ -11,6 +11,12 @@
     </div>
     <div class="container" v-show="!isLoading">
       <div class="stock-list">
+        <div class="create">
+          <button class="image-button" @click="showProductModal(null)">
+            <img
+              src="https://i.imgur.com/rDkYs8J.png" alt="create"/>
+          </button>
+        </div>
         <table class="table">
           <thead>
           <tr>
@@ -37,17 +43,20 @@
               <label>{{ product.is_launched ? '是' : '否' }}</label>
             </td>
             <td>
-              <button class="default-button" @click="showProductModal(product)">編輯</button>
+              <button class="image-button" @click="showProductModal(product)">
+                <img
+                  src="https://i.imgur.com/WRvX8iL.png" alt="edit"/>
+              </button>
             </td>
             <td>
-              <button class="default-button" @click="confirmRemoveStock(product)">刪除</button>
+              <button class="image-button" @click="confirmRemoveStock(product)">
+                <img
+                  src="https://i.imgur.com/ECKUIzz.png" alt="delete"/>
+              </button>
             </td>
           </tr>
           </tbody>
         </table>
-        <div class="create">
-          <input type="image" src="https://i.imgur.com/xx2RMXq.png" alt="create" @click="showProductModal(null)">
-        </div>
       </div>
       <PaginateComponent :refresh-method="getProducts" :pager="pager"
                          v-show="isSignIn"></PaginateComponent>

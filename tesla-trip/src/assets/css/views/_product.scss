@@ -4,8 +4,6 @@
   .container {
     .product-form {
       @include form;
-      width: 50%;
-      height: 70%;
 
       @media (max-width: $pad-size) {
         width: 100%;
