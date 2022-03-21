@@ -1,0 +1,19 @@
+@import "./src/assets/css/basic/basic";
+
+.wrap {
+  .container {
+    .footer {
+      @include centralize;
+      flex-direction: column;
+      width: 100vw;
+      background-color: $sub-color;
+      position: absolute;
+      bottom: 0;
+      padding: 5px;
+      .icons {
+        @include centralize;
+      }
+    }
+  }
+}
+
