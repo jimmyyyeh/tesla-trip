@@ -94,7 +94,7 @@
               <div class="charge-info" data-bs-toggle="tooltip" data-bs-placement="left"
                    data-bs-html="true" :title="getChargeInfo(trip)">
                 <button class="image-button">
-                  <img v-if="trip.is_charge" src="https://i.imgur.com/Y5jhyMb.png"
+                  <img v-if="trip.is_charge" src="https://i.imgur.com/cTFmJ8Q.png"
                        alt="charge info"/>
                   <label v-else> - </label>
                 </button>
