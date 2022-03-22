@@ -253,8 +253,6 @@ export default {
     resetTrip() {
       this.trips = [];
       this.trip = { ...this.initTrip };
-      console.log(this.initTrip);
-      console.log(this.trip);
       this.chargerIndex = 0;
       this.$parent.getTrips();
     },
@@ -275,6 +273,10 @@ export default {
           if (response) {
             this.$parent.refreshToken(response.data, response.data.error_code, this.createTrip);
             console.log(response.data);
+            const refs = this.$parent.$refs;
+            this.$parent.alert.title = '失敗';
+            this.$parent.alert.message = '儲存旅程失敗 請重新操作';
+            refs.alertModal.showModal();
           }
         });
     },
