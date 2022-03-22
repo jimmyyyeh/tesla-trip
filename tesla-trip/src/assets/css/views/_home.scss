@@ -1,15 +1,65 @@
 @import "./src/assets/css/basic/basic";
 
 .wrap {
-  .container {
+  .home-container {
+    background-color: $white-color;
+
+    .content {
+      overflow-y: auto;
+      width: 100vw;
+
+      .display {
+        position: relative;
+
+        .description {
+          @include centralize;
+          flex-direction: column;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+
+          h1, h2 {
+            color: $main-color;
+            text-align: center;
+            @media (max-width: $phone-size) {
+              font-size: small;
+            }
+          }
+
+          button {
+            background: transparent;
+            border: $main-color 1px solid;
+            color: $main-color;
+            border-radius: 50px;
+            padding: 10px 20px 10px 20px;
+            font-size: x-large;
+            @media (max-width: $phone-size) {
+              font-size: small;
+            }
+
+            &:hover {
+              background: $main-color;
+              border-color: $main-color;
+              color: $white-color;
+            }
+          }
+        }
+
+        img {
+          width: 100%;
+          opacity: 0.3;
+        }
+      }
+    }
+
     .footer {
       @include centralize;
-      flex-direction: column;
       width: 100vw;
+      flex-direction: column;
       background-color: $sub-color;
-      position: absolute;
-      bottom: 0;
-      padding: 5px;
+      padding: 5px 0 5px 0;
+
       .icons {
         @include centralize;
       }
