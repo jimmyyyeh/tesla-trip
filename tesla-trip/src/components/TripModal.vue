@@ -262,7 +262,7 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             const refs = this.$parent.$refs;
-            this.$parent.alert.title = '成功';
+            this.$parent.alert.title = null;
             this.$parent.alert.message = '儲存旅程成功';
             this.$parent.alert.confirmFunction = this.resetTrip;
             refs.alertModal.showModal();
@@ -271,10 +271,9 @@ export default {
         .catch((error) => {
           const response = error.response;
           if (response) {
-            this.$parent.refreshToken(response.data, response.data.error_code, this.createTrip);
             console.log(response.data);
             const refs = this.$parent.$refs;
-            this.$parent.alert.title = '失敗';
+            this.$parent.alert.title = null;
             this.$parent.alert.message = '儲存旅程失敗 請重新操作';
             refs.alertModal.showModal();
           }

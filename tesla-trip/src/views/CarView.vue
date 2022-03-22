@@ -198,11 +198,12 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
+            const refs = this.$refs;
+            this.alert.title = '失敗';
+            this.alert.message = '新增車輛失敗 請重新操作';
+            refs.alertModal.showModal();
           }
         });
-    },
-    returnCar() {
-      this.$router.push('/car');
     },
     removeCar() {
       const url = `${process.env.VUE_APP_API}/car/${this.carInfo.id}`;
@@ -221,6 +222,10 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
+            const refs = this.$refs;
+            this.alert.title = null;
+            this.alert.message = '刪除車輛失敗 請重新操作';
+            refs.alertModal.showModal();
           }
         });
     },

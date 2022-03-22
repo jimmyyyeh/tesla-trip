@@ -147,9 +147,6 @@ export default {
       this.getChargers();
     },
   },
-  created() {
-
-  },
 };
 
 </script>

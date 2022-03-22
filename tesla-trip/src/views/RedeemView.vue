@@ -65,7 +65,7 @@ export default {
             console.log(response.data);
             const refs = this.$refs;
             this.alert.title = null;
-            this.alert.message = '發生錯誤 請重新兌換';
+            this.alert.message = '兌換商品失敗 請重新操作';
             this.alert.isCancelShow = false;
             this.alert.confirmFunction = this.returnProduct;
             refs.confirmModal.showModal();

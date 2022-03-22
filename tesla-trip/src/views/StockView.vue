@@ -186,6 +186,10 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
+            const refs = this.$refs;
+            this.alert.title = null;
+            this.alert.message = '刪除產品失敗 請重新操作';
+            refs.alertModal.showModal();
           }
         });
     },

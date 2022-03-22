@@ -78,6 +78,10 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
+            const refs = this.$parent.$refs;
+            this.$parent.alert.title = null;
+            this.$parent.alert.message = '新增產品失敗 請重新操作';
+            refs.alertModal.showModal();
           }
         });
     },
@@ -104,6 +108,10 @@ export default {
           const response = error.response;
           if (response) {
             console.log(response.data);
+            const refs = this.$parent.$refs;
+            this.$parent.alert.title = null;
+            this.$parent.alert.message = '更新產品失敗 請重新操作';
+            refs.alertModal.showModal();
           }
         });
     },
