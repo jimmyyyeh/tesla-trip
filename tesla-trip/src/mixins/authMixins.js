@@ -12,9 +12,6 @@ export default {
     isSignIn() {
       return this.user !== null;
     },
-    isAdmin() {
-      return this.user && this.user.role === 2;
-    },
     isSignInRequired() {
       return this.signInRequiredPage.includes(this.$route.name);
     },
@@ -95,5 +92,8 @@ export default {
     if (this.isSignInRequired) {
       this.initData();
     }
+    window.setInterval(async () => {
+      await this.refresh();
+    }, 60 * 3 * 1000);
   },
 };
