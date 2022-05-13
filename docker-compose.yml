@@ -12,3 +12,10 @@ services:
     tty: true
     ports: 
       - "8080:8080"
+    networks:
+      - tesla-trip-proxy
+
+networks:
+  tesla-trip-proxy:
+    external:
+      name: tesla-trip-network
