@@ -180,8 +180,7 @@ export default {
               this.carInfo.spec = selectedCar.spec;
               this.carInfo.manufactureDate = selectedCar.manufacture_date;
               this.carInfo.hasImage = selectedCar.has_image;
-              this.preview = selectedCar.has_image ? 'https://i.imgur.com/mhuHPIG.png' : '';
-              // TODO 圖片網址可取代, 因nginx未架設, 為展示圖片效果暫時寫死
+              this.preview = selectedCar.has_image ? `${process.env.VUE_APP_IMAGE_DOMAIN}/image/car/${selectedCar.id}.jpg` : 'https://i.imgur.com/mhuHPIG.png';
             } else {
               this.cars = ['請選擇'];
               this.carMap = {};
