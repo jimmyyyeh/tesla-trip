@@ -181,10 +181,10 @@ export default {
       areas: ['請選擇'],
       modelOptions: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
       specOptions: {
-        ModelS: ['請選擇', 'Model S', 'Model S Plaid'],
-        Model3: ['請選擇', 'Real-Wheel Drive', 'Lone Range AWD', 'Performance'],
-        ModelX: ['請選擇', 'Model X', 'Model X Plaid'],
-        ModelY: ['請選擇', 'Lone Range AWD', 'Performance'],
+        ModelS: ['請選擇'],
+        Model3: ['請選擇'],
+        ModelX: ['請選擇'],
+        ModelY: ['請選擇'],
       },
       filter: {
         charger: '請選擇',
@@ -207,6 +207,24 @@ export default {
   methods: {
     returnHome() {
       this.$router.push('/');
+    },
+    getCarModels() {
+      const url = `${process.env.VUE_APP_API}/car/car-model`;
+      this.$http.get(url, this.config)
+        .then((res) => {
+          if (res.status === 200) {
+            const dataList = res.data.data;
+            dataList.forEach((data) => {
+              this.specOptions[data.model].push(data.spec);
+            });
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
     },
     getCars() {
       const url = `${process.env.VUE_APP_API}/car`;
@@ -336,6 +354,7 @@ export default {
       this.filter.is_my_trip = '0';
     },
     initData() {
+      this.getCarModels();
       this.getCars();
       this.getTrips();
       this.getChargers();
