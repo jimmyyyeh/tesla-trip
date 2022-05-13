@@ -26,7 +26,7 @@
               </select>
             </div>
           </div>
-          <div class="car-info" v-show="isCarInfoShow">
+          <div class="car-info" :style="{visibility: isCarInfoShow ? 'visible' : 'hidden'}">
             <div class="manufacture-date-selector selector">
               <label class="selector-label" for="manufacture-date">出廠日期:</label>
               <input type="date" id="manufacture-date" v-model="carInfo.manufactureDate">
@@ -100,12 +100,12 @@ export default {
         file: null,
         hasImage: false,
       },
-      models: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
+      models: ['請選擇'],
       specs: {
-        ModelS: ['請選擇', 'Model S', 'Model S Plaid'],
-        Model3: ['請選擇', 'Real-Wheel Drive', 'Long Range AWD', 'Performance'],
-        ModelX: ['請選擇', 'Model X', 'Model X Plaid'],
-        ModelY: ['請選擇', 'Long Range AWD', 'Performance'],
+        ModelS: ['請選擇'],
+        Model3: ['請選擇'],
+        ModelX: ['請選擇'],
+        ModelY: ['請選擇'],
       },
       image: {
         name: null,
@@ -140,6 +140,29 @@ export default {
     },
   },
   methods: {
+    getCarModels() {
+      const url = `${process.env.VUE_APP_API}/car/car-model`;
+      this.$http.get(url, this.config)
+        .then((res) => {
+          if (res.status === 200) {
+            const dataList = res.data.data;
+            dataList.forEach((data) => {
+              if (!this.models.includes(data.model)) {
+                this.models.push(data.model);
+                this.specs[data.model] = [data.spec];
+              } else {
+                this.specs[data.model].push(data.spec);
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          const response = error.response;
+          if (response) {
+            console.log(response.data);
+          }
+        });
+    },
     getCars(carID) {
       let url = `${process.env.VUE_APP_API}/car`;
       if (carID) {
@@ -271,6 +294,7 @@ export default {
       this.preview = '';
     },
     initData() {
+      this.getCarModels();
       this.getCars();
     },
   },
