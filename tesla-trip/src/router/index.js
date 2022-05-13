@@ -41,21 +41,21 @@ const routes = [
     name: 'verify',
     component: () => import('../views/VerifyView.vue'),
   },
-  {
-    path: '/product',
-    name: 'product',
-    component: () => import('../views/ProductView.vue'),
-  },
-  {
-    path: '/redeem/:token',
-    name: 'redeem',
-    component: () => import('../views/RedeemView.vue'),
-  },
-  {
-    path: '/stock',
-    name: 'stock',
-    component: () => import('../views/StockView.vue'),
-  },
+  // {
+  //   path: '/product',
+  //   name: 'product',
+  //   component: () => import('../views/ProductView.vue'),
+  // },
+  // {
+  //   path: '/redeem/:token',
+  //   name: 'redeem',
+  //   component: () => import('../views/RedeemView.vue'),
+  // },
+  // {
+  //   path: '/stock',
+  //   name: 'stock',
+  //   component: () => import('../views/StockView.vue'),
+  // },
 ];
 
 const router = createRouter({

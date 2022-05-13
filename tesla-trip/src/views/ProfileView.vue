@@ -26,12 +26,12 @@
               <label class="input-label">{{ profile.sex === 1 ? '男' : '女' }}</label>
             </div>
           </div>
-          <div class="point column">
-            <div class="input">
-              <label class="input-label">積分:</label>
-              <label class="input-label">{{ profile.point }}</label>
-            </div>
-          </div>
+<!--          <div class="point column">-->
+<!--            <div class="input">-->
+<!--              <label class="input-label">積分:</label>-->
+<!--              <label class="input-label">{{ profile.point }}</label>-->
+<!--            </div>-->
+<!--          </div>-->
           <hr>
           <div class="nickname column">
             <div class="input">
