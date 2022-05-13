@@ -57,6 +57,9 @@
         <div class="copyright">
           <label>Copyright © 2022 Jimmyyyeh. All rights reserved.</label>
         </div>
+        <div class="reference">
+          <label>特別感謝: <a href="https://teslagu.ru/supercharger/">teslaguru</a></label>
+        </div>
       </div>
     </div>
   </div>
