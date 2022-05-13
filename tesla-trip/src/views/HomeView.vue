@@ -13,23 +13,23 @@
           <div class="description">
             <h1>紀錄旅程</h1>
             <br>
-            <h2>分享並記錄你的旅程 並賺取更多的旅途幣</h2>
+            <h2>透過分享 讓車友們擁有更好的旅程規劃</h2>
           </div>
         </div>
-        <div class="display">
-          <img src="https://i.imgur.com/n9MaXj3.png" alt="redeem">
-          <div class="description">
-            <h1>旅途幣</h1>
-            <br>
-            <h2>透過旅途幣來換杯美味咖啡 享受充電時光</h2>
-          </div>
-        </div>
+<!--        <div class="display">-->
+<!--          <img src="https://i.imgur.com/n9MaXj3.png" alt="redeem">-->
+<!--          <div class="description">-->
+<!--            <h1>旅途幣</h1>-->
+<!--            <br>-->
+<!--            <h2>透過旅途幣來換杯美味咖啡 享受充電時光</h2>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="display">
           <img src="https://i.imgur.com/oAL4DQ5.png" alt="rate">
           <div class="description">
             <h1>讚賞車友</h1>
             <br>
-            <h2>接受到分享旅程的幫助 回饋給車友對應的旅途幣</h2>
+            <h2>讚賞車友 鼓勵大家分享更可靠的旅程</h2>
           </div>
         </div>
         <div class="display">
