@@ -179,12 +179,8 @@ export default {
       chargers: ['請選擇'],
       chargerMap: {},
       areas: ['請選擇'],
-      modelOptions: ['請選擇', 'ModelS', 'Model3', 'ModelX', 'ModelY'],
+      modelOptions: ['請選擇'],
       specOptions: {
-        ModelS: ['請選擇'],
-        Model3: ['請選擇'],
-        ModelX: ['請選擇'],
-        ModelY: ['請選擇'],
       },
       filter: {
         charger: '請選擇',
@@ -215,7 +211,12 @@ export default {
           if (res.status === 200) {
             const dataList = res.data.data;
             dataList.forEach((data) => {
-              this.specOptions[data.model].push(data.spec);
+              if (!this.modelOptions.includes(data.model)) {
+                this.modelOptions.push(data.model);
+                this.specOptions[data.model] = [data.spec];
+              } else {
+                this.specOptions[data.model].push(data.spec);
+              }
             });
           }
         })
